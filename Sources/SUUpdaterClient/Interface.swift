@@ -19,23 +19,25 @@ public struct SUUpdaterClient {
   public init(
     send: @escaping (UpdaterActions) -> Void,
     updaterEventPublisher: AnyPublisher<UpdaterEvents, Never>,
-    cancellable: AnyCancellable
+    cancellables: Set<AnyCancellable>
   ) {
     self.send = send
     self.updaterEventPublisher = updaterEventPublisher
-    self.cancellable = cancellable
+    self.cancellables = cancellables
   }
 
   // MARK: - Interface Events
   public enum UpdaterEvents {
     case canCheckForUpdates(Bool)
+    case didFailOnStart
   }
 
   // MARK: - Interface Actions
   public enum UpdaterActions {
     case checkForUpdates
+    case startUpdater
   }
 
   // MARK: - private cancellable
-  private var cancellable: AnyCancellable  // hold on to the cancellable so that it is not immediately destructured...
+  private var cancellables: Set<AnyCancellable>  // hold on to the cancellables so that it is not immediately destructured...
 }

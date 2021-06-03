@@ -13,17 +13,21 @@ extension SUUpdaterClient {
   public static var happyPath: Self {
     let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
     let actionSubject = PassthroughSubject<UpdaterActions, Never>()
+    var cancellables: Set<AnyCancellable> = []
 
-    let cancellable = actionSubject
+    actionSubject
       .sink(receiveValue: { action in
         switch action {
 
         case .checkForUpdates:
           print("checking for updates")
           break
+        case .startUpdater:
+          print("updater did start")
         }
 
       })
+      .store(in: &cancellables)
 
     let updaterEventPublisher = Publishers.Concatenate(
       prefix: Just(.canCheckForUpdates(true)).delay(for: 0.5, scheduler: DispatchQueue.main),
@@ -33,7 +37,7 @@ extension SUUpdaterClient {
     return Self(
       send: actionSubject.send(_:),
       updaterEventPublisher: updaterEventPublisher.eraseToAnyPublisher(),
-      cancellable: cancellable
+      cancellables: cancellables
     )
   }
 }
