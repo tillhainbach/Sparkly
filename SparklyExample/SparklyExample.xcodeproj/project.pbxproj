@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -177,6 +177,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B86D2D12668C73C007F9350 /* Build configuration list for PBXNativeTarget "SparklyExample" */;
 			buildPhases = (
+				2B1CEBC326692F1D0082EB0F /* ShellScript */,
 				2B86D2A72668C739007F9350 /* Sources */,
 				2B86D2A82668C739007F9350 /* Frameworks */,
 				2B86D2A92668C739007F9350 /* Resources */,
@@ -301,6 +302,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B1CEBC326692F1D0082EB0F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swift-format >/dev/null; then\n  swift format lint -r --configuration ../.swift-format.json .\nelse\n  echo \"warning: swift-format not installed! Install using `brew install swift-format`\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2B86D2A72668C739007F9350 /* Sources */ = {
