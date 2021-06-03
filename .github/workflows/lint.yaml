@@ -1,0 +1,15 @@
+name: Lint
+
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: macos-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install swift-format
+        run: brew install swift-format
+
+      - name: Lint files
+        run: make lint
