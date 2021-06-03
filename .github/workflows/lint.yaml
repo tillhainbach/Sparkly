@@ -1,18 +1,41 @@
 name: Lint
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 jobs:
   lint:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Check out Git repository
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Tap
-        run: brew tap pointfreeco/formulae
+      - name: Restore swift build cache
+        uses: actions/cache@v1
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
 
-      - name: Install
-        run: brew install Formulae/swift-format@5.3
+      - name: build swift-format
+        run: |
+          if [ -d ".build" ]; then
+            if ! [ -x "$(command -v swift-format)" ]; then
+              sudo cp -f .build/release/swift-format /usr/local/bin/swift-format
+            fi
+          else
+            git clone -b swift-5.4-branch https://github.com/apple/swift-format.git
+            cd swift-format
+            swift build --disable-sandbox -c release
+            mv .build .. && cd ..
+            sudo cp -f .build/release/swift-format /usr/local/bin/swift-format
+          fi
 
-      - name: Lint files
-        run: make lint
+      - name: Lint
+        uses: Iron-Ham/swift-format-linter-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
