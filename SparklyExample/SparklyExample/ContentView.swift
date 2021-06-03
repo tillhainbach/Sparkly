@@ -9,8 +9,6 @@ import SwiftUI
 
 final class ViewModel: ObservableObject {
 
-
-
   func openSettings() {
     // noop
   }
@@ -26,9 +24,8 @@ struct ContentView: View {
       Button("Open Settings", action: viewModel.openSettings)
         .onCommand(.init(extendedGraphemeClusterLiteral: "⌘,"), perform: viewModel.openSettings)
     }
-      .frame(width: 400, height: 400)
+    .frame(width: 400, height: 400)
   }
-
 
 }
 

@@ -1,14 +1,13 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Till Hainbach on 03.06.21.
 //
 
 import Combine
-import SwiftUI
 import SUUpdaterClient
-
+import SwiftUI
 
 public struct UpdateCommand: Commands {
 

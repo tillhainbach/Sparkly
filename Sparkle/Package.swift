@@ -1,7 +1,6 @@
 // swift-tools-version:5.3
 import PackageDescription
 
-
 let package = Package(
   name: "Sparkle",
   platforms: [.macOS(.v10_11)],
@@ -11,7 +10,7 @@ let package = Package(
       targets: ["Sparkle"]),
     .library(
       name: "SparkleCore",
-      targets: ["SparkleCore"])
+      targets: ["SparkleCore"]),
   ],
   targets: [
     .binaryTarget(
@@ -21,6 +20,6 @@ let package = Package(
     .binaryTarget(
       name: "SparkleCore",
       path: "./SparkleCore.xcframework"
-    )
+    ),
   ]
 )

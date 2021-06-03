@@ -5,10 +5,10 @@
 //  Created by Till Hainbach on 03.06.21.
 //
 import Combine
-import SparklyCommands
-import SwiftUI
 import SUUpdaterClient
 import SUUpdaterClientLive
+import SparklyCommands
+import SwiftUI
 
 final class AppViewModel: ObservableObject {
 

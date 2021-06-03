@@ -1,13 +1,13 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 03.06.21.
 //
 import Combine
 import Foundation
-import Sparkle
 import SUUpdaterClient
+import Sparkle
 
 extension SUUpdaterClient {
   public static func live(hostBundle: Bundle, applicationBundle: Bundle) -> Self {
@@ -31,7 +31,9 @@ extension SUUpdaterClient {
         print("I am called....")
       }
 
-      func show(_ request: SPUUpdatePermissionRequest, reply: @escaping (SUUpdatePermissionResponse) -> Void) {
+      func show(
+        _ request: SPUUpdatePermissionRequest, reply: @escaping (SUUpdatePermissionResponse) -> Void
+      ) {
         userDriver.show(request, reply: reply)
       }
 
@@ -39,7 +41,10 @@ extension SUUpdaterClient {
         userDriver.showUserInitiatedUpdateCheck(cancellation: cancellation)
       }
 
-      func showUpdateFound(with appcastItem: SUAppcastItem, state: SPUUserUpdateState, reply: @escaping (SPUUserUpdateChoice) -> Void) {
+      func showUpdateFound(
+        with appcastItem: SUAppcastItem, state: SPUUserUpdateState,
+        reply: @escaping (SPUUserUpdateChoice) -> Void
+      ) {
         userDriver.showUpdateFound(with: appcastItem, state: state, reply: reply)
       }
 
@@ -91,7 +96,9 @@ extension SUUpdaterClient {
         userDriver.showSendingTerminationSignal()
       }
 
-      func showUpdateInstalledAndRelaunched(_ relaunched: Bool, acknowledgement: @escaping () -> Void) {
+      func showUpdateInstalledAndRelaunched(
+        _ relaunched: Bool, acknowledgement: @escaping () -> Void
+      ) {
         userDriver.showUpdateInstalledAndRelaunched(relaunched, acknowledgement: acknowledgement)
       }
 
@@ -103,7 +110,6 @@ extension SUUpdaterClient {
         userDriver.dismissUpdateInstallation()
       }
     }
-
 
     let actionSubject = PassthroughSubject<UpdaterActions, Never>()
     let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
@@ -142,10 +148,10 @@ extension SUUpdaterClient {
       }
       .store(in: &cancellables)
 
-
     return Self(
       send: actionSubject.send(_:),
-      updaterEventPublisher: eventSubject
+      updaterEventPublisher:
+        eventSubject
         .eraseToAnyPublisher(),
       cancellables: cancellables
     )
