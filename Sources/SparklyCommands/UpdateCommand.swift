@@ -9,28 +9,39 @@ import Combine
 import SUUpdaterClient
 import SwiftUI
 
+/// ViewModel to communicate changes from the Command
+public final class UpdateCommandViewModel: ObservableObject {
+
+  @Published var canCheckForUpdates: Bool = false
+  let checkForUpdates: () -> Void
+
+  public init(canCheckForUpdates: AnyPublisher<Bool, Never>, checkForUpdates: @escaping () -> Void) {
+    self.checkForUpdates = checkForUpdates
+    canCheckForUpdates
+      .assign(to: &$canCheckForUpdates)
+  }
+
+}
+
 /// Command struct that adds the check for updates command to the menu bar.
 ///
 /// Use command  + shift + U for keyboard shortcut to trigger update checks.
 public struct UpdateCommand: Commands {
 
-  @Binding var canCheckForUpdates: Bool
-  let checkForUpdates: () -> Void
+  @ObservedObject var viewModel: UpdateCommandViewModel
 
   /// Intiliaze UpdateCommand.
-  public init(canCheckForUpdates: Binding<Bool>, checkForUpdates: @escaping () -> Void) {
-    self._canCheckForUpdates = canCheckForUpdates
-    self.checkForUpdates = checkForUpdates
+  public init(viewModel: UpdateCommandViewModel) {
+    self.viewModel = viewModel
   }
 
   struct BodyView: View {
 
-    @Binding var canCheckForUpdates: Bool
-    let checkForUpdates: () -> Void
+    @ObservedObject var viewModel: UpdateCommandViewModel
 
     var body: some View {
-      Button("Check for updates", action: checkForUpdates)
-        .disabled(!canCheckForUpdates)
+      Button("Check for updates", action: viewModel.checkForUpdates)
+        .disabled(!viewModel.canCheckForUpdates)
         .keyboardShortcut("U", modifiers: .command)
     }
   }
@@ -38,7 +49,7 @@ public struct UpdateCommand: Commands {
   /// Body of UpdateCommand.
   public var body: some Commands {
     CommandGroup(after: .appInfo) {
-      BodyView(canCheckForUpdates: $canCheckForUpdates, checkForUpdates: checkForUpdates)
+      BodyView(viewModel: viewModel)
     }
 
   }

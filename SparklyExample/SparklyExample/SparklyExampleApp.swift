@@ -58,8 +58,10 @@ struct SparklyExampleApp: App {
     }
     .commands {
       UpdateCommand(
-        canCheckForUpdates: $appViewModel.canCheckForUpdates,
-        checkForUpdates: appViewModel.checkForUpdates
+        viewModel: UpdateCommandViewModel(
+          canCheckForUpdates: appViewModel.$canCheckForUpdates.eraseToAnyPublisher(),
+          checkForUpdates: appViewModel.checkForUpdates
+        )
       )
     }
   }
