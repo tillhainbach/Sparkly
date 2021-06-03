@@ -1,0 +1,34 @@
+{
+  "name": "sparkly",
+  "version": "0.1.0",
+  "description": "dev-tools for sparkly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tillhainbach/Sparkly.git"
+  },
+  "author": "@tillhainbach",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tillhainbach/Sparkly/issues"
+  },
+  "homepage": "https://github.com/tillhainbach/Sparkly#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
+    "simple-git-hooks": "^2.4.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpx lint-staged -q",
+    "commit-msg": "pnpx --no-install commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*.{swift}": "swift format lint --configuration .swift-format.json",
+    "*.{yaml,yml,md,json}": "prettier --write"
+  }
+}
