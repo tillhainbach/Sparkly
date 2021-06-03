@@ -9,57 +9,32 @@ import Combine
 import SwiftUI
 import SUUpdaterClient
 
-public final class UpdateCommandViewModel: ObservableObject {
-
-  @Published var canCheckForUpdates = false
-  let updaterClient: SUUpdaterClient
-  var cancellables: AnyCancellable?
-
-  public init(updaterClient: SUUpdaterClient) {
-    self.updaterClient = updaterClient
-
-    connectToUpdater()
-  }
-
-  func checkForUpdates() {
-    updaterClient.send(.checkForUpdates)
-  }
-
-  private func connectToUpdater() {
-    cancellables = updaterClient.updaterEventPublisher
-      .sink(receiveValue: { [weak self] event in
-        switch event {
-        case let .canCheckForUpdates(canCheckForUpdates):
-          self?.canCheckForUpdates = canCheckForUpdates
-        }
-      })
-  }
-}
 
 public struct UpdateCommand: Commands {
 
-  @ObservedObject var viewModel: UpdateCommandViewModel
+  @Binding var canCheckForUpdates: Bool
+  let checkForUpdates: () -> Void
 
-  public init(viewModel: UpdateCommandViewModel) {
-    self.viewModel = viewModel
+  public init(canCheckForUpdates: Binding<Bool>, checkForUpdates: @escaping () -> Void) {
+    self._canCheckForUpdates = canCheckForUpdates
+    self.checkForUpdates = checkForUpdates
   }
 
   struct BodyView: View {
 
-    @ObservedObject var viewModel: UpdateCommandViewModel
+    @Binding var canCheckForUpdates: Bool
+    let checkForUpdates: () -> Void
 
     var body: some View {
-      Button("Check for updates") {
-        viewModel.checkForUpdates()
-      }
-      .disabled(!viewModel.canCheckForUpdates)
-      .keyboardShortcut("U", modifiers: .command)
+      Button("Check for updates", action: checkForUpdates)
+        .disabled(!canCheckForUpdates)
+        .keyboardShortcut("U", modifiers: .command)
     }
   }
 
   public var body: some Commands {
     CommandGroup(after: .appInfo) {
-      BodyView(viewModel: viewModel)
+      BodyView(canCheckForUpdates: $canCheckForUpdates, checkForUpdates: checkForUpdates)
     }
 
   }
