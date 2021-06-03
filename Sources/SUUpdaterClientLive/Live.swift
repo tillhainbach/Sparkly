@@ -27,11 +27,6 @@ extension SUUpdaterClient {
         super.init()
       }
 
-      func showCanCheck(forUpdates canCheckForUpdates: Bool) {
-        eventSubject.send(.canCheckForUpdates(canCheckForUpdates))
-        print("I am called....")
-      }
-
       func show(
         _ request: SPUUpdatePermissionRequest,
         reply: @escaping (SUUpdatePermissionResponse) -> Void
