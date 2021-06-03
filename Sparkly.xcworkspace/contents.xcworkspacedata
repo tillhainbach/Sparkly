@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:">
+      location = "group:SparklyExample/SparklyExample.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SparklyExample/SparklyExample.xcodeproj">
+      location = "group:">
    </FileRef>
 </Workspace>
