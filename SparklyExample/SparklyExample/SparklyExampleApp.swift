@@ -16,7 +16,7 @@ final class AppViewModel: ObservableObject {
   let updaterClient: SUUpdaterClient
   var cancellables: Set<AnyCancellable> = []
 
-  public init(updaterClient: SUUpdaterClient) {
+  init(updaterClient: SUUpdaterClient) {
     self.updaterClient = updaterClient
     connectToUpdater()
     NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
@@ -35,7 +35,7 @@ final class AppViewModel: ObservableObject {
     updaterClient.updaterEventPublisher
       .sink { [weak self] event in
         switch event {
-        case let .canCheckForUpdates(canCheckForUpdates):
+        case .canCheckForUpdates(let canCheckForUpdates):
           self?.canCheckForUpdates = canCheckForUpdates
         default:
 
