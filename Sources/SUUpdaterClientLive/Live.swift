@@ -10,6 +10,7 @@ import SUUpdaterClient
 import Sparkle
 
 extension SUUpdaterClient {
+  /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
   public static func live(hostBundle: Bundle, applicationBundle: Bundle) -> Self {
 
     // The UserDriver: forwards delegate methods to publishers
@@ -32,7 +33,8 @@ extension SUUpdaterClient {
       }
 
       func show(
-        _ request: SPUUpdatePermissionRequest, reply: @escaping (SUUpdatePermissionResponse) -> Void
+        _ request: SPUUpdatePermissionRequest,
+        reply: @escaping (SUUpdatePermissionResponse) -> Void
       ) {
         userDriver.show(request, reply: reply)
       }
@@ -42,7 +44,8 @@ extension SUUpdaterClient {
       }
 
       func showUpdateFound(
-        with appcastItem: SUAppcastItem, state: SPUUserUpdateState,
+        with appcastItem: SUAppcastItem,
+        state: SPUUserUpdateState,
         reply: @escaping (SPUUserUpdateChoice) -> Void
       ) {
         userDriver.showUpdateFound(with: appcastItem, state: state, reply: reply)
@@ -97,7 +100,8 @@ extension SUUpdaterClient {
       }
 
       func showUpdateInstalledAndRelaunched(
-        _ relaunched: Bool, acknowledgement: @escaping () -> Void
+        _ relaunched: Bool,
+        acknowledgement: @escaping () -> Void
       ) {
         userDriver.showUpdateInstalledAndRelaunched(relaunched, acknowledgement: acknowledgement)
       }
@@ -119,7 +123,8 @@ extension SUUpdaterClient {
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
       userDriver: UserDriver(hostBundle: hostBundle, eventSubject: eventSubject),
-      delegate: nil)
+      delegate: nil
+    )
 
     // listen on canCheckForUpdates
 

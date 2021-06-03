@@ -7,10 +7,12 @@ let package = Package(
   products: [
     .library(
       name: "Sparkle",
-      targets: ["Sparkle"]),
+      targets: ["Sparkle"]
+    ),
     .library(
       name: "SparkleCore",
-      targets: ["SparkleCore"]),
+      targets: ["SparkleCore"]
+    ),
   ],
   targets: [
     .binaryTarget(

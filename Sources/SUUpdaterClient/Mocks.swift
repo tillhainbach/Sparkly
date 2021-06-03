@@ -10,6 +10,7 @@ import Dispatch
 import Foundation
 
 extension SUUpdaterClient {
+  /// A Mock SUUpdaterClient that simulate a *happy path*.
   public static var happyPath: Self {
     let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
     let actionSubject = PassthroughSubject<UpdaterActions, Never>()

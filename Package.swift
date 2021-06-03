@@ -10,13 +10,16 @@ let package = Package(
     // Products define the executables and libraries a package produces, and make them visible to other packages.
     .library(
       name: "SparklyCommands",
-      targets: ["SparklyCommands"]),
+      targets: ["SparklyCommands"]
+    ),
     .library(
       name: "SUUpdaterClient",
-      targets: ["SUUpdaterClient"]),
+      targets: ["SUUpdaterClient"]
+    ),
     .library(
       name: "SUUpdaterClientLive",
-      targets: ["SUUpdaterClientLive"]),
+      targets: ["SUUpdaterClientLive"]
+    ),
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
@@ -39,6 +42,7 @@ let package = Package(
     ),
     .testTarget(
       name: "SUUpdaterClientTests",
-      dependencies: []),
+      dependencies: []
+    ),
   ]
 )
