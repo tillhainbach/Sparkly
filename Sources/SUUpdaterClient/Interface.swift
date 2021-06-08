@@ -35,6 +35,8 @@ public struct SUUpdaterClient {
   // MARK: - Interface Events
 
   /// Events that the updater can emit.
+  ///
+  /// A detailed documentation of the corresponding `SPUUserDriver` methods can be found in the [header file](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUserDriver.h).
   public enum UpdaterEvents {
     case canCheckForUpdates(Bool)
     case didFailOnStart
