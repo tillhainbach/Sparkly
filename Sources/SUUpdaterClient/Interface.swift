@@ -38,6 +38,11 @@ public struct SUUpdaterClient {
   ///
   /// A detailed documentation of the corresponding `SPUUserDriver` methods can be found in the [header file](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUserDriver.h).
   public enum UpdaterEvents {
+
+    /// This event is emitted if the updater failed on start. Holds the corresponding error as an associated value.
+    case didFailOnStart(_ error: Error)
+    /// This event is emitted whenever the updater's `canCheckForUpdates`-property changes.
+    /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
     case didFailOnStart
   }
