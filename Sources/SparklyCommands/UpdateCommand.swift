@@ -30,7 +30,7 @@ public struct UpdateCommand: Commands {
 
   @ObservedObject var viewModel: UpdateCommandViewModel
 
-  /// Intiliaze UpdateCommand.
+  /// Initialize UpdateCommand.
   public init(viewModel: UpdateCommandViewModel) {
     self.viewModel = viewModel
   }
