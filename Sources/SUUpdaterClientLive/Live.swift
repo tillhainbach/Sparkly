@@ -6,8 +6,9 @@
 //
 import Combine
 import Foundation
-import SUUpdaterClient
 import Sparkle
+import SUUpdaterClient
+
 
 extension SUUpdaterClient {
   /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
