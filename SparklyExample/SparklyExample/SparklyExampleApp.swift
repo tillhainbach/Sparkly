@@ -49,7 +49,7 @@ final class AppViewModel: ObservableObject {
 @main
 struct SparklyExampleApp: App {
   @StateObject private var appViewModel = AppViewModel(
-    updaterClient: .live(hostBundle: .main, applicationBundle: .main)
+    updaterClient: .standard(hostBundle: .main, applicationBundle: .main)
   )
 
   var body: some Scene {
