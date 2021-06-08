@@ -44,7 +44,13 @@ public struct SUUpdaterClient {
     /// This event is emitted whenever the updater's `canCheckForUpdates`-property changes.
     /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
-    case didFailOnStart
+
+
+    /// This event emits updater errors.
+    ///
+    /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
+    /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
+    case showUpdaterError(_ error: Error, acknowledgement: () -> Void)
   }
 
   // MARK: - Interface Actions

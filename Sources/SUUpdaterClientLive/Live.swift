@@ -56,7 +56,7 @@ extension SUUpdaterClient {
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        userDriver.showUpdateNotFoundWithError(error, acknowledgement: acknowledgement)
+        eventSubject.send(.showUpdaterError(error, acknowledgement: acknowledgement))
       }
 
       func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
