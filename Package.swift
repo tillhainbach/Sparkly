@@ -42,7 +42,7 @@ let package = Package(
     ),
     .testTarget(
       name: "SUUpdaterClientTests",
-      dependencies: []
+      dependencies: ["SUUpdaterClient"]
     ),
   ]
 )
