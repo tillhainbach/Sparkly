@@ -3,7 +3,7 @@ import XCTest
 @testable import SUUpdaterClient
 
 final class SparklyTests: XCTestCase {
-  func testSUUpdaterIntervalsConvertToTimeInterval() {
+  func testSUUpdaterIntervalsConvertToTimeInterval() throws {
 
     var target: TimeInterval = 0
 
@@ -27,7 +27,6 @@ final class SparklyTests: XCTestCase {
 
       XCTAssertEqual(interval.toTimeInterval(), target)
     }
-
 
   }
 }

@@ -12,7 +12,7 @@ import XCTest
 
 class SettingsViewTests: XCTestCase {
 
-  func testDidCallOnSettingsChanged() {
+  func testDidCallOnSettingsChanged() throws {
     let startSettings = SUUpdaterUserSettings(
       automaticallyCheckForUpdates: false,
       updateInterval: .daily,

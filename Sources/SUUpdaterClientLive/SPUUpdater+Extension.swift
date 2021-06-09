@@ -1,12 +1,12 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 09.06.21.
 //
 
-import Sparkle
 import SUUpdaterClient
+import Sparkle
 
 extension SPUUpdater {
   func updateSettings(from userSettings: SUUpdaterUserSettings) {

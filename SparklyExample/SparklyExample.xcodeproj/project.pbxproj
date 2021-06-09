@@ -11,7 +11,7 @@
 		2B1CEBC0266921220082EB0F /* org.sparkle-project.InstallerLauncher.xpc in Resources */ = {isa = PBXBuildFile; fileRef = 2B1CEBBE266921220082EB0F /* org.sparkle-project.InstallerLauncher.xpc */; };
 		2B1CEBC1266921430082EB0F /* org.sparkle-project.Downloader.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1CEBBC266921220082EB0F /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B1CEBC2266921430082EB0F /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1CEBBE266921220082EB0F /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2B43CAAB2671578900033AD6 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */; };
+		2B43CAAD2671603100033AD6 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */; };
 		2B7AEA962668D23F0068A971 /* SparklyCommands in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7AEA952668D23F0068A971 /* SparklyCommands */; };
 		2B7AEA982668D2430068A971 /* SUUpdaterClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7AEA972668D2430068A971 /* SUUpdaterClient */; };
 		2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
@@ -345,7 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B43CAAB2671578900033AD6 /* AppViewModelTests.swift in Sources */,
+				2B43CAAD2671603100033AD6 /* AppViewModelTests.swift in Sources */,
 				2B86D2C22668C73C007F9350 /* SparklyExampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

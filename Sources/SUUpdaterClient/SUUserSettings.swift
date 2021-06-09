@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 09.06.21.
 //
@@ -25,7 +25,7 @@ public struct SUUpdaterUserSettings: Equatable {
   /// Allow sending of anonymous system profile data.
   public var sendSystemProfile: Bool
 
-  /// Initialize SUUpdaterUserSettings
+  /// Initialize SUUpdaterUserSettings.
   public init(
     automaticallyCheckForUpdates: Bool = true,
     updateInterval: SUUpdateInterval = .daily,
@@ -53,6 +53,8 @@ public enum SUUpdateInterval: String, CaseIterable, Identifiable, Equatable {
 }
 
 extension SUUpdateInterval {
+  /// Convert SUUpdateInterval to TimeInterval for passing it to the SPUUpdater.
+  /// - Returns: the `TimeInterval`each case represents.
   public func toTimeInterval() -> TimeInterval {
     switch self {
     case .daily:
@@ -64,16 +66,20 @@ extension SUUpdateInterval {
     case .monthly:
       return Self.month
     }
+
   }
 
+  /// Initialize an SUUpdaterInterval from a `TimeInterval`.
+  /// - Parameter timeInterval: the `TimeInterval` from which to initialize.
   public init(from timeInterval: TimeInterval) {
-    self = timeInterval <= Self.day
+    self =
+      timeInterval <= Self.day
       ? .daily
       : timeInterval <= Self.week
-      ? .weekly
-      : timeInterval <= Self.week * 2
-      ? .biweekly
-      : .monthly
+        ? .weekly
+        : timeInterval <= Self.week * 2
+          ? .biweekly
+          : .monthly
   }
 
   private static let day: TimeInterval = 60 * 60 * 24

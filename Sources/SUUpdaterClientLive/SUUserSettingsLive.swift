@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 09.06.21.
 //
@@ -9,6 +9,8 @@ import Foundation
 import SUUpdaterClient
 
 extension SUUpdaterUserSettings {
+  /// Retrieve save settings from `UserDefaults`.
+  /// - Parameter userDefault: a `UserDefaults` instance.
   public init(from userDefault: UserDefaults) {
     self.init(
       automaticallyCheckForUpdates: userDefault.bool(

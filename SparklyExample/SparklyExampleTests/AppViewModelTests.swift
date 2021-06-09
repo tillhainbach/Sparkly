@@ -12,7 +12,7 @@ import XCTest
 
 class AppViewModelTests: XCTestCase {
 
-  func testAppDidStartUpdaterOnLaunch() {
+  func testAppDidStartUpdaterOnLaunch() throws {
 
     // Mocks
     // application mocks the boot of the application
@@ -21,13 +21,12 @@ class AppViewModelTests: XCTestCase {
     let updater = PassthroughSubject<SUUpdaterClient.UpdaterEvents, Never>()
     var updaterHasStarted = false
 
-
     let appViewModel = AppViewModel(
       updaterClient: .init(
         send: { action in
           switch action {
-          case .startUpdater: // application did request to start the updater
-            updaterHasStarted = true // set mock to have been started
+          case .startUpdater:  // application did request to start the updater
+            updaterHasStarted = true  // set mock to have been started
             // notify app that the updater is ready to check for updates
             updater.send(.canCheckForUpdates(true))
             break
