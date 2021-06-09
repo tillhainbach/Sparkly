@@ -31,6 +31,10 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.checkForUpdates)
   }
 
+  func updateSettings(_ settings: SUUpdaterUserSettings) {
+    updaterClient.send(.updateUserSettings(settings))
+  }
+
   private func connectToUpdater() {
     updaterClient.updaterEventPublisher
       .sink { [weak self] event in
@@ -55,6 +59,14 @@ struct SparklyExampleApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView(viewModel: ViewModel())
+    }
+    Settings {
+      SparkleSettingsView(
+        viewModel: SparkleSettingsViewModel(
+          updaterSettings: SUUpdaterUserSettings.init(from: UserDefaults.standard),
+          onSettingsChanged: appViewModel.updateSettings(_:)
+        )
+      )
     }
     .commands {
       UpdateCommand(
