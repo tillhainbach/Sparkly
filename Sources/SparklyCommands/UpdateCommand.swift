@@ -9,13 +9,19 @@ import Combine
 import SUUpdaterClient
 import SwiftUI
 
-/// ViewModel to communicate changes from the Command
+/// ViewModel to communicate changes from the Command.
 public final class UpdateCommandViewModel: ObservableObject {
 
   @Published var canCheckForUpdates: Bool = false
   let checkForUpdates: () -> Void
 
-  public init(canCheckForUpdates: AnyPublisher<Bool, Never>, checkForUpdates: @escaping () -> Void) {
+  /// Initialize the `UpdateCommandViewModel`.
+  ///
+  /// - Parameters:
+  ///   - canCheckForUpdates: A Publisher that emits whether the updater can check for updates or not.
+  ///   - checkForUpdates: A closure that triggers an update check.
+  public init(canCheckForUpdates: AnyPublisher<Bool, Never>, checkForUpdates: @escaping () -> Void)
+  {
     self.checkForUpdates = checkForUpdates
     canCheckForUpdates
       .assign(to: &$canCheckForUpdates)
