@@ -143,6 +143,8 @@ extension SUUpdaterClient {
         case .checkForUpdates:
           updater.checkForUpdates()
           break
+        case .updateUserSettings(let userSettings):
+          updater.updateSettings(from: userSettings)
         }
       }
       .store(in: &cancellables)
