@@ -1,14 +1,13 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 08.06.21.
 //
 import Combine
 import Foundation
-import Sparkle
 import SUUpdaterClient
-
+import Sparkle
 
 extension SUUpdaterClient {
   /// Create a *standard* version of an UpdaterClient which interacts with the *real* SparkleUpdater.

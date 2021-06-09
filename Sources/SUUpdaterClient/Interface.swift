@@ -45,7 +45,6 @@ public struct SUUpdaterClient {
     /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
 
-
     /// This event emits updater errors.
     ///
     /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
