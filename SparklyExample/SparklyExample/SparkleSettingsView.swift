@@ -52,7 +52,7 @@ public struct SparkleSettingsView: View {
 
           if viewModel.updaterSettings.automaticallyCheckForUpdates {
             Picker("Update interval", selection: $viewModel.updaterSettings.updateInterval) {
-              ForEach(SUUpdateIntervals.allCases) {
+              ForEach(SUUpdateInterval.allCases) {
                 Text($0.rawValue)
               }
             }

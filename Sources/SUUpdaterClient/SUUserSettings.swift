@@ -17,7 +17,7 @@ public struct SUUpdaterUserSettings: Equatable {
   public var automaticallyCheckForUpdates: Bool
 
   /// Set the interval for which updates are checked.
-  public var updateInterval: SUUpdateIntervals
+  public var updateInterval: SUUpdateInterval
 
   /// Enable or Disable automatic downloading and installation of updates.
   public var automaticallyDownloadUpdates: Bool
@@ -28,7 +28,7 @@ public struct SUUpdaterUserSettings: Equatable {
   /// Initialize SUUpdaterUserSettings
   public init(
     automaticallyCheckForUpdates: Bool = true,
-    updateInterval: SUUpdateIntervals = .daily,
+    updateInterval: SUUpdateInterval = .daily,
     automaticallyDownloadUpdates: Bool = false,
     sendSystemProfile: Bool = false
   ) {
@@ -40,7 +40,7 @@ public struct SUUpdaterUserSettings: Equatable {
 }
 
 /// Preset of fixed update intervals.
-public enum SUUpdateIntervals: String, CaseIterable, Identifiable, Equatable {
+public enum SUUpdateInterval: String, CaseIterable, Identifiable, Equatable {
   case daily = "Daily"
   case weekly = "Weekly"
   case biweekly = "Biweekly"
@@ -52,7 +52,7 @@ public enum SUUpdateIntervals: String, CaseIterable, Identifiable, Equatable {
   }
 }
 
-extension SUUpdateIntervals {
+extension SUUpdateInterval {
   public func toTimeInterval() -> TimeInterval {
     switch self {
     case .daily:
