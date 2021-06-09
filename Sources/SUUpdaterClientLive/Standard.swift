@@ -134,7 +134,7 @@ extension SUUpdaterClient {
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
             print("\(error.localizedDescription)")
-            eventSubject.send(.didFailOnStart)
+            eventSubject.send(.didFailOnStart(error))
           }
           break
 
