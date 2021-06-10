@@ -133,8 +133,7 @@ extension SUUpdaterClient {
             try updater.start()
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
-            print("\(error.localizedDescription)")
-            eventSubject.send(.didFailOnStart(error))
+            eventSubject.send(.didFailOnStart(error as NSError))
           }
           break
 

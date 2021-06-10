@@ -55,11 +55,11 @@ extension SUUpdaterClient {
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        eventSubject.send(.showUpdaterError(error, acknowledgement: acknowledgement))
+        eventSubject.send(.showUpdaterError(error as NSError, acknowledgement: .init(acknowledgement)))
       }
 
       func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        userDriver.showUpdaterError(error, acknowledgement: acknowledgement)
+        eventSubject.send(.showUpdaterError(error as NSError, acknowledgement: .init(acknowledgement)))
       }
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
@@ -136,7 +136,7 @@ extension SUUpdaterClient {
             try updater.start()
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
-            eventSubject.send(.didFailOnStart(error))
+            eventSubject.send(.didFailOnStart(error as NSError))
           }
           break
 
