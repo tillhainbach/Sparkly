@@ -23,6 +23,8 @@
 		2B88518F2668EB08007EA25B /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2B88518E2668EB08007EA25B /* SUUpdaterClientLive */; };
 		2B8A7DE02670BCC6009D7FC0 /* SparkleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */; };
 		2BA8CD20267226F500C4A117 /* SparklyIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */; };
+		2BA8CD292672476800C4A117 /* SUUpdaterClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD282672476800C4A117 /* SUUpdaterClient */; };
+		2BA8CD2B2672476B00C4A117 /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +118,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BA8CD292672476800C4A117 /* SUUpdaterClient in Frameworks */,
+				2BA8CD2B2672476B00C4A117 /* SUUpdaterClientLive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +145,7 @@
 				2BA8CD1E267226F500C4A117 /* SparklyIntegrationTests */,
 				2B1CEBBB266921220082EB0F /* XPCServices */,
 				2B86D2AC2668C739007F9350 /* Products */,
+				2BA8CD272672476800C4A117 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -203,6 +208,13 @@
 				2BA8CD21267226F500C4A117 /* Info.plist */,
 			);
 			path = SparklyIntegrationTests;
+			sourceTree = "<group>";
+		};
+		2BA8CD272672476800C4A117 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +294,10 @@
 				2BA8CD23267226F500C4A117 /* PBXTargetDependency */,
 			);
 			name = SparklyIntegrationTests;
+			packageProductDependencies = (
+				2BA8CD282672476800C4A117 /* SUUpdaterClient */,
+				2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */,
+			);
 			productName = SparklyIntegrationTests;
 			productReference = 2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -308,7 +324,6 @@
 					};
 					2BA8CD1C267226F500C4A117 = {
 						CreatedOnToolsVersion = 12.5;
-						TestTargetID = 2B86D2AA2668C739007F9350;
 					};
 				};
 			};
@@ -696,7 +711,6 @@
 		2BA8CD24267226F500C4A117 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = H267SUYVMM;
@@ -709,14 +723,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SparklyExample.app/Contents/MacOS/SparklyExample";
 			};
 			name = Debug;
 		};
 		2BA8CD25267226F500C4A117 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = H267SUYVMM;
@@ -729,7 +741,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SparklyExample.app/Contents/MacOS/SparklyExample";
 			};
 			name = Release;
 		};
@@ -793,6 +804,14 @@
 			productName = SUUpdaterClient;
 		};
 		2B88518E2668EB08007EA25B /* SUUpdaterClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SUUpdaterClientLive;
+		};
+		2BA8CD282672476800C4A117 /* SUUpdaterClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SUUpdaterClient;
+		};
+		2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SUUpdaterClientLive;
 		};

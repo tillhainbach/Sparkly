@@ -18,5 +18,7 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>SUPublicEDKey</key>
+	<string>wgwpqsNI7GNLBxsAOr9C3YHC3zO0QwdgTUYze9DcNRE=</string>
 </dict>
 </plist>
