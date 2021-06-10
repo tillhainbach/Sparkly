@@ -16,14 +16,9 @@ extension SUUpdaterClient {
     // The UserDriver: forwards delegate methods to publishers
     class UserDriver: NSObject, SPUUserDriver {
       let eventSubject: PassthroughSubject<UpdaterEvents, Never>
-      let userDriver: SPUUserDriver
 
-      init(
-        hostBundle: Bundle,
-        eventSubject: PassthroughSubject<UpdaterEvents, Never>
-      ) {
+      init(eventSubject: PassthroughSubject<UpdaterEvents, Never>) {
         self.eventSubject = eventSubject
-        self.userDriver = SPUStandardUserDriver(hostBundle: hostBundle, delegate: nil)
         super.init()
       }
 
@@ -31,11 +26,11 @@ extension SUUpdaterClient {
         _ request: SPUUpdatePermissionRequest,
         reply: @escaping (SUUpdatePermissionResponse) -> Void
       ) {
-        userDriver.show(request, reply: reply)
+        fatalError("Unimplemented")
       }
 
       func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
-        userDriver.showUserInitiatedUpdateCheck(cancellation: cancellation)
+        fatalError("Unimplemented")
       }
 
       func showUpdateFound(
@@ -43,15 +38,15 @@ extension SUUpdaterClient {
         state: SPUUserUpdateState,
         reply: @escaping (SPUUserUpdateChoice) -> Void
       ) {
-        userDriver.showUpdateFound(with: appcastItem, state: state, reply: reply)
+        fatalError("Unimplemented")
       }
 
       func showUpdateReleaseNotes(with downloadData: SPUDownloadData) {
-        userDriver.showUpdateReleaseNotes(with: downloadData)
+        fatalError("Unimplemented")
       }
 
       func showUpdateReleaseNotesFailedToDownloadWithError(_ error: Error) {
-        userDriver.showUpdateReleaseNotesFailedToDownloadWithError(error)
+        fatalError("Unimplemented")
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
@@ -63,62 +58,201 @@ extension SUUpdaterClient {
       }
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        userDriver.showDownloadInitiated(cancellation: cancellation)
+        fatalError("Unimplemented")
       }
 
       func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {
-        userDriver.showDownloadDidReceiveExpectedContentLength(expectedContentLength)
+        fatalError("Unimplemented")
       }
 
       func showDownloadDidReceiveData(ofLength length: UInt64) {
-        userDriver.showDownloadDidReceiveData(ofLength: length)
+        fatalError("Unimplemented")
       }
 
       func showDownloadDidStartExtractingUpdate() {
-        userDriver.showDownloadDidStartExtractingUpdate()
+        fatalError("Unimplemented")
       }
 
       func showExtractionReceivedProgress(_ progress: Double) {
-        userDriver.showExtractionReceivedProgress(progress)
+        fatalError("Unimplemented")
       }
 
       func showInstallingUpdate() {
-        userDriver.showInstallingUpdate()
+        fatalError("Unimplemented")
       }
 
       func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
-        userDriver.showReady(toInstallAndRelaunch: reply)
+        fatalError("Unimplemented")
       }
 
       func showSendingTerminationSignal() {
-        userDriver.showSendingTerminationSignal()
+        fatalError("Unimplemented")
       }
 
       func showUpdateInstalledAndRelaunched(
         _ relaunched: Bool,
         acknowledgement: @escaping () -> Void
       ) {
-        userDriver.showUpdateInstalledAndRelaunched(relaunched, acknowledgement: acknowledgement)
+        fatalError("Unimplemented")
       }
 
       func showUpdateInFocus() {
-        userDriver.showUpdateInFocus()
+        fatalError("Unimplemented")
       }
 
       func dismissUpdateInstallation() {
-        userDriver.dismissUpdateInstallation()
+        fatalError("Unimplemented")
       }
+    }
+
+    class UpdaterDelegate: NSObject, SPUUpdaterDelegate {
+      let eventSubject: PassthroughSubject<UpdaterEvents, Never>
+
+      init(eventSubject: PassthroughSubject<UpdaterEvents, Never>) {
+        self.eventSubject = eventSubject
+        super.init()
+      }
+
+      func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String] {
+        fatalError("Unimplemented")
+      }
+
+      func feedParameters(for updater: SPUUpdater, sendingSystemProfile sendingProfile: Bool) -> [[String : String]] {
+        fatalError("Unimplemented")
+      }
+
+      func feedURLString(for updater: SPUUpdater) -> String? {
+        fatalError("Unimplemented")
+      }
+
+      func updater(_ updater: SPUUpdater, didFinishLoading appcast: SUAppcast) {
+        fatalError("Unimplemented")
+      }
+
+      func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
+        fatalError("Unimplemented")
+      }
+
+      func updaterMayCheck(forUpdates updater: SPUUpdater) -> Bool {
+        fatalError("Unimplemented")
+      }
+
+      func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, didExtractUpdate item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, didDownloadUpdate item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, willExtractUpdate item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func bestValidUpdate(in appcast: SUAppcast, for updater: SPUUpdater) -> SUAppcastItem? {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, userDidSkipThisVersion item: SUAppcastItem) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, shouldAllowInstallerInteractionFor updateCheck: SPUUpdateCheck) -> Bool {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, willDownloadUpdate item: SUAppcastItem, with request: NSMutableURLRequest) {
+        fatalError("Unimplemented")
+
+      }
+
+      func userDidCancelDownload(_ updater: SPUUpdater) {
+        fatalError("Unimplemented")
+
+      }
+
+      func versionComparator(for updater: SPUUpdater) -> SUVersionComparison? {
+        fatalError("Unimplemented")
+
+      }
+
+      func decryptionPassword(for updater: SPUUpdater) -> String? {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, shouldPostponeRelaunchForUpdate item: SUAppcastItem, untilInvokingBlock installHandler: @escaping () -> Void) -> Bool {
+        fatalError("Unimplemented")
+
+      }
+
+      func updater(_ updater: SPUUpdater, willInstallUpdateOnQuit item: SUAppcastItem, immediateInstallationBlock immediateInstallHandler: @escaping () -> Void) -> Bool {
+        fatalError("Unimplemented")
+
+      }
+
+      func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+        fatalError("Unimplemented")
+      }
+
+      func updaterShouldDownloadReleaseNotes(_ updater: SPUUpdater) -> Bool {
+        fatalError("Unimplemented")
+      }
+
+      func updaterShouldPromptForPermissionToCheck(forUpdates updater: SPUUpdater) -> Bool {
+        fatalError("Unimplemented")
+      }
+
+      func updaterShouldRelaunchApplication(_ updater: SPUUpdater) -> Bool {
+        fatalError("Unimplemented")
+      }
+
+      func updaterWillIdleSchedulingUpdates(_ updater: SPUUpdater) {
+        fatalError("Unimplemented")
+      }
+
+      func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
+        fatalError("Unimplemented")
+      }
+
     }
 
     let actionSubject = PassthroughSubject<UpdaterActions, Never>()
     let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
 
+    var updaterDelegate: UpdaterDelegate? = UpdaterDelegate(eventSubject: eventSubject)
     // init sparkle updater
     let updater = SPUUpdater(
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
-      userDriver: UserDriver(hostBundle: hostBundle, eventSubject: eventSubject),
-      delegate: nil
+      userDriver: UserDriver(eventSubject: eventSubject),
+      delegate: updaterDelegate
     )
 
     // listen on canCheckForUpdates
@@ -153,6 +287,7 @@ extension SUUpdaterClient {
       send: actionSubject.send(_:),
       updaterEventPublisher:
         eventSubject
+        .handleEvents(receiveCancel: { updaterDelegate = nil })
         .eraseToAnyPublisher(),
       cancellables: cancellables
     )
