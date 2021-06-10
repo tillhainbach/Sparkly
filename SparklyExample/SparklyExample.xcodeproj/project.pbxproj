@@ -22,6 +22,7 @@
 		2B86D2CD2668C73C007F9350 /* SparklyExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2CC2668C73C007F9350 /* SparklyExampleUITests.swift */; };
 		2B88518F2668EB08007EA25B /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2B88518E2668EB08007EA25B /* SUUpdaterClientLive */; };
 		2B8A7DE02670BCC6009D7FC0 /* SparkleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */; };
+		2BA8CD20267226F500C4A117 /* SparklyIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,13 @@
 			remoteInfo = SparklyExample;
 		};
 		2B86D2C92668C73C007F9350 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B86D2A32668C739007F9350 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B86D2AA2668C739007F9350;
+			remoteInfo = SparklyExample;
+		};
+		2BA8CD22267226F500C4A117 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B86D2A32668C739007F9350 /* Project object */;
 			proxyType = 1;
@@ -74,6 +82,9 @@
 		2B86D2CC2668C73C007F9350 /* SparklyExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyExampleUITests.swift; sourceTree = "<group>"; };
 		2B86D2CE2668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleSettingsView.swift; sourceTree = "<group>"; };
+		2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyIntegrationTests.swift; sourceTree = "<group>"; };
+		2BA8CD21267226F500C4A117 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +112,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BA8CD1A267226F500C4A117 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -120,6 +138,7 @@
 				2B86D2AD2668C739007F9350 /* SparklyExample */,
 				2B86D2C02668C73C007F9350 /* SparklyExampleTests */,
 				2B86D2CB2668C73C007F9350 /* SparklyExampleUITests */,
+				2BA8CD1E267226F500C4A117 /* SparklyIntegrationTests */,
 				2B1CEBBB266921220082EB0F /* XPCServices */,
 				2B86D2AC2668C739007F9350 /* Products */,
 			);
@@ -131,6 +150,7 @@
 				2B86D2AB2668C739007F9350 /* SparklyExample.app */,
 				2B86D2BD2668C73C007F9350 /* SparklyExampleTests.xctest */,
 				2B86D2C82668C73C007F9350 /* SparklyExampleUITests.xctest */,
+				2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,6 +194,15 @@
 				2B86D2CE2668C73C007F9350 /* Info.plist */,
 			);
 			path = SparklyExampleUITests;
+			sourceTree = "<group>";
+		};
+		2BA8CD1E267226F500C4A117 /* SparklyIntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */,
+				2BA8CD21267226F500C4A117 /* Info.plist */,
+			);
+			path = SparklyIntegrationTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +268,24 @@
 			productReference = 2B86D2C82668C73C007F9350 /* SparklyExampleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		2BA8CD1C267226F500C4A117 /* SparklyIntegrationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BA8CD26267226F500C4A117 /* Build configuration list for PBXNativeTarget "SparklyIntegrationTests" */;
+			buildPhases = (
+				2BA8CD19267226F500C4A117 /* Sources */,
+				2BA8CD1A267226F500C4A117 /* Frameworks */,
+				2BA8CD1B267226F500C4A117 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2BA8CD23267226F500C4A117 /* PBXTargetDependency */,
+			);
+			name = SparklyIntegrationTests;
+			productName = SparklyIntegrationTests;
+			productReference = 2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -256,6 +303,10 @@
 						TestTargetID = 2B86D2AA2668C739007F9350;
 					};
 					2B86D2C72668C73C007F9350 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 2B86D2AA2668C739007F9350;
+					};
+					2BA8CD1C267226F500C4A117 = {
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = 2B86D2AA2668C739007F9350;
 					};
@@ -277,6 +328,7 @@
 				2B86D2AA2668C739007F9350 /* SparklyExample */,
 				2B86D2BC2668C73C007F9350 /* SparklyExampleTests */,
 				2B86D2C72668C73C007F9350 /* SparklyExampleUITests */,
+				2BA8CD1C267226F500C4A117 /* SparklyIntegrationTests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,6 +353,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2B86D2C62668C73C007F9350 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BA8CD1B267226F500C4A117 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -358,6 +417,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BA8CD19267226F500C4A117 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BA8CD20267226F500C4A117 /* SparklyIntegrationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -370,6 +437,11 @@
 			isa = PBXTargetDependency;
 			target = 2B86D2AA2668C739007F9350 /* SparklyExample */;
 			targetProxy = 2B86D2C92668C73C007F9350 /* PBXContainerItemProxy */;
+		};
+		2BA8CD23267226F500C4A117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B86D2AA2668C739007F9350 /* SparklyExample */;
+			targetProxy = 2BA8CD22267226F500C4A117 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -621,6 +693,46 @@
 			};
 			name = Release;
 		};
+		2BA8CD24267226F500C4A117 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = H267SUYVMM;
+				INFOPLIST_FILE = SparklyIntegrationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SparklyExample.app/Contents/MacOS/SparklyExample";
+			};
+			name = Debug;
+		};
+		2BA8CD25267226F500C4A117 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = H267SUYVMM;
+				INFOPLIST_FILE = SparklyIntegrationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SparklyExample.app/Contents/MacOS/SparklyExample";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -656,6 +768,15 @@
 			buildConfigurations = (
 				2B86D2D82668C73C007F9350 /* Debug */,
 				2B86D2D92668C73C007F9350 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BA8CD26267226F500C4A117 /* Build configuration list for PBXNativeTarget "SparklyIntegrationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BA8CD24267226F500C4A117 /* Debug */,
+				2BA8CD25267226F500C4A117 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

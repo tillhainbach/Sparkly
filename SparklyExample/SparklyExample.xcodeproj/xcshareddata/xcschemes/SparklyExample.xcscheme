@@ -52,6 +52,16 @@
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2BA8CD1C267226F500C4A117"
+               BuildableName = "SparklyIntegrationTests.xctest"
+               BlueprintName = "SparklyIntegrationTests"
+               ReferencedContainer = "container:SparklyExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
