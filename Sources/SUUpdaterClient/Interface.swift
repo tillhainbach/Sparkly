@@ -37,10 +37,10 @@ public struct SUUpdaterClient {
   /// Events that the updater can emit.
   ///
   /// A detailed documentation of the corresponding `SPUUserDriver` methods can be found in the [header file](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUserDriver.h).
-  public enum UpdaterEvents {
+  public enum UpdaterEvents: Equatable {
 
     /// This event is emitted if the updater failed on start. Holds the corresponding error as an associated value.
-    case didFailOnStart(_ error: Error)
+    case didFailOnStart(_ error: NSError)
     /// This event is emitted whenever the updater's `canCheckForUpdates`-property changes.
     /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
@@ -49,13 +49,13 @@ public struct SUUpdaterClient {
     ///
     /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
     /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
-    case showUpdaterError(_ error: Error, acknowledgement: () -> Void)
+    case showUpdaterError(_ error: NSError, acknowledgement: Callback<()>)
   }
 
   // MARK: - Interface Actions
 
   /// Actions that can be sent to the updater.
-  public enum UpdaterActions {
+  public enum UpdaterActions: Equatable {
     case checkForUpdates
     case startUpdater
     case updateUserSettings(SUUpdaterUserSettings)
@@ -65,4 +65,19 @@ public struct SUUpdaterClient {
 
   // hold on to the cancellables so that it is not immediately destructured...
   private var cancellables: Set<AnyCancellable>
+
+}
+
+public struct Callback<T>: Equatable {
+
+  // set all callbacks to be the same
+  public static func == (lhs: Callback<T>, rhs: Callback<T>) -> Bool {
+    return true
+  }
+
+  public var run: (T) -> Void
+
+  public init(_ callback: @escaping (T) -> Void) {
+    run = callback
+  }
 }
