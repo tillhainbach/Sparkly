@@ -25,6 +25,10 @@ extension SUUpdaterClient {
           break
         case .startUpdater:
           print("updater did start")
+          break
+        case .updateUserSettings:
+          print("changing update settings")
+          break
         }
 
       })

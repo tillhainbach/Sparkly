@@ -30,7 +30,7 @@ let package = Package(
     // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "SparklyCommands",
-      dependencies: []
+      dependencies: ["SUUpdaterClient"]
     ),
     .target(
       name: "SUUpdaterClient",
@@ -38,11 +38,11 @@ let package = Package(
     ),
     .target(
       name: "SUUpdaterClientLive",
-      dependencies: ["Sparkle"]
+      dependencies: ["SUUpdaterClient", "Sparkle"]
     ),
     .testTarget(
       name: "SUUpdaterClientTests",
-      dependencies: []
+      dependencies: ["SUUpdaterClient"]
     ),
   ]
 )

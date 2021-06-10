@@ -16,19 +16,31 @@ final class AppViewModel: ObservableObject {
   let updaterClient: SUUpdaterClient
   var cancellables: Set<AnyCancellable> = []
 
-  init(updaterClient: SUUpdaterClient) {
+  init(
+    updaterClient: SUUpdaterClient,
+    applicationDidFinishLaunching: AnyPublisher<Notification, Never>
+  ) {
     self.updaterClient = updaterClient
     connectToUpdater()
-    NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
-      .sink { [weak self] _ in
-        self?.updaterClient.send(.startUpdater)
+    applicationDidFinishLaunching
+      .sink { [weak self] notification in
+
+        // Just to be super sure
+        if notification.name == NSApplication.didFinishLaunchingNotification {
+          self?.updaterClient.send(.startUpdater)
+        }
       }
       .store(in: &cancellables)
 
   }
 
   func checkForUpdates() {
+    guard canCheckForUpdates else { return }
     updaterClient.send(.checkForUpdates)
+  }
+
+  func updateSettings(_ settings: SUUpdaterUserSettings) {
+    updaterClient.send(.updateUserSettings(settings))
   }
 
   private func connectToUpdater() {
@@ -49,12 +61,23 @@ final class AppViewModel: ObservableObject {
 @main
 struct SparklyExampleApp: App {
   @StateObject private var appViewModel = AppViewModel(
-    updaterClient: .standard(hostBundle: .main, applicationBundle: .main)
+    updaterClient: .standard(hostBundle: .main, applicationBundle: .main),
+    applicationDidFinishLaunching: NotificationCenter.default
+      .publisher(for: NSApplication.didFinishLaunchingNotification)
+      .eraseToAnyPublisher()
   )
 
   var body: some Scene {
     WindowGroup {
       ContentView(viewModel: ViewModel())
+    }
+    Settings {
+      SparkleSettingsView(
+        viewModel: SparkleSettingsViewModel(
+          updaterSettings: SUUpdaterUserSettings.init(from: UserDefaults.standard),
+          onSettingsChanged: appViewModel.updateSettings(_:)
+        )
+      )
     }
     .commands {
       UpdateCommand(

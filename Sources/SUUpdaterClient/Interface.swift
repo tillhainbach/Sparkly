@@ -58,6 +58,7 @@ public struct SUUpdaterClient {
   public enum UpdaterActions {
     case checkForUpdates
     case startUpdater
+    case updateUserSettings(SUUpdaterUserSettings)
   }
 
   // MARK: - private cancellable

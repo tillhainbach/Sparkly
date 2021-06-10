@@ -4,31 +4,46 @@
 //
 //  Created by Till Hainbach on 03.06.21.
 //
-
+import Combine
+import SUUpdaterClient
 import XCTest
 
 @testable import SparklyExample
 
-class SparklyExampleTests: XCTestCase {
+class SettingsViewTests: XCTestCase {
 
-  override func setUpWithError() throws {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
+  func testDidCallOnSettingsChanged() throws {
+    let startSettings = SUUpdaterUserSettings(
+      automaticallyCheckForUpdates: false,
+      updateInterval: .daily,
+      automaticallyDownloadUpdates: false,
+      sendSystemProfile: true
+    )
+    let targetSettings = SUUpdaterUserSettings(
+      automaticallyCheckForUpdates: true,
+      updateInterval: .weekly,
+      automaticallyDownloadUpdates: true,
+      sendSystemProfile: true
+    )
 
-  override func tearDownWithError() throws {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-  }
+    var newSettings: SUUpdaterUserSettings? = nil
 
-  func testExample() throws {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-  }
+    let settingsViewModel = SparkleSettingsViewModel(
+      updaterSettings: .init(
+        automaticallyCheckForUpdates: false,
+        updateInterval: .daily,
+        automaticallyDownloadUpdates: false,
+        sendSystemProfile: true
+      ),
+      onSettingsChanged: { newSettings = $0 }
+    )
 
-  func testPerformanceExample() throws {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
+    XCTAssertEqual(settingsViewModel.updaterSettings, startSettings)
+
+    settingsViewModel.updaterSettings = targetSettings
+
+    XCTAssertEqual(newSettings, targetSettings)
+
   }
 
 }

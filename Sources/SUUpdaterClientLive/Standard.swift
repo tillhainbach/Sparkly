@@ -134,13 +134,16 @@ extension SUUpdaterClient {
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
             print("\(error.localizedDescription)")
-            eventSubject.send(.didFailOnStart)
+            eventSubject.send(.didFailOnStart(error))
           }
           break
 
         case .checkForUpdates:
           updater.checkForUpdates()
           break
+        case .updateUserSettings(let userSettings):
+          updater.updateSettings(from: userSettings)
+
         }
       }
       .store(in: &cancellables)
