@@ -49,7 +49,32 @@ public struct SUUpdaterClient {
     ///
     /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
     /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
-    case showUpdaterError(_ error: NSError, acknowledgement: Callback<()>)
+    case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
+
+    /// This event emits when an update check is initiated
+    ///
+    /// Use this event to notify the user that an update was initiated. Use the Callback to hook up a `Cancel`-button
+    case updateCheckInitiated(cancellation: Callback<Void>)
+
+    /// This event emits when an appcast has been downloaded
+    ///
+    /// Use this event if you want to to something with the appcast
+    case didFinishLoading(appcast: Appcast)
+
+    // TODO: Can these two events be merged?
+    /// This event emits when a valid update hast been found
+    ///
+    /// Use this event if you want to do something with the update, e.g. display it to the user
+    case didFindValidUpdate(update: AppcastItem)
+
+    /// This event emits when a valid update hast been found
+    ///
+    /// Use this event if you want to do
+    case updateFound(
+          update: AppcastItem,
+          state: SUUserUpdateState,
+          reply: Callback<SUUserUpdateState.Choice>
+         )
   }
 
   // MARK: - Interface Actions
@@ -80,4 +105,28 @@ public struct Callback<T>: Equatable {
   public init(_ callback: @escaping (T) -> Void) {
     run = callback
   }
+}
+
+public struct SUUserUpdateState: Equatable {
+
+  public var stage: Stage
+  public var userInitiated: Bool
+
+  public init(stage: SUUserUpdateState.Stage, userInitiated: Bool) {
+    self.stage = stage
+    self.userInitiated = userInitiated
+  }
+
+  public enum Stage {
+    case notDownloaded
+    case downloaded
+    case installing
+  }
+
+  public enum Choice {
+    case skip
+    case install
+    case dismiss
+  }
+
 }
