@@ -39,13 +39,17 @@ class SparklyIntegrationTests: XCTestCase {
 
     XCTAssertTrue(canCheckForUpdates)
 
-    client.send(.checkForUpdates)
+    // client.send(.checkForUpdates)
   }
 
   func test_LiveSparkle_HappyPathFlow() throws {
     let testBundle = Bundle(for: type(of: self))
 
-    let client = SUUpdaterClient.live(hostBundle: testBundle, applicationBundle: testBundle)
+    let client = SUUpdaterClient.live(
+      hostBundle: testBundle,
+      applicationBundle: testBundle,
+      developerSettings: .happyPath
+    )
 
     var canCheckForUpdates: [Bool] = [false]
     var receivedEvents: [SUUpdaterClient.UpdaterEvents] = []
@@ -57,9 +61,20 @@ class SparklyIntegrationTests: XCTestCase {
         case .canCheckForUpdates(let newCanCheckForUpdates):
           canCheckForUpdates.append(newCanCheckForUpdates)
           break
+        case .updateCheckInitiated(cancellation: _):
+          break
+
+        case .didFindValidUpdate(update: _):
+          break
+
+        case .didFinishLoading(appcast: _):
+          break
+
+        case .updateFound(update: _, state: _, reply: _):
+          break
 
         default:
-          XCTFail("Wrong event was sent")
+          XCTFail("Wrong event was sent \(event)")
         }
       }
       .store(in: &cancellables)
@@ -77,4 +92,31 @@ class SparklyIntegrationTests: XCTestCase {
     wait(for: [XCTestExpectation(description: "Some description")], timeout: 2)
   }
 
+}
+
+extension SUDeveloperSettings {
+  static let happyPath: Self = .init(
+    allowedSystemProfileKeys: { fatalError() },
+    feedParameters: { _ in [] },
+    feedURLString: { return "https://tillhainbach.github.io/Sparkly/happy-path-appcast.xml" },
+    handleAppcast: { _ in fatalError() },
+    retrieveDecryptionPassword: { fatalError() },
+    retrieveBestValidUpdate: { _ in nil },  // let Sparkle handle picking the Update
+    shouldAllowInstallerInteraction: { updateCheck in
+      switch updateCheck {
+
+      case .userInitiated:
+        return true
+      case .backgroundScheduled:
+        return true
+      }
+    },
+    updaterMayCheckForUpdates: { true },
+    compareVersions: nil,
+    updaterShouldPostponeRelaunchForUpdate: { _, _ in fatalError() },
+    updaterWillInstallUpdateOnQuit: { _, _ in fatalError() },
+    updaterShouldDownloadReleaseNotes: { true },
+    updaterShouldPromptForPermissionToCheckForUpdates: { fatalError() },
+    updaterShouldRelaunchApplication: { fatalError() }
+  )
 }
