@@ -3,7 +3,7 @@
 [![Lint](https://github.com/tillhainbach/Sparkly/actions/workflows/lint.yaml/badge.svg?branch=main)](https://github.com/tillhainbach/Sparkly/actions/workflows/lint.yaml)
 [![Lint Commit Messages](https://github.com/tillhainbach/Sparkly/actions/workflows/commitlint.yaml/badge.svg)](https://github.com/tillhainbach/Sparkly/actions/workflows/commitlint.yaml)
 
-Sparkly is a light-weight, combine-based wrapper around the [Sparkle](www.sparkle-project.org)
+Sparkly is a light-weight, combine-based wrapper around the [Sparkle](https://www.sparkle-project.org)
 auto-update framework. It's main goal is to abstract away the complexity of the framework, make it easier to use
 with SwiftUI and to increase the ability for unit-testing (e.g. ease of mocking sparkle).
 

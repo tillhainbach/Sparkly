@@ -10,7 +10,7 @@ import SwiftUI
 final class ViewModel: ObservableObject {
 
   func openSettings() {
-    // noop
+    NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
   }
 }
 
@@ -22,7 +22,6 @@ struct ContentView: View {
       Text("Hello, Sparkly 💫")
         .padding()
       Button("Open Settings", action: viewModel.openSettings)
-        .onCommand(.init(extendedGraphemeClusterLiteral: "⌘,"), perform: viewModel.openSettings)
     }
     .frame(width: 400, height: 400)
   }
