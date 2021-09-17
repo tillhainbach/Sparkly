@@ -62,9 +62,11 @@ public struct SUDeveloperSettings {
 
 }
 
+/// 
 public enum UpdateCheck {
-  case userInitiated
-  case backgroundScheduled
+  case checkUpdates
+  case checkUpdatesInBackground
+  case checkUpdateInformation
 }
 
 public struct Appcast: Equatable {

@@ -140,7 +140,7 @@ extension SUUpdaterClient {
         return developerSettings.updaterMayCheckForUpdates()
       }
 
-      func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String] {
+      func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String]? {
         return developerSettings.allowedSystemProfileKeys()
       }
 
@@ -165,11 +165,9 @@ extension SUUpdaterClient {
         _ updater: SPUUpdater,
         shouldAllowInstallerInteractionFor updateCheck: SPUUpdateCheck
       ) -> Bool {
+        guard let updateCheck = UpdateCheck(rawValue: updateCheck) else { return false }
 
-        return developerSettings.shouldAllowInstallerInteraction(
-          UpdateCheck(rawValue: updateCheck)
-        )
-
+        return developerSettings.shouldAllowInstallerInteraction(updateCheck)
       }
 
       func versionComparator(for updater: SPUUpdater) -> SUVersionComparison? {
@@ -348,16 +346,19 @@ extension SUUpdaterClient {
 }
 
 extension UpdateCheck {
-  init(rawValue: SPUUpdateCheck) {
+  init?(rawValue: SPUUpdateCheck) {
     switch rawValue {
-    case .backgroundScheduled:
-      self = .backgroundScheduled
+    case .updates:
+      self = .checkUpdates
       break
-    case .userInitiated:
-      self = .userInitiated
+    case .updatesInBackground:
+      self = .checkUpdatesInBackground
+      break
+    case .updateInformation:
+      self = .checkUpdateInformation
       break
     @unknown default:
-      self = .userInitiated
+      return nil
     }
   }
 }
@@ -422,8 +423,6 @@ extension SUUserUpdateState.Stage {
     case .installing:
       self = .installing
       break
-    case .informational:
-      return nil
     @unknown default:
       return nil
     }

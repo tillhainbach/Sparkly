@@ -107,6 +107,8 @@ public struct Callback<T>: Equatable {
   }
 }
 
+
+/// Wrapped for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h)
 public struct SUUserUpdateState: Equatable {
 
   public var stage: Stage
@@ -118,8 +120,13 @@ public struct SUUserUpdateState: Equatable {
   }
 
   public enum Stage {
+    /// The update has not been downloaded.
     case notDownloaded
+
+    /// The update has already been downloaded but not begun installing.
     case downloaded
+
+    /// The update has already been downloaded and began installing in the background.
     case installing
   }
 
