@@ -100,7 +100,7 @@ public struct Callback<T>: Equatable {
     return true
   }
 
-  public var run: (T) -> Void
+  public let run: (T) -> Void
 
   public init(_ callback: @escaping (T) -> Void) {
     run = callback
