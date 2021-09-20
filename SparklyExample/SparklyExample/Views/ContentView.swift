@@ -9,9 +9,16 @@ import SwiftUI
 
 final class ViewModel: ObservableObject {
 
-  func openSettings() {
-    NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+  let openSettings: () -> Void
+
+  init(
+    openSettings: @escaping () -> Void = {
+      NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+    }
+  ) {
+    self.openSettings = openSettings
   }
+
 }
 
 struct ContentView: View {

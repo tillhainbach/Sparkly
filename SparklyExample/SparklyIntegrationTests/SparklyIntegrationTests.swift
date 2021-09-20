@@ -104,10 +104,11 @@ extension SUDeveloperSettings {
     retrieveBestValidUpdate: { _ in nil },  // let Sparkle handle picking the Update
     shouldAllowInstallerInteraction: { updateCheck in
       switch updateCheck {
-
-      case .userInitiated:
+      case .checkUpdates:
         return true
-      case .backgroundScheduled:
+      case .checkUpdatesInBackground:
+        return true
+      case .checkUpdateInformation:
         return true
       }
     },

@@ -70,7 +70,7 @@ public enum UpdateCheck {
 }
 
 public struct Appcast: Equatable {
-  public var items: [AppcastItem]
+  public let items: [AppcastItem]
 
   public init(items: [AppcastItem]) {
     self.items = items

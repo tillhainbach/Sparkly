@@ -14,15 +14,18 @@
 		2B86D2B12668C739007F9350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
 		2B86D2B32668C73C007F9350 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B22668C73C007F9350 /* Assets.xcassets */; };
 		2B86D2B62668C73C007F9350 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B52668C73C007F9350 /* Preview Assets.xcassets */; };
-		2B86D2C22668C73C007F9350 /* SparklyExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2C12668C73C007F9350 /* SparklyExampleTests.swift */; };
+		2B86D2C22668C73C007F9350 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */; };
 		2B86D2CD2668C73C007F9350 /* SparklyExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2CC2668C73C007F9350 /* SparklyExampleUITests.swift */; };
 		2B88518F2668EB08007EA25B /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2B88518E2668EB08007EA25B /* SUUpdaterClientLive */; };
-		2B8A7DE02670BCC6009D7FC0 /* SparkleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */; };
+		2B8A7DE02670BCC6009D7FC0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */; };
+		2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
+		2B90560426F775F40081AB5F /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560326F775F40081AB5F /* helpers.swift */; };
+		2B90560826F778710081AB5F /* FoundUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560726F778710081AB5F /* FoundUpdateView.swift */; };
+		2B90ADC326F4EAE0007128A5 /* org.sparkle-project.Downloader.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBF26F4EAD6007128A5 /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2B90ADC426F4EAE3007128A5 /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBE26F4EAD6007128A5 /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2BA8CD20267226F500C4A117 /* SparklyIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */; };
 		2BA8CD292672476800C4A117 /* SUUpdaterClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD282672476800C4A117 /* SUUpdaterClient */; };
 		2BA8CD2B2672476B00C4A117 /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */; };
-		2B90ADC326F4EAE0007128A5 /* org.sparkle-project.Downloader.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBF26F4EAD6007128A5 /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2B90ADC426F4EAE3007128A5 /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBE26F4EAD6007128A5 /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,18 +76,21 @@
 		2B86D2B72668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B86D2B82668C73C007F9350 /* SparklyExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SparklyExample.entitlements; sourceTree = "<group>"; };
 		2B86D2BD2668C73C007F9350 /* SparklyExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B86D2C12668C73C007F9350 /* SparklyExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyExampleTests.swift; sourceTree = "<group>"; };
+		2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTests.swift; sourceTree = "<group>"; };
 		2B86D2C32668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B86D2C82668C73C007F9350 /* SparklyExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B86D2CC2668C73C007F9350 /* SparklyExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyExampleUITests.swift; sourceTree = "<group>"; };
 		2B86D2CE2668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleSettingsView.swift; sourceTree = "<group>"; };
-		2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyIntegrationTests.swift; sourceTree = "<group>"; };
-		2BA8CD21267226F500C4A117 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2B90560126F632FA0081AB5F /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
+		2B90560326F775F40081AB5F /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
+		2B90560726F778710081AB5F /* FoundUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundUpdateView.swift; sourceTree = "<group>"; };
 		2B90ADBD26F4EAB7007128A5 /* org.sparkle-project.Downloader.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "org.sparkle-project.Downloader.entitlements"; path = "../../../../Downloads/Sparkle-for-Swift-Package-Manager/XPCServices/org.sparkle-project.Downloader.entitlements"; sourceTree = "<group>"; };
 		2B90ADBE26F4EAD6007128A5 /* org.sparkle-project.InstallerLauncher.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.InstallerLauncher.xpc"; sourceTree = "<group>"; };
 		2B90ADBF26F4EAD6007128A5 /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
+		2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyIntegrationTests.swift; sourceTree = "<group>"; };
+		2BA8CD21267226F500C4A117 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,11 +168,11 @@
 			isa = PBXGroup;
 			children = (
 				2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */,
-				2B86D2B02668C739007F9350 /* ContentView.swift */,
-				2B8A7DDF2670BCC6009D7FC0 /* SparkleSettingsView.swift */,
-				2B86D2B22668C73C007F9350 /* Assets.xcassets */,
-				2B86D2B72668C73C007F9350 /* Info.plist */,
+				2B90560626F7772F0081AB5F /* Views */,
+				2B90560526F777230081AB5F /* helpers */,
 				2B86D2B82668C73C007F9350 /* SparklyExample.entitlements */,
+				2B86D2B72668C73C007F9350 /* Info.plist */,
+				2B86D2B22668C73C007F9350 /* Assets.xcassets */,
 				2B86D2B42668C73C007F9350 /* Preview Content */,
 			);
 			path = SparklyExample;
@@ -184,7 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */,
-				2B86D2C12668C73C007F9350 /* SparklyExampleTests.swift */,
+				2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */,
 				2B86D2C32668C73C007F9350 /* Info.plist */,
 			);
 			path = SparklyExampleTests;
@@ -197,6 +203,25 @@
 				2B86D2CE2668C73C007F9350 /* Info.plist */,
 			);
 			path = SparklyExampleUITests;
+			sourceTree = "<group>";
+		};
+		2B90560526F777230081AB5F /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2B90560326F775F40081AB5F /* helpers.swift */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
+		2B90560626F7772F0081AB5F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B86D2B02668C739007F9350 /* ContentView.swift */,
+				2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */,
+				2B90560126F632FA0081AB5F /* UpdateView.swift */,
+				2B90560726F778710081AB5F /* FoundUpdateView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2BA8CD1E267226F500C4A117 /* SparklyIntegrationTests */ = {
@@ -407,9 +432,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B90560826F778710081AB5F /* FoundUpdateView.swift in Sources */,
 				2B86D2B12668C739007F9350 /* ContentView.swift in Sources */,
+				2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */,
 				2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */,
-				2B8A7DE02670BCC6009D7FC0 /* SparkleSettingsView.swift in Sources */,
+				2B8A7DE02670BCC6009D7FC0 /* SettingsView.swift in Sources */,
+				2B90560426F775F40081AB5F /* helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B43CAAD2671603100033AD6 /* AppViewModelTests.swift in Sources */,
-				2B86D2C22668C73C007F9350 /* SparklyExampleTests.swift in Sources */,
+				2B86D2C22668C73C007F9350 /* SettingsViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,7 +30,7 @@ public final class SparkleSettingsViewModel: ObservableObject {
 }
 
 /// A View to set user-specific Sparkle settings.
-public struct SparkleSettingsView: View {
+public struct SettingsView: View {
 
   @ObservedObject var viewModel: SparkleSettingsViewModel
 
@@ -77,9 +77,9 @@ public struct SparkleSettingsView: View {
   }
 }
 
-struct SparkleSettingsView_Previews: PreviewProvider {
+struct SettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    SparkleSettingsView(
+    SettingsView(
       viewModel: SparkleSettingsViewModel(
         updaterSettings: SUUpdaterUserSettings(),
         onSettingsChanged: { _ in }

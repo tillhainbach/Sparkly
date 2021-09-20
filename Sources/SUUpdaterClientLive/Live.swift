@@ -58,7 +58,8 @@ extension SUUpdaterClient {
       }
 
       func showUpdateReleaseNotes(with downloadData: SPUDownloadData) {
-        fatalError("Unimplemented")
+        eventSubject.send(.showUpdateReleaseNotes(SUDownloadData(rawValue: downloadData)))
+//        fatalError("Unimplemented")
       }
 
       func showUpdateReleaseNotesFailedToDownloadWithError(_ error: Error) {
@@ -117,7 +118,7 @@ extension SUUpdaterClient {
       }
 
       func dismissUpdateInstallation() {
-        fatalError("Unimplemented")
+        eventSubject.send(.dismissUpdateInstallation)
       }
     }
 
@@ -220,11 +221,12 @@ extension SUUpdaterClient {
 
       // Events
       func updater(_ updater: SPUUpdater, didFinishLoading appcast: SUAppcast) {
-        eventSubject.send(.didFinishLoading(appcast: .init(rawValue: appcast)))
+        //eventSubject.send(.didFinishLoading(appcast: .init(rawValue: appcast)))
       }
 
       func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
-        fatalError("Unimplemented")
+        eventSubject.send(.willScheduleUpdateCheckAfter(delay: delay))
+//        fatalError("Unimplemented")
       }
 
       func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
@@ -449,5 +451,11 @@ extension SUUserUpdateState {
     }
 
     self.init(stage: stage, userInitiated: rawValue.userInitiated)
+  }
+}
+
+extension SUDownloadData {
+  init(rawValue: SPUDownloadData) {
+    self.init(data: rawValue.data, url: rawValue.url, textEncodingName: rawValue.textEncodingName, mimeType: rawValue.mimeType)
   }
 }

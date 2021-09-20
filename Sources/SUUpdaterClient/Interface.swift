@@ -51,6 +51,9 @@ public struct SUUpdaterClient {
     /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
     case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
 
+    /// This event emits if the updater wants to show realease notes
+    case showUpdateReleaseNotes(SUDownloadData)
+
     /// This event emits when an update check is initiated
     ///
     /// Use this event to notify the user that an update was initiated. Use the Callback to hook up a `Cancel`-button
@@ -75,6 +78,15 @@ public struct SUUpdaterClient {
           state: SUUserUpdateState,
           reply: Callback<SUUserUpdateState.Choice>
          )
+
+    /// Called when a background update will be scheduled after a delay.
+    /// Automatic update checks need to be enabled for this to trigger.
+    ///
+    /// - Parameter delay The delay in seconds until the next scheduled update will occur.
+    case willScheduleUpdateCheckAfter(delay: TimeInterval)
+
+    /// Called when aborting or finishing an update.
+    case dismissUpdateInstallation
   }
 
   // MARK: - Interface Actions
@@ -136,4 +148,19 @@ public struct SUUserUpdateState: Equatable {
     case dismiss
   }
 
+}
+
+public struct SUDownloadData: Equatable {
+
+  public let data: Data
+  public let url: URL
+  public let textEncodingName: String?
+  public let mimeType: String?
+
+  public init(data: Data, url: URL, textEncodingName: String?, mimeType: String?) {
+    self.data = data
+    self.url = url
+    self.textEncodingName = textEncodingName
+    self.mimeType = mimeType
+  }
 }
