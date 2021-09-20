@@ -52,9 +52,6 @@ final class AppViewModel: ObservableObject {
         case .canCheckForUpdates(let canCheckForUpdates):
           self?.canCheckForUpdates = canCheckForUpdates
 
-        case .willScheduleUpdateCheckAfter(let delay):
-          print("Next Update Check scheduled at \(Date().addingTimeInterval(delay).toString())")
-
         case .updateCheckInitiated(_):
           self?.updateCheckInProgress = true
 
@@ -62,9 +59,7 @@ final class AppViewModel: ObservableObject {
           self?.updateCheckInProgress = false
 
         case .showUpdateReleaseNotes(_),
-          .updateFound(_, _, _),
-          .didFinishLoading(_),
-          .didFindValidUpdate(_):
+          .updateFound(_, _, _):
           print("\(event)")
 
         default:
@@ -135,30 +130,10 @@ extension SparklyExampleApp {
   static let liveUpdater = AppViewModel(
     updaterClient: .live(
       hostBundle: .main,
-      applicationBundle: .main,
-      developerSettings: .noop
+      applicationBundle: .main
     ),
     applicationDidFinishLaunching: NotificationCenter.default
       .publisher(for: NSApplication.didFinishLaunchingNotification)
       .eraseToAnyPublisher()
-  )
-}
-
-extension SUDeveloperSettings {
-  static let noop: Self = .init(
-    allowedSystemProfileKeys: { return [] },
-    feedParameters: { _ in [[:]] },
-    feedURLString: { return nil },
-    handleAppcast: { $0 },
-    retrieveDecryptionPassword: { return nil },
-    retrieveBestValidUpdate: { _ in return nil },
-    shouldAllowInstallerInteraction: { _ in false },
-    updaterMayCheckForUpdates: { return true },
-    compareVersions: nil,
-    updaterShouldPostponeRelaunchForUpdate: { _, _ in return true },
-    updaterWillInstallUpdateOnQuit: { _, _ in return true },
-    updaterShouldDownloadReleaseNotes: { return true },
-    updaterShouldPromptForPermissionToCheckForUpdates: { return true },
-    updaterShouldRelaunchApplication: { return true }
   )
 }

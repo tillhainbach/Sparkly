@@ -59,17 +59,6 @@ public struct SUUpdaterClient {
     /// Use this event to notify the user that an update was initiated. Use the Callback to hook up a `Cancel`-button
     case updateCheckInitiated(cancellation: Callback<Void>)
 
-    /// This event emits when an appcast has been downloaded
-    ///
-    /// Use this event if you want to to something with the appcast
-    case didFinishLoading(appcast: Appcast)
-
-    // TODO: Can these two events be merged?
-    /// This event emits when a valid update hast been found
-    ///
-    /// Use this event if you want to do something with the update, e.g. display it to the user
-    case didFindValidUpdate(update: AppcastItem)
-
     /// This event emits when a valid update hast been found
     ///
     /// Use this event if you want to do
@@ -78,12 +67,6 @@ public struct SUUpdaterClient {
           state: SUUserUpdateState,
           reply: Callback<SUUserUpdateState.Choice>
          )
-
-    /// Called when a background update will be scheduled after a delay.
-    /// Automatic update checks need to be enabled for this to trigger.
-    ///
-    /// - Parameter delay The delay in seconds until the next scheduled update will occur.
-    case willScheduleUpdateCheckAfter(delay: TimeInterval)
 
     /// Called when aborting or finishing an update.
     case dismissUpdateInstallation

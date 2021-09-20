@@ -13,8 +13,7 @@ extension SUUpdaterClient {
   /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
   public static func live(
     hostBundle: Bundle,
-    applicationBundle: Bundle,
-    developerSettings: SUDeveloperSettings
+    applicationBundle: Bundle
   ) -> Self {
 
     // The UserDriver: forwards delegate methods to publishers
@@ -122,190 +121,15 @@ extension SUUpdaterClient {
       }
     }
 
-    class UpdaterDelegate: NSObject, SPUUpdaterDelegate {
-      let eventSubject: PassthroughSubject<UpdaterEvents, Never>
-      var developerSettings: SUDeveloperSettings
-
-      init(
-        eventSubject: PassthroughSubject<UpdaterEvents, Never>,
-        developerSettings: SUDeveloperSettings
-      ) {
-        self.eventSubject = eventSubject
-        self.developerSettings = developerSettings
-        super.init()
-      }
-
-      // Developer Settings
-
-      func updaterMayCheck(forUpdates updater: SPUUpdater) -> Bool {
-        return developerSettings.updaterMayCheckForUpdates()
-      }
-
-      func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String]? {
-        return developerSettings.allowedSystemProfileKeys()
-      }
-
-      func feedParameters(
-        for updater: SPUUpdater,
-        sendingSystemProfile sendingProfile: Bool
-      ) -> [[String : String]] {
-        return developerSettings.feedParameters(sendingProfile)
-      }
-
-      func feedURLString(for updater: SPUUpdater) -> String? {
-        return developerSettings.feedURLString()
-        //fatalError("Unimplemented")
-      }
-
-      func bestValidUpdate(in appcast: SUAppcast, for updater: SPUUpdater) -> SUAppcastItem? {
-        let appcastItem = developerSettings.retrieveBestValidUpdate(Appcast(rawValue: appcast))
-        return appcastItem?.toSparkle()
-      }
-
-      func updater(
-        _ updater: SPUUpdater,
-        shouldAllowInstallerInteractionFor updateCheck: SPUUpdateCheck
-      ) -> Bool {
-        guard let updateCheck = UpdateCheck(rawValue: updateCheck) else { return false }
-
-        return developerSettings.shouldAllowInstallerInteraction(updateCheck)
-      }
-
-      func versionComparator(for updater: SPUUpdater) -> SUVersionComparison? {
-        guard let compareVersions = developerSettings.compareVersions else {
-          return nil
-
-        }
-
-        return VersionComparison(compareVersions: compareVersions)
-
-      }
-
-      func decryptionPassword(for updater: SPUUpdater) -> String? {
-        developerSettings.retrieveDecryptionPassword()
-      }
-
-      func updater(
-        _ updater: SPUUpdater, shouldPostponeRelaunchForUpdate item: SUAppcastItem,
-        untilInvokingBlock installHandler: @escaping () -> Void
-      ) -> Bool {
-        developerSettings.updaterShouldPostponeRelaunchForUpdate(
-          AppcastItem(rawValue: item),
-          installHandler
-        )
-
-      }
-
-      func updater(
-        _ updater: SPUUpdater, willInstallUpdateOnQuit item: SUAppcastItem,
-        immediateInstallationBlock immediateInstallHandler: @escaping () -> Void
-      ) -> Bool {
-        developerSettings.updaterWillInstallUpdateOnQuit(
-          AppcastItem(rawValue: item),
-          immediateInstallHandler
-        )
-
-      }
-
-      func updaterShouldDownloadReleaseNotes(_ updater: SPUUpdater) -> Bool {
-        developerSettings.updaterShouldDownloadReleaseNotes()
-      }
-
-      func updaterShouldPromptForPermissionToCheck(forUpdates updater: SPUUpdater) -> Bool {
-        developerSettings.updaterShouldPromptForPermissionToCheckForUpdates()
-      }
-
-      func updaterShouldRelaunchApplication(_ updater: SPUUpdater) -> Bool {
-        developerSettings.updaterShouldRelaunchApplication()
-      }
-
-      // Events
-      func updater(_ updater: SPUUpdater, didFinishLoading appcast: SUAppcast) {
-        //eventSubject.send(.didFinishLoading(appcast: .init(rawValue: appcast)))
-      }
-
-      func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
-        eventSubject.send(.willScheduleUpdateCheckAfter(delay: delay))
-//        fatalError("Unimplemented")
-      }
-
-      func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, didExtractUpdate item: SUAppcastItem) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, didDownloadUpdate item: SUAppcastItem) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, willExtractUpdate item: SUAppcastItem) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
-        eventSubject.send(.didFindValidUpdate(update: .init(rawValue: item)))
-
-      }
-
-      func updater(_ updater: SPUUpdater, userDidSkipThisVersion item: SUAppcastItem) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updater(_ updater: SPUUpdater, willDownloadUpdate item: SUAppcastItem, with request: NSMutableURLRequest) {
-        fatalError("Unimplemented")
-
-      }
-
-      func userDidCancelDownload(_ updater: SPUUpdater) {
-        fatalError("Unimplemented")
-
-      }
-
-      func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
-        fatalError("Unimplemented")
-      }
-
-      func updaterWillIdleSchedulingUpdates(_ updater: SPUUpdater) {
-        fatalError("Unimplemented")
-      }
-
-      func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
-        fatalError("Unimplemented")
-      }
-
-    }
-
     let actionSubject = PassthroughSubject<UpdaterActions, Never>()
     let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
 
-    var updaterDelegate: UpdaterDelegate? = UpdaterDelegate(
-      eventSubject: eventSubject,
-      developerSettings: developerSettings
-    )
     // init sparkle updater
     let updater = SPUUpdater(
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
       userDriver: UserDriver(eventSubject: eventSubject),
-      delegate: updaterDelegate
+      delegate: nil
     )
 
     // listen on canCheckForUpdates
@@ -340,7 +164,6 @@ extension SUUpdaterClient {
       send: actionSubject.send(_:),
       updaterEventPublisher:
         eventSubject
-        .handleEvents(receiveCancel: { updaterDelegate = nil })
         .eraseToAnyPublisher(),
       cancellables: cancellables
     )
@@ -406,12 +229,12 @@ extension AppcastItem {
   }
 }
 
-extension Appcast {
-
-  init(rawValue: SUAppcast) {
-    self.init(items: rawValue.items.map { .init(rawValue: $0) })
-  }
-}
+//extension Appcast {
+//
+//  init(rawValue: SUAppcast) {
+//    self.init(items: rawValue.items.map { .init(rawValue: $0) })
+//  }
+//}
 
 extension SUUserUpdateState.Stage {
   init?(rawValue: SPUUserUpdateStage) {
