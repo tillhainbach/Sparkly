@@ -6,7 +6,7 @@
             <title>0.1.10</title>
             <pubDate>Mo., 03 Mai 2021 16:13:31 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://api.github.com/repos/tillhainbach/Sparkly/releases/" sparkle:version="8" sparkle:shortVersionString="0.1.10" length="4625809" type="application/octet-stream" sparkle:edSignature="MUdGC1mA66hEOgAcpcHbsfQRNqPOalOc1mjrzeg2v4r6Vq9pAvNgfbgXMubg2aTUSol8KyDrN4vcGipQfzcKCA=="/>
+            <enclosure url="https://github.com/tillhainbach/SwiftUISparkleTestApp/releases/download/v0.1.1/SwiftUISparkleTestApp.v0.1.1.b3.zip" sparkle:version="8" sparkle:shortVersionString="0.1.10" length="4625809" type="application/octet-stream" sparkle:edSignature="MUdGC1mA66hEOgAcpcHbsfQRNqPOalOc1mjrzeg2v4r6Vq9pAvNgfbgXMubg2aTUSol8KyDrN4vcGipQfzcKCA=="/>
             <sparkle:releaseNotesLink>https://tillhainbach.github.io/Sparkly/</sparkle:releaseNotesLink>
         </item>
     </channel>
