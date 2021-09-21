@@ -6,10 +6,10 @@
 //
 import Combine
 import Foundation
-import SUUpdaterClient
+@_exported import SparklyClient
 import Sparkle
 
-extension SUUpdaterClient {
+extension UpdaterClient {
   /// Create a *standard* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
   ///
   /// The `standard`-Client uses the `SPUStandardUserDriver` internally. This is a *plug&play* version of
@@ -108,8 +108,8 @@ extension SUUpdaterClient {
       }
     }
 
-    let actionSubject = PassthroughSubject<UpdaterActions, Never>()
-    let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
+    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
+    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
 
     // init sparkle updater
     let updater = SPUUpdater(
@@ -142,6 +142,9 @@ extension SUUpdaterClient {
           break
         case .updateUserSettings(let userSettings):
           updater.updateSettings(from: userSettings)
+
+        case .setHTTPHeaders(let newHTTPHeaders):
+          updater.httpHeaders = newHTTPHeaders
 
         }
       }

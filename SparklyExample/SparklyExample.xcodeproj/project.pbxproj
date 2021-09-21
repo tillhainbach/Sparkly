@@ -8,15 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		2B43CAAD2671603100033AD6 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */; };
-		2B7AEA962668D23F0068A971 /* SparklyCommands in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7AEA952668D23F0068A971 /* SparklyCommands */; };
-		2B7AEA982668D2430068A971 /* SUUpdaterClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7AEA972668D2430068A971 /* SUUpdaterClient */; };
 		2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
 		2B86D2B12668C739007F9350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
 		2B86D2B32668C73C007F9350 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B22668C73C007F9350 /* Assets.xcassets */; };
 		2B86D2B62668C73C007F9350 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B52668C73C007F9350 /* Preview Assets.xcassets */; };
 		2B86D2C22668C73C007F9350 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */; };
 		2B86D2CD2668C73C007F9350 /* SparklyExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2CC2668C73C007F9350 /* SparklyExampleUITests.swift */; };
-		2B88518F2668EB08007EA25B /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2B88518E2668EB08007EA25B /* SUUpdaterClientLive */; };
 		2B8A7DE02670BCC6009D7FC0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */; };
 		2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
 		2B90560426F775F40081AB5F /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560326F775F40081AB5F /* helpers.swift */; };
@@ -24,8 +21,8 @@
 		2B90ADC326F4EAE0007128A5 /* org.sparkle-project.Downloader.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBF26F4EAD6007128A5 /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B90ADC426F4EAE3007128A5 /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B90ADBE26F4EAD6007128A5 /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2BA8CD20267226F500C4A117 /* SparklyIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8CD1F267226F500C4A117 /* SparklyIntegrationTests.swift */; };
-		2BA8CD292672476800C4A117 /* SUUpdaterClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD282672476800C4A117 /* SUUpdaterClient */; };
-		2BA8CD2B2672476B00C4A117 /* SUUpdaterClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */; };
+		2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2BDEDC6526F9DDF8007BC87E /* Sparkly */; };
+		2BDEDC6826F9DE31007BC87E /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2BDEDC6726F9DE31007BC87E /* Sparkly */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,9 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B88518F2668EB08007EA25B /* SUUpdaterClientLive in Frameworks */,
-				2B7AEA962668D23F0068A971 /* SparklyCommands in Frameworks */,
-				2B7AEA982668D2430068A971 /* SUUpdaterClient in Frameworks */,
+				2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,8 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BA8CD292672476800C4A117 /* SUUpdaterClient in Frameworks */,
-				2BA8CD2B2672476B00C4A117 /* SUUpdaterClientLive in Frameworks */,
+				2BDEDC6826F9DE31007BC87E /* Sparkly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +253,7 @@
 			);
 			name = SparklyExample;
 			packageProductDependencies = (
-				2B7AEA952668D23F0068A971 /* SparklyCommands */,
-				2B7AEA972668D2430068A971 /* SUUpdaterClient */,
-				2B88518E2668EB08007EA25B /* SUUpdaterClientLive */,
+				2BDEDC6526F9DDF8007BC87E /* Sparkly */,
 			);
 			productName = SparklyExample;
 			productReference = 2B86D2AB2668C739007F9350 /* SparklyExample.app */;
@@ -318,8 +310,7 @@
 			);
 			name = SparklyIntegrationTests;
 			packageProductDependencies = (
-				2BA8CD282672476800C4A117 /* SUUpdaterClient */,
-				2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */,
+				2BDEDC6726F9DE31007BC87E /* Sparkly */,
 			);
 			productName = SparklyIntegrationTests;
 			productReference = 2BA8CD1D267226F500C4A117 /* SparklyIntegrationTests.xctest */;
@@ -821,25 +812,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2B7AEA952668D23F0068A971 /* SparklyCommands */ = {
+		2BDEDC6526F9DDF8007BC87E /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SparklyCommands;
+			productName = Sparkly;
 		};
-		2B7AEA972668D2430068A971 /* SUUpdaterClient */ = {
+		2BDEDC6726F9DE31007BC87E /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SUUpdaterClient;
-		};
-		2B88518E2668EB08007EA25B /* SUUpdaterClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SUUpdaterClientLive;
-		};
-		2BA8CD282672476800C4A117 /* SUUpdaterClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SUUpdaterClient;
-		};
-		2BA8CD2A2672476B00C4A117 /* SUUpdaterClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SUUpdaterClientLive;
+			productName = Sparkly;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -11,13 +11,13 @@ import Foundation
 ///
 /// This does not 1-to-1 correspond to Sparkle's `SPUUpdaterSettings` but is rather
 /// an opinionated selections of settings that might be of interest to user's of an application.
-public struct SUUpdaterUserSettings: Equatable {
+public struct UpdaterUserSettings: Equatable {
 
   /// Enable or Disable automatic update checks.
   public var automaticallyCheckForUpdates: Bool
 
   /// Set the interval for which updates are checked.
-  public var updateInterval: SUUpdateInterval
+  public var updateInterval: UpdateInterval
 
   /// Enable or Disable automatic downloading and installation of updates.
   public var automaticallyDownloadUpdates: Bool
@@ -28,7 +28,7 @@ public struct SUUpdaterUserSettings: Equatable {
   /// Initialize SUUpdaterUserSettings.
   public init(
     automaticallyCheckForUpdates: Bool = true,
-    updateInterval: SUUpdateInterval = .daily,
+    updateInterval: UpdateInterval = .daily,
     automaticallyDownloadUpdates: Bool = false,
     sendSystemProfile: Bool = false
   ) {
@@ -40,7 +40,7 @@ public struct SUUpdaterUserSettings: Equatable {
 }
 
 /// Preset of fixed update intervals.
-public enum SUUpdateInterval: String, CaseIterable, Identifiable, Equatable {
+public enum UpdateInterval: String, CaseIterable, Identifiable, Equatable {
   case daily = "Daily"
   case weekly = "Weekly"
   case biweekly = "Biweekly"
@@ -52,7 +52,7 @@ public enum SUUpdateInterval: String, CaseIterable, Identifiable, Equatable {
   }
 }
 
-extension SUUpdateInterval {
+extension UpdateInterval {
   /// Convert SUUpdateInterval to TimeInterval for passing it to the SPUUpdater.
   /// - Returns: the `TimeInterval`each case represents.
   public func toTimeInterval() -> TimeInterval {

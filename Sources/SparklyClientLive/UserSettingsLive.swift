@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SUUpdaterClient
+import SparklyClient
 
-extension SUUpdaterUserSettings {
+extension UpdaterUserSettings {
   /// Retrieve save settings from `UserDefaults`.
   /// - Parameter userDefault: a `UserDefaults` instance.
   public init(from userDefault: UserDefaults) {

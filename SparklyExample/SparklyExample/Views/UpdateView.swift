@@ -6,7 +6,7 @@
 //
 
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import SwiftUI
 
 struct CheckingForUpdatesView: View {
@@ -36,16 +36,16 @@ struct CheckingForUpdatesView: View {
 class UpdateViewModel: ObservableObject {
   @Binding var automaticallyCheckForUpdates: Bool
   @Published var update: AppcastItem?
-  @Published var downloadData: SUDownloadData?
-  var state: SUUserUpdateState?
-  var reply: Callback<SUUserUpdateState.Choice>?
+  @Published var downloadData: DownloadData?
+  var state: UserUpdateState?
+  var reply: Callback<UserUpdateState.Choice>?
   var cancelUpdate: Callback<Void>?
 
   private var cancellable: AnyCancellable?
 
   init(
     automaticallyCheckForUpdates: Binding<Bool>,
-    updateEventPublisher: AnyPublisher<SUUpdaterClient.UpdaterEvents, Never>
+    updateEventPublisher: AnyPublisher<UpdaterClient.UpdaterEvent, Never>
   ) {
     self._automaticallyCheckForUpdates = automaticallyCheckForUpdates
     self.cancellable = updateEventPublisher.sink { [weak self] in
@@ -53,7 +53,7 @@ class UpdateViewModel: ObservableObject {
     }
   }
 
-  private func handleEvent(event: SUUpdaterClient.UpdaterEvents) {
+  private func handleEvent(event: UpdaterClient.UpdaterEvent) {
     switch event {
     case .showUpdateReleaseNotes(let downloadData):
       self.downloadData = downloadData

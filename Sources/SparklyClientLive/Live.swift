@@ -6,10 +6,10 @@
 //
 import Combine
 import Foundation
-import SUUpdaterClient
+@_exported import SparklyClient
 import Sparkle
 
-extension SUUpdaterClient {
+extension UpdaterClient {
   /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
   public static func live(
     hostBundle: Bundle,
@@ -18,9 +18,9 @@ extension SUUpdaterClient {
 
     // The UserDriver: forwards delegate methods to publishers
     class UserDriver: NSObject, SPUUserDriver {
-      let eventSubject: PassthroughSubject<UpdaterEvents, Never>
+      let eventSubject: PassthroughSubject<UpdaterEvent, Never>
 
-      init(eventSubject: PassthroughSubject<UpdaterEvents, Never>) {
+      init(eventSubject: PassthroughSubject<UpdaterEvent, Never>) {
         self.eventSubject = eventSubject
         super.init()
       }
@@ -41,7 +41,7 @@ extension SUUpdaterClient {
         state: SPUUserUpdateState,
         reply: @escaping (SPUUserUpdateChoice) -> Void
       ) {
-        guard let userState = SUUserUpdateState(rawValue: state) else {
+        guard let userState = UserUpdateState(rawValue: state) else {
           return
         }
 
@@ -57,7 +57,7 @@ extension SUUpdaterClient {
       }
 
       func showUpdateReleaseNotes(with downloadData: SPUDownloadData) {
-        eventSubject.send(.showUpdateReleaseNotes(SUDownloadData(rawValue: downloadData)))
+        eventSubject.send(.showUpdateReleaseNotes(.init(rawValue: downloadData)))
 //        fatalError("Unimplemented")
       }
 
@@ -74,7 +74,7 @@ extension SUUpdaterClient {
       }
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        fatalError("Unimplemented")
+        eventSubject.send(.downloadInitiated(cancellation: Callback(cancellation)))
       }
 
       func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {
@@ -82,7 +82,7 @@ extension SUUpdaterClient {
       }
 
       func showDownloadDidReceiveData(ofLength length: UInt64) {
-        fatalError("Unimplemented")
+        eventSubject.send(.didReceiveData(length: length))
       }
 
       func showDownloadDidStartExtractingUpdate() {
@@ -121,8 +121,8 @@ extension SUUpdaterClient {
       }
     }
 
-    let actionSubject = PassthroughSubject<UpdaterActions, Never>()
-    let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
+    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
+    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
 
     // init sparkle updater
     let updater = SPUUpdater(
@@ -156,6 +156,8 @@ extension SUUpdaterClient {
           break
         case .updateUserSettings(let userSettings):
           updater.updateSettings(from: userSettings)
+        case .setHTTPHeaders(let newHTTPHeaders):
+          updater.httpHeaders = newHTTPHeaders
         }
       }
       .store(in: &cancellables)
@@ -236,7 +238,7 @@ extension AppcastItem {
 //  }
 //}
 
-extension SUUserUpdateState.Stage {
+extension UserUpdateState.Stage {
   init?(rawValue: SPUUserUpdateStage) {
     switch rawValue {
     case .downloaded:
@@ -254,7 +256,7 @@ extension SUUserUpdateState.Stage {
   }
 }
 
-extension SUUserUpdateState.Choice {
+extension UserUpdateState.Choice {
   func toSparkle() -> SPUUserUpdateChoice {
     switch self {
     case .skip:
@@ -267,9 +269,9 @@ extension SUUserUpdateState.Choice {
   }
 }
 
-extension SUUserUpdateState {
+extension UserUpdateState {
   init?(rawValue: SPUUserUpdateState) {
-    guard let stage = SUUserUpdateState.Stage(rawValue: rawValue.stage) else {
+    guard let stage = UserUpdateState.Stage(rawValue: rawValue.stage) else {
       return nil
     }
 
@@ -277,7 +279,7 @@ extension SUUserUpdateState {
   }
 }
 
-extension SUDownloadData {
+extension DownloadData {
   init(rawValue: SPUDownloadData) {
     self.init(data: rawValue.data, url: rawValue.url, textEncodingName: rawValue.textEncodingName, mimeType: rawValue.mimeType)
   }

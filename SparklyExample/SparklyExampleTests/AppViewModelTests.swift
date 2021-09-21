@@ -5,7 +5,7 @@
 //  Created by Till Hainbach on 09.06.21.
 //
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import XCTest
 
 @testable import SparklyExample
@@ -18,7 +18,7 @@ class AppViewModelTests: XCTestCase {
     // application mocks the boot of the application
     let application = PassthroughSubject<Notification, Never>()
     // updater and updaterHasStarted mock the updater and its state
-    let updater = PassthroughSubject<SUUpdaterClient.UpdaterEvents, Never>()
+    let updater = PassthroughSubject<UpdaterClient.UpdaterEvent, Never>()
     var updaterHasStarted = false
 
     let appViewModel = AppViewModel(

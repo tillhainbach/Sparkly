@@ -9,16 +9,20 @@ import Combine
 import Dispatch
 import Foundation
 
-extension SUUpdaterClient {
+extension UpdaterClient {
   /// A Mock SUUpdaterClient that simulate a *happy path*.
   public static var happyPath: Self {
-    let eventSubject = PassthroughSubject<UpdaterEvents, Never>()
-    let actionSubject = PassthroughSubject<UpdaterActions, Never>()
+    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
+    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
     var cancellables: Set<AnyCancellable> = []
 
     actionSubject
       .sink(receiveValue: { action in
         switch action {
+
+        case .setHTTPHeaders(let newHTTPHeaders):
+          print("Updating headers for \(newHTTPHeaders)")
+          break
 
         case .checkForUpdates:
           print("checking for updates")

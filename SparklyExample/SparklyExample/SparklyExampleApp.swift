@@ -5,20 +5,18 @@
 //  Created by Till Hainbach on 03.06.21.
 //
 import Combine
-import SUUpdaterClient
-import SUUpdaterClientLive
-import SparklyCommands
+import Sparkly
 import SwiftUI
 
 final class AppViewModel: ObservableObject {
 
   @Published var canCheckForUpdates = false
   @Published var updateCheckInProgress = false
-  let updaterClient: SUUpdaterClient
+  let updaterClient: UpdaterClient
   var cancellables: Set<AnyCancellable> = []
 
   init(
-    updaterClient: SUUpdaterClient,
+    updaterClient: UpdaterClient,
     applicationDidFinishLaunching: AnyPublisher<Notification, Never>
   ) {
     self.updaterClient = updaterClient
@@ -33,6 +31,9 @@ final class AppViewModel: ObservableObject {
       }
       .store(in: &cancellables)
 
+    // update http headers to work with GitHub
+    updaterClient.send(.setHTTPHeaders(["Accept": "application/octet-stream"]))
+
   }
 
   func checkForUpdates() {
@@ -40,7 +41,7 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.checkForUpdates)
   }
 
-  func updateSettings(_ settings: SUUpdaterUserSettings) {
+  func updateSettings(_ settings: UpdaterUserSettings) {
     updaterClient.send(.updateUserSettings(settings))
   }
 
@@ -59,7 +60,8 @@ final class AppViewModel: ObservableObject {
           self?.updateCheckInProgress = false
 
         case .showUpdateReleaseNotes(_),
-          .updateFound(_, _, _):
+          .updateFound(_, _, _),
+          .downloadInitiated(_):
           print("\(event)")
 
         default:
@@ -73,6 +75,8 @@ final class AppViewModel: ObservableObject {
 
 @main
 struct SparklyExampleApp: App {
+  // You can switch between pre-configured instances `liveUpdater` and `standardUpdater`
+  // for testing purposes.
   @StateObject private var appViewModel = liveUpdater
 
   var body: some Scene {
@@ -82,11 +86,11 @@ struct SparklyExampleApp: App {
           viewModel: .init(
             automaticallyCheckForUpdates: Binding(
               get: {
-                let settings = SUUpdaterUserSettings.init(from: UserDefaults.standard)
+                let settings = UpdaterUserSettings.init(from: UserDefaults.standard)
                 return settings.automaticallyCheckForUpdates
               },
               set: {
-                var settings = SUUpdaterUserSettings.init(from: UserDefaults.standard)
+                var settings = UpdaterUserSettings.init(from: UserDefaults.standard)
                 settings.automaticallyCheckForUpdates = $0
                 appViewModel.updateSettings(settings)
               }
@@ -101,7 +105,7 @@ struct SparklyExampleApp: App {
     Settings {
       SettingsView(
         viewModel: SparkleSettingsViewModel(
-          updaterSettings: SUUpdaterUserSettings.init(from: UserDefaults.standard),
+          updaterSettings: .init(from: UserDefaults.standard),
           onSettingsChanged: appViewModel.updateSettings(_:)
         )
       )
@@ -118,11 +122,15 @@ struct SparklyExampleApp: App {
 }
 
 extension SparklyExampleApp {
+  static let applicationDidFinishLaunchingPublisher = NotificationCenter.default
+    .publisher(for: NSApplication.didFinishLaunchingNotification)
+    .eraseToAnyPublisher()
+}
+
+extension SparklyExampleApp {
   static let standardUpdater = AppViewModel(
     updaterClient: .standard(hostBundle: .main, applicationBundle: .main),
-    applicationDidFinishLaunching: NotificationCenter.default
-      .publisher(for: NSApplication.didFinishLaunchingNotification)
-      .eraseToAnyPublisher()
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
 }
 
@@ -132,8 +140,6 @@ extension SparklyExampleApp {
       hostBundle: .main,
       applicationBundle: .main
     ),
-    applicationDidFinishLaunching: NotificationCenter.default
-      .publisher(for: NSApplication.didFinishLaunchingNotification)
-      .eraseToAnyPublisher()
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
 }

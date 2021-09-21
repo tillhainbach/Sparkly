@@ -6,7 +6,7 @@
 //
 
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import SwiftUI
 import WebKit
 
@@ -23,30 +23,10 @@ struct WebView: NSViewRepresentable {
 
 }
 
-//final class FoundUpdateViewModel: ObservableObject {
-//
-//
-//  init(
-//    update: AppcastItem,
-//    automaticallyCheckForUpdates: Binding<Bool>,
-//    skipUpdate: @escaping () -> Void,
-//    remindMeLater: @escaping () -> Vsoid,
-//    installUpdate: @escaping () -> Void,
-//  ) {
-//    self.update = update
-//    self.automaticallyCheckForUpdates = automaticallyCheckForUpdates
-//    self.skipUpdate = skipUpdate
-//    self.remindMeLater = remindMeLater
-//    self.installUpdate = installUpdate
-//
-//  }
-//
-//}
-
 struct FoundUpdateView: View {
 
   @Binding var automaticallyCheckForUpdates: Bool
-  @Binding var downloadData: SUDownloadData?
+  @Binding var downloadData: DownloadData?
   let update: AppcastItem
   let skipUpdate: () -> Void
   let remindMeLater: () -> Void

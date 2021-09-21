@@ -9,22 +9,22 @@ import Combine
 import Foundation
 
 /// SUUpdaterClient: Client-side Interface for Sparkle.
-public struct SUUpdaterClient {
+public struct UpdaterClient {
 
   // MARK: - Interface Methods
 
   /// Use this closure to send actions to the updater.
-  public var send: (UpdaterActions) -> Void
+  public var send: (UpdaterAction) -> Void
 
   /// A publisher that emits events from the updater.
-  public var updaterEventPublisher: AnyPublisher<UpdaterEvents, Never>
+  public var updaterEventPublisher: AnyPublisher<UpdaterEvent, Never>
 
   // MARK: - Initializer
 
   /// Initialize the UpdaterClient.
   public init(
-    send: @escaping (UpdaterActions) -> Void,
-    updaterEventPublisher: AnyPublisher<UpdaterEvents, Never>,
+    send: @escaping (UpdaterAction) -> Void,
+    updaterEventPublisher: AnyPublisher<UpdaterEvent, Never>,
     cancellables: Set<AnyCancellable>
   ) {
     self.send = send
@@ -37,7 +37,7 @@ public struct SUUpdaterClient {
   /// Events that the updater can emit.
   ///
   /// A detailed documentation of the corresponding `SPUUserDriver` methods can be found in the [header file](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUserDriver.h).
-  public enum UpdaterEvents: Equatable {
+  public enum UpdaterEvent: Equatable {
 
     /// This event is emitted if the updater failed on start. Holds the corresponding error as an associated value.
     case didFailOnStart(_ error: NSError)
@@ -52,7 +52,7 @@ public struct SUUpdaterClient {
     case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
 
     /// This event emits if the updater wants to show realease notes
-    case showUpdateReleaseNotes(SUDownloadData)
+    case showUpdateReleaseNotes(DownloadData)
 
     /// This event emits when an update check is initiated
     ///
@@ -64,21 +64,27 @@ public struct SUUpdaterClient {
     /// Use this event if you want to do
     case updateFound(
           update: AppcastItem,
-          state: SUUserUpdateState,
-          reply: Callback<SUUserUpdateState.Choice>
+          state: UserUpdateState,
+          reply: Callback<UserUpdateState.Choice>
          )
 
     /// Called when aborting or finishing an update.
     case dismissUpdateInstallation
+
+    /// Called when update download is initiated
+    case downloadInitiated(cancellation: Callback<Void>)
+
+    case didReceiveData(length: UInt64)
   }
 
   // MARK: - Interface Actions
 
   /// Actions that can be sent to the updater.
-  public enum UpdaterActions: Equatable {
+  public enum UpdaterAction: Equatable {
     case checkForUpdates
     case startUpdater
-    case updateUserSettings(SUUpdaterUserSettings)
+    case updateUserSettings(UpdaterUserSettings)
+    case setHTTPHeaders([String: String])
   }
 
   // MARK: - private cancellable
@@ -103,13 +109,13 @@ public struct Callback<T>: Equatable {
 }
 
 
-/// Wrapped for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h)
-public struct SUUserUpdateState: Equatable {
+/// Wrapper for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h)
+public struct UserUpdateState: Equatable {
 
   public var stage: Stage
   public var userInitiated: Bool
 
-  public init(stage: SUUserUpdateState.Stage, userInitiated: Bool) {
+  public init(stage: UserUpdateState.Stage, userInitiated: Bool) {
     self.stage = stage
     self.userInitiated = userInitiated
   }
@@ -133,7 +139,7 @@ public struct SUUserUpdateState: Equatable {
 
 }
 
-public struct SUDownloadData: Equatable {
+public struct DownloadData: Equatable {
 
   public let data: Data
   public let url: URL

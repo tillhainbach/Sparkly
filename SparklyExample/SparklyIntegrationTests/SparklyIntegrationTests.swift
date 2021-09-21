@@ -15,7 +15,7 @@ class SparklyIntegrationTests: XCTestCase {
   func test_StandardSparkle_DidStartOnApplicationLaunch() throws {
     let testBundle = Bundle(for: type(of: self))
 
-    let client = SUUpdaterClient.standard(hostBundle: testBundle, applicationBundle: testBundle)
+    let client = UpdaterClient.standard(hostBundle: testBundle, applicationBundle: testBundle)
 
     var canCheckForUpdates = false
 
@@ -45,14 +45,14 @@ class SparklyIntegrationTests: XCTestCase {
   func test_LiveSparkle_HappyPathFlow() throws {
     let testBundle = Bundle(for: type(of: self))
 
-    let client = SUUpdaterClient.live(
+    let client = UpdaterClient.live(
       hostBundle: testBundle,
       applicationBundle: testBundle,
       developerSettings: .happyPath
     )
 
     var canCheckForUpdates: [Bool] = [false]
-    var receivedEvents: [SUUpdaterClient.UpdaterEvents] = []
+    var receivedEvents: [UpdaterClient.UpdaterEvent] = []
 
     client.updaterEventPublisher
       .sink { event in

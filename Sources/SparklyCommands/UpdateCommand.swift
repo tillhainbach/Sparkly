@@ -6,7 +6,7 @@
 //
 
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import SwiftUI
 
 /// ViewModel to communicate changes from the Command.
