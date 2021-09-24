@@ -16,101 +16,9 @@ extension UpdaterClient {
   /// `Sparkly`, where  `Sparkle`'s standard UI is used.
   public static func standard(hostBundle: Bundle, applicationBundle: Bundle) -> Self {
 
-    // The UserDriver: forwards delegate methods to publishers
-    class UserDriver: NSObject, SPUUserDriver {
-      let userDriver: SPUUserDriver
-
-      init(hostBundle: Bundle) {
-        self.userDriver = SPUStandardUserDriver(hostBundle: hostBundle, delegate: nil)
-        super.init()
-      }
-
-      func show(
-        _ request: SPUUpdatePermissionRequest,
-        reply: @escaping (SUUpdatePermissionResponse) -> Void
-      ) {
-        userDriver.show(request, reply: reply)
-      }
-
-      func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
-        userDriver.showUserInitiatedUpdateCheck(cancellation: cancellation)
-      }
-
-      func showUpdateFound(
-        with appcastItem: SUAppcastItem,
-        state: SPUUserUpdateState,
-        reply: @escaping (SPUUserUpdateChoice) -> Void
-      ) {
-        userDriver.showUpdateFound(with: appcastItem, state: state, reply: reply)
-      }
-
-      func showUpdateReleaseNotes(with downloadData: SPUDownloadData) {
-        userDriver.showUpdateReleaseNotes(with: downloadData)
-      }
-
-      func showUpdateReleaseNotesFailedToDownloadWithError(_ error: Error) {
-        userDriver.showUpdateReleaseNotesFailedToDownloadWithError(error)
-      }
-
-      func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        userDriver.showUpdateNotFoundWithError(error, acknowledgement: acknowledgement)
-      }
-
-      func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        userDriver.showUpdaterError(error, acknowledgement: acknowledgement)
-      }
-
-      func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        userDriver.showDownloadInitiated(cancellation: cancellation)
-      }
-
-      func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {
-        userDriver.showDownloadDidReceiveExpectedContentLength(expectedContentLength)
-      }
-
-      func showDownloadDidReceiveData(ofLength length: UInt64) {
-        userDriver.showDownloadDidReceiveData(ofLength: length)
-      }
-
-      func showDownloadDidStartExtractingUpdate() {
-        userDriver.showDownloadDidStartExtractingUpdate()
-      }
-
-      func showExtractionReceivedProgress(_ progress: Double) {
-        userDriver.showExtractionReceivedProgress(progress)
-      }
-
-      func showInstallingUpdate() {
-        userDriver.showInstallingUpdate()
-      }
-
-      func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
-        userDriver.showReady(toInstallAndRelaunch: reply)
-      }
-
-      func showSendingTerminationSignal() {
-        userDriver.showSendingTerminationSignal()
-      }
-
-      func showUpdateInstalledAndRelaunched(
-        _ relaunched: Bool,
-        acknowledgement: @escaping () -> Void
-      ) {
-        userDriver.showUpdateInstalledAndRelaunched(relaunched, acknowledgement: acknowledgement)
-      }
-
-      func showUpdateInFocus() {
-        userDriver.showUpdateInFocus()
-      }
-
-      func dismissUpdateInstallation() {
-        userDriver.dismissUpdateInstallation()
-      }
-    }
-
     let actionSubject = PassthroughSubject<Action, Never>()
     let eventSubject = PassthroughSubject<Event, Never>()
-    let userDriver = UserDriver(hostBundle: hostBundle)
+    let userDriver = SPUStandardUserDriver(hostBundle: hostBundle, delegate: nil)
 
     // init sparkle updater
     let updater = SPUUpdater(
@@ -140,21 +48,17 @@ extension UpdaterClient {
           } catch {
             eventSubject.send(.failure(error as NSError))
           }
-          break
 
         case .checkForUpdates:
           updater.checkForUpdates()
-          break
+
         case .updateUserSettings(let userSettings):
           updater.updateSettings(from: userSettings)
 
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
 
-        case .cancel:
-          break
-
-        case .reply:
+        case .cancel, .reply:
           break
         }
       }
@@ -162,9 +66,7 @@ extension UpdaterClient {
 
     return Self(
       send: actionSubject.send(_:),
-      updaterEventPublisher:
-        eventSubject
-        .eraseToAnyPublisher(),
+      updaterEventPublisher: eventSubject.eraseToAnyPublisher(),
       cancellables: cancellables
     )
   }
