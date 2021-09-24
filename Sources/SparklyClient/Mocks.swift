@@ -12,8 +12,8 @@ import Foundation
 extension UpdaterClient {
   /// A Mock SUUpdaterClient that simulate a *happy path*.
   public static var happyPath: Self {
-    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
-    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
+    let eventSubject = PassthroughSubject<Event, Never>()
+    let actionSubject = PassthroughSubject<Action, Never>()
     var cancellables: Set<AnyCancellable> = []
 
     actionSubject
@@ -32,6 +32,11 @@ extension UpdaterClient {
           break
         case .updateUserSettings:
           print("changing update settings")
+          break
+        case .cancel:
+          break
+
+        case .reply:
           break
         }
 

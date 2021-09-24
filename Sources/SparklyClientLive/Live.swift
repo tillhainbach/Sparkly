@@ -18,9 +18,13 @@ extension UpdaterClient {
 
     // The UserDriver: forwards delegate methods to publishers
     class UserDriver: NSObject, SPUUserDriver {
-      let eventSubject: PassthroughSubject<UpdaterEvent, Never>
+      let eventSubject: PassthroughSubject<Event, Never>
+      var cancelCallback: (() -> Void)?
+      var replyCallback: ((SPUUserUpdateChoice) -> Void)?
+      var totalDownloadData = 0.0
+      var totalDataReceived = 0.0
 
-      init(eventSubject: PassthroughSubject<UpdaterEvent, Never>) {
+      init(eventSubject: PassthroughSubject<Event, Never>) {
         self.eventSubject = eventSubject
         super.init()
       }
@@ -33,7 +37,8 @@ extension UpdaterClient {
       }
 
       func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
-        eventSubject.send(.updateCheckInitiated(cancellation: Callback(cancellation)))
+        self.cancelCallback = cancellation
+        eventSubject.send(.updateCheckInitiated)
       }
 
       func showUpdateFound(
@@ -45,20 +50,17 @@ extension UpdaterClient {
           return
         }
 
+        self.replyCallback = reply
         eventSubject.send(
           .updateFound(
             update: AppcastItem(rawValue: appcastItem),
-            state: userState,
-            reply: Callback { choice in
-              reply(choice.toSparkle())
-            }
+            state: userState
           )
         )
       }
 
       func showUpdateReleaseNotes(with downloadData: SPUDownloadData) {
         eventSubject.send(.showUpdateReleaseNotes(.init(rawValue: downloadData)))
-//        fatalError("Unimplemented")
       }
 
       func showUpdateReleaseNotesFailedToDownloadWithError(_ error: Error) {
@@ -66,54 +68,72 @@ extension UpdaterClient {
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        eventSubject.send(.showUpdaterError(error as NSError, acknowledgement: .init(acknowledgement)))
+        self.cancelCallback = acknowledgement
+        eventSubject.send(.failure(error as NSError))
       }
 
       func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        eventSubject.send(.showUpdaterError(error as NSError, acknowledgement: .init(acknowledgement)))
+        self.cancelCallback = acknowledgement
+        eventSubject.send(.failure(error as NSError))
       }
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        eventSubject.send(.downloadInitiated(cancellation: Callback(cancellation)))
+        cancelCallback = cancellation
+        eventSubject.send(.downloadInFlight(total: 0, completed: 0))
       }
 
       func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {
-        fatalError("Unimplemented")
+        self.totalDownloadData = Double(expectedContentLength)
+        self.totalDataReceived = 0.0
+        eventSubject.send(.downloadInFlight(total: self.totalDownloadData, completed: 0))
       }
 
       func showDownloadDidReceiveData(ofLength length: UInt64) {
-        eventSubject.send(.didReceiveData(length: length))
+        self.totalDataReceived += Double(length)
+        eventSubject.send(.downloadInFlight(total: self.totalDownloadData, completed: self.totalDataReceived))
       }
 
       func showDownloadDidStartExtractingUpdate() {
-        fatalError("Unimplemented")
+        eventSubject.send(.extractingUpdate(completed: 0))
       }
 
       func showExtractionReceivedProgress(_ progress: Double) {
-        fatalError("Unimplemented")
+        eventSubject.send(.extractingUpdate(completed: progress))
       }
 
       func showInstallingUpdate() {
-        fatalError("Unimplemented")
+        eventSubject.send(.installing)
       }
 
       func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
-        fatalError("Unimplemented")
+        replyCallback = reply
+        eventSubject.send(.readyToRelaunch)
       }
 
       func showSendingTerminationSignal() {
-        fatalError("Unimplemented")
+        eventSubject.send(.terminationSignal)
+//        fatalError("Unimplemented")
       }
 
       func showUpdateInstalledAndRelaunched(
         _ relaunched: Bool,
         acknowledgement: @escaping () -> Void
       ) {
-        fatalError("Unimplemented")
+        #if DEBUG
+        print("""
+        `showUpdateInstalledAndRelaunched` is currently not implemented.
+        If you will like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+        """)
+        #endif
       }
 
       func showUpdateInFocus() {
-        fatalError("Unimplemented")
+        #if DEBUG
+        print("""
+        `showUpdateInFocus` is currently not implemented.
+        If you will like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+        """)
+        #endif
       }
 
       func dismissUpdateInstallation() {
@@ -121,22 +141,25 @@ extension UpdaterClient {
       }
     }
 
-    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
-    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
+    let actionSubject = PassthroughSubject<Action, Never>()
+    let eventSubject = PassthroughSubject<Event, Never>()
+    let userDriver = UserDriver(eventSubject: eventSubject)
 
     // init sparkle updater
     let updater = SPUUpdater(
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
-      userDriver: UserDriver(eventSubject: eventSubject),
+      userDriver: userDriver,
       delegate: nil
     )
 
-    // listen on canCheckForUpdates
-
     var cancellables: Set<AnyCancellable> = []
-    updater.publisher(for: \.canCheckForUpdates)
-      .sink { eventSubject.send(.canCheckForUpdates($0)) }
+    // FIXME: `.canCheckForUpdates` is not KVO-compliant, falling back to `.sessionInProgress`
+    // Don't forget to send `.canCheckForUpdates` on `updater.start()`
+    updater.publisher(for: \.sessionInProgress)
+      .sink { _ in
+        eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
+      }
       .store(in: &cancellables)
 
     actionSubject
@@ -147,17 +170,29 @@ extension UpdaterClient {
             try updater.start()
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
-            eventSubject.send(.didFailOnStart(error as NSError))
+            eventSubject.send(.failure(error as NSError))
           }
           break
 
         case .checkForUpdates:
           updater.checkForUpdates()
           break
+
         case .updateUserSettings(let userSettings):
           updater.updateSettings(from: userSettings)
+          break
+
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
+          break
+
+        case .cancel:
+          userDriver.cancelCallback?()
+          break
+
+        case .reply(let choice):
+          userDriver.replyCallback?(choice.toSparkle())
+          break
         }
       }
       .store(in: &cancellables)
@@ -172,23 +207,23 @@ extension UpdaterClient {
   }
 }
 
-extension UpdateCheck {
-  init?(rawValue: SPUUpdateCheck) {
-    switch rawValue {
-    case .updates:
-      self = .checkUpdates
-      break
-    case .updatesInBackground:
-      self = .checkUpdatesInBackground
-      break
-    case .updateInformation:
-      self = .checkUpdateInformation
-      break
-    @unknown default:
-      return nil
-    }
-  }
-}
+//extension UpdateCheck {
+//  init?(rawValue: SPUUpdateCheck) {
+//    switch rawValue {
+//    case .updates:
+//      self = .checkUpdates
+//      break
+//    case .updatesInBackground:
+//      self = .checkUpdatesInBackground
+//      break
+//    case .updateInformation:
+//      self = .checkUpdateInformation
+//      break
+//    @unknown default:
+//      return nil
+//    }
+//  }
+//}
 
 final class VersionComparison: SUVersionComparison {
   let compareVersions: (String, String) -> ComparisonResult

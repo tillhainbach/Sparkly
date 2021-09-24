@@ -10,6 +10,12 @@ import SparklyClient
 import SwiftUI
 import WebKit
 
+extension Bundle {
+  var appVersion: String {
+    Self.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+  }
+}
+
 struct WebView: NSViewRepresentable {
   let request: URLRequest
 
@@ -31,6 +37,7 @@ struct FoundUpdateView: View {
   let skipUpdate: () -> Void
   let remindMeLater: () -> Void
   let installUpdate: () -> Void
+  let currentVersion = Bundle.main.appVersion
 
   var body: some View {
     HStack {
@@ -45,12 +52,12 @@ struct FoundUpdateView: View {
           VStack(alignment: .leading) {
             Text("A new Version of Example")
               .font(.headline)
-            Text(
-              "Example \(update.displayVersionString ?? "") is now available - you have v1.0. Would you like to download it now?"
-            )
-
+            Text("Example \(update.displayVersionString ?? "") is now available -")
+              + Text("you have \(currentVersion). Would you like to download it now?")
           }
         }
+        .padding(.bottom)
+
         if let downloadData = downloadData {
           VStack(alignment: .leading) {
             Text("Release Notes:")

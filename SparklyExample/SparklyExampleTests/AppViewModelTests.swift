@@ -18,7 +18,7 @@ class AppViewModelTests: XCTestCase {
     // application mocks the boot of the application
     let application = PassthroughSubject<Notification, Never>()
     // updater and updaterHasStarted mock the updater and its state
-    let updater = PassthroughSubject<UpdaterClient.UpdaterEvent, Never>()
+    let updater = PassthroughSubject<UpdaterClient.Event, Never>()
     var updaterHasStarted = false
 
     let appViewModel = AppViewModel(

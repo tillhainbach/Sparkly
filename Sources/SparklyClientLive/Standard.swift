@@ -108,21 +108,26 @@ extension UpdaterClient {
       }
     }
 
-    let actionSubject = PassthroughSubject<UpdaterAction, Never>()
-    let eventSubject = PassthroughSubject<UpdaterEvent, Never>()
+    let actionSubject = PassthroughSubject<Action, Never>()
+    let eventSubject = PassthroughSubject<Event, Never>()
+    let userDriver = UserDriver(hostBundle: hostBundle)
 
     // init sparkle updater
     let updater = SPUUpdater(
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
-      userDriver: UserDriver(hostBundle: hostBundle),
+      userDriver: userDriver,
       delegate: nil
     )
 
-    // listen on canCheckForUpdates
     var cancellables: Set<AnyCancellable> = []
-    updater.publisher(for: \.canCheckForUpdates)
-      .sink { eventSubject.send(.canCheckForUpdates($0)) }
+
+    // FIXME: `.canCheckForUpdates` is not KVO-compliant, falling back to `.sessionInProgress`
+    // Don't forget to send `.canCheckForUpdates` on `updater.start()`
+    updater.publisher(for: \.sessionInProgress)
+      .sink { _ in
+        eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
+      }
       .store(in: &cancellables)
 
     actionSubject
@@ -133,7 +138,7 @@ extension UpdaterClient {
             try updater.start()
             eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
-            eventSubject.send(.didFailOnStart(error as NSError))
+            eventSubject.send(.failure(error as NSError))
           }
           break
 
@@ -146,6 +151,11 @@ extension UpdaterClient {
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
 
+        case .cancel:
+          break
+
+        case .reply:
+          break
         }
       }
       .store(in: &cancellables)

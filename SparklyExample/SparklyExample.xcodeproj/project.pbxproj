@@ -601,6 +601,7 @@
 				CODE_SIGN_ENTITLEMENTS = SparklyExample/SparklyExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SparklyExample/Preview Content\"";
 				DEVELOPMENT_TEAM = H267SUYVMM;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -611,6 +612,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -625,6 +627,7 @@
 				CODE_SIGN_ENTITLEMENTS = SparklyExample/SparklyExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SparklyExample/Preview Content\"";
 				DEVELOPMENT_TEAM = H267SUYVMM;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -635,6 +638,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

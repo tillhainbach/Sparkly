@@ -14,17 +14,17 @@ public struct UpdaterClient {
   // MARK: - Interface Methods
 
   /// Use this closure to send actions to the updater.
-  public var send: (UpdaterAction) -> Void
+  public var send: (Action) -> Void
 
   /// A publisher that emits events from the updater.
-  public var updaterEventPublisher: AnyPublisher<UpdaterEvent, Never>
+  public var updaterEventPublisher: AnyPublisher<Event, Never>
 
   // MARK: - Initializer
 
   /// Initialize the UpdaterClient.
   public init(
-    send: @escaping (UpdaterAction) -> Void,
-    updaterEventPublisher: AnyPublisher<UpdaterEvent, Never>,
+    send: @escaping (Action) -> Void,
+    updaterEventPublisher: AnyPublisher<Event, Never>,
     cancellables: Set<AnyCancellable>
   ) {
     self.send = send
@@ -37,10 +37,12 @@ public struct UpdaterClient {
   /// Events that the updater can emit.
   ///
   /// A detailed documentation of the corresponding `SPUUserDriver` methods can be found in the [header file](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUserDriver.h).
-  public enum UpdaterEvent: Equatable {
+  public enum Event: Equatable {
 
-    /// This event is emitted if the updater failed on start. Holds the corresponding error as an associated value.
-    case didFailOnStart(_ error: NSError)
+    /// This event is emitted if the updater fails. Holds the corresponding error as an associated value.
+    case failure(_ error: NSError)
+
+//    case statusChanged(Status)
     /// This event is emitted whenever the updater's `canCheckForUpdates`-property changes.
     /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
@@ -49,42 +51,56 @@ public struct UpdaterClient {
     ///
     /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
     /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
-    case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
+//    case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
 
-    /// This event emits if the updater wants to show realease notes
+    /// This event emits if the updater wants to show release notes
     case showUpdateReleaseNotes(DownloadData)
 
     /// This event emits when an update check is initiated
     ///
     /// Use this event to notify the user that an update was initiated. Use the Callback to hook up a `Cancel`-button
-    case updateCheckInitiated(cancellation: Callback<Void>)
+    case updateCheckInitiated
 
     /// This event emits when a valid update hast been found
     ///
     /// Use this event if you want to do
-    case updateFound(
-          update: AppcastItem,
-          state: UserUpdateState,
-          reply: Callback<UserUpdateState.Choice>
-         )
+    case updateFound(update: AppcastItem, state: UserUpdateState)
 
     /// Called when aborting or finishing an update.
     case dismissUpdateInstallation
 
     /// Called when update download is initiated
-    case downloadInitiated(cancellation: Callback<Void>)
+    case downloadInFlight(total: Double, completed: Double)
 
-    case didReceiveData(length: UInt64)
+    case extractingUpdate(completed: Double)
+
+    case installing
+
+    case readyToRelaunch
+
+    case terminationSignal
+
+  }
+
+  public enum Status: Equatable {
+    case idle
+    case checking
+    case downloading(total: Double, completed: Double)
+    case extracting(completed: Double)
+    case installing
+    case readyToRelaunch
   }
 
   // MARK: - Interface Actions
 
   /// Actions that can be sent to the updater.
-  public enum UpdaterAction: Equatable {
+  public enum Action: Equatable {
     case checkForUpdates
     case startUpdater
     case updateUserSettings(UpdaterUserSettings)
     case setHTTPHeaders([String: String])
+    case cancel
+    case reply(UserUpdateState.Choice)
   }
 
   // MARK: - private cancellable
@@ -93,21 +109,6 @@ public struct UpdaterClient {
   private var cancellables: Set<AnyCancellable>
 
 }
-
-public struct Callback<T>: Equatable {
-
-  // set all callbacks to be the same
-  public static func == (lhs: Callback<T>, rhs: Callback<T>) -> Bool {
-    return true
-  }
-
-  public let run: (T) -> Void
-
-  public init(_ callback: @escaping (T) -> Void) {
-    run = callback
-  }
-}
-
 
 /// Wrapper for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h)
 public struct UserUpdateState: Equatable {
