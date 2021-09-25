@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>SparklyIntegrationTests</title>
+        <item>
+            <title>0.0.2</title>
+            <pubDate>Fri, 24 Sep 2021 21:49:37 +0200</pubDate>
+            <sparkle:version>0.0.2</sparkle:version>
+            <sparkle:shortVersionString>0.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://127.0.0.1:8080/SparklyIntegrationTests.zip" length="1851383" type="application/octet-stream" sparkle:edSignature="ilHBzTfOz9YH8JpgANNgXM74ZwWwwAHFsPEpmKRnrewEVFLma1x5Pe0gYwO3uKuo4KMo0FALiPR4FSE5hDRuBg=="/>
+        </item>
+    </channel>
+</rss>

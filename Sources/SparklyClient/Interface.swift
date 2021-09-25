@@ -40,18 +40,14 @@ public struct UpdaterClient {
   public enum Event: Equatable {
 
     /// This event is emitted if the updater fails. Holds the corresponding error as an associated value.
+    ///
+    /// The `failure` event is totally agnostic to which caused the failure. It's up to the subscriber to handle the error
+    /// and e.g. show an appropriate alert. Some errors by need to be acknowledged by sending  `Action.cancel` to the updater
     case failure(_ error: NSError)
 
-//    case statusChanged(Status)
     /// This event is emitted whenever the updater's `canCheckForUpdates`-property changes.
     /// Useful for en- or disabling UI-Elements that allow a manual update check.
     case canCheckForUpdates(Bool)
-
-    /// This event emits updater errors.
-    ///
-    /// Use this event to show an alert to the user. Additionally, you nee to hook up the acknowledge callback to the
-    /// `Cancel Update` or `Dismiss` button to tell the updater that the error was shown and acknowledged.
-//    case showUpdaterError(_ error: NSError, acknowledgement: Callback<Void>)
 
     /// This event emits if the updater wants to show release notes
     case showUpdateReleaseNotes(DownloadData)
@@ -66,10 +62,10 @@ public struct UpdaterClient {
     /// Use this event if you want to do
     case updateFound(update: AppcastItem, state: UserUpdateState)
 
-    /// Called when aborting or finishing an update.
+    /// Called when aborting an update.
     case dismissUpdateInstallation
 
-    /// Called when update download is initiated
+    /// Called when update download is initiated or new data was received.
     case downloadInFlight(total: Double, completed: Double)
 
     case extractingUpdate(completed: Double)

@@ -42,6 +42,8 @@ appcast:
 
 release: archive zip appcast
 
+test-server:
+	http-server SparklyExample/SparklyIntegrationTests/fixtures -S -C dev/server/cert.pem Product -K dev/server/key.pem
 
 server:
 	http-server Product -S -C dev/server/cert.pem Product -K dev/server/key.pem

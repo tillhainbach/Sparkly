@@ -15,10 +15,12 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0.0.1</string>
 	<key>SUPublicEDKey</key>
 	<string>wgwpqsNI7GNLBxsAOr9C3YHC3zO0QwdgTUYze9DcNRE=</string>
+	<key>SUFeedURL</key>
+	<string>https://127.0.0.1:8080/appcast.xml</string>
 </dict>
 </plist>

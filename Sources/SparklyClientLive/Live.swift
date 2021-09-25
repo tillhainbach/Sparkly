@@ -64,7 +64,7 @@ extension UpdaterClient {
       }
 
       func showUpdateReleaseNotesFailedToDownloadWithError(_ error: Error) {
-        fatalError("Unimplemented")
+        eventSubject.send(.failure(error as NSError))
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
@@ -112,7 +112,6 @@ extension UpdaterClient {
 
       func showSendingTerminationSignal() {
         eventSubject.send(.terminationSignal)
-//        fatalError("Unimplemented")
       }
 
       func showUpdateInstalledAndRelaunched(
@@ -188,10 +187,12 @@ extension UpdaterClient {
 
         case .cancel:
           userDriver.cancelCallback?()
+          userDriver.cancelCallback = nil
           break
 
         case .reply(let choice):
           userDriver.replyCallback?(choice.toSparkle())
+          userDriver.replyCallback = nil
           break
         }
       }
@@ -207,115 +208,3 @@ extension UpdaterClient {
   }
 }
 
-//extension UpdateCheck {
-//  init?(rawValue: SPUUpdateCheck) {
-//    switch rawValue {
-//    case .updates:
-//      self = .checkUpdates
-//      break
-//    case .updatesInBackground:
-//      self = .checkUpdatesInBackground
-//      break
-//    case .updateInformation:
-//      self = .checkUpdateInformation
-//      break
-//    @unknown default:
-//      return nil
-//    }
-//  }
-//}
-
-final class VersionComparison: SUVersionComparison {
-  let compareVersions: (String, String) -> ComparisonResult
-
-  init(compareVersions: @escaping (String, String) -> ComparisonResult) {
-    self.compareVersions = compareVersions
-  }
-
-  func compareVersion(_ versionA: String, toVersion versionB: String) -> ComparisonResult {
-    return self.compareVersions(versionA, versionB)
-  }
-
-
-}
-
-extension AppcastItem {
-  init(rawValue: SUAppcastItem) {
-    self.init(
-      versionString: rawValue.versionString,
-      displayVersionString: rawValue.displayVersionString,
-      fileURL: rawValue.fileURL,
-      contentLength: rawValue.contentLength,
-      infoURL: rawValue.infoURL,
-      isInformationOnlyUpdate: rawValue.isInformationOnlyUpdate,
-      title: rawValue.title,
-      dateString: rawValue.dateString,
-      date: rawValue.date,
-      releaseNotesURL: rawValue.releaseNotesURL,
-      itemDescription: rawValue.itemDescription,
-      minimumSystemVersion: rawValue.minimumSystemVersion,
-      maximumSystemVersion: rawValue.maximumSystemVersion,
-      installationType: rawValue.installationType,
-      phasedRolloutInterval: rawValue.phasedRolloutInterval,
-      propertiesDictionary: rawValue.propertiesDictionary as! [AnyHashable: AnyHashable]
-    )
-  }
-
-  func toSparkle() -> SUAppcastItem {
-    fatalError()
-  }
-}
-
-//extension Appcast {
-//
-//  init(rawValue: SUAppcast) {
-//    self.init(items: rawValue.items.map { .init(rawValue: $0) })
-//  }
-//}
-
-extension UserUpdateState.Stage {
-  init?(rawValue: SPUUserUpdateStage) {
-    switch rawValue {
-    case .downloaded:
-      self = .downloaded
-      break
-    case .notDownloaded:
-      self = .notDownloaded
-      break
-    case .installing:
-      self = .installing
-      break
-    @unknown default:
-      return nil
-    }
-  }
-}
-
-extension UserUpdateState.Choice {
-  func toSparkle() -> SPUUserUpdateChoice {
-    switch self {
-    case .skip:
-      return .skip
-    case .install:
-      return .install
-    case .dismiss:
-      return .dismiss
-    }
-  }
-}
-
-extension UserUpdateState {
-  init?(rawValue: SPUUserUpdateState) {
-    guard let stage = UserUpdateState.Stage(rawValue: rawValue.stage) else {
-      return nil
-    }
-
-    self.init(stage: stage, userInitiated: rawValue.userInitiated)
-  }
-}
-
-extension DownloadData {
-  init(rawValue: SPUDownloadData) {
-    self.init(data: rawValue.data, url: rawValue.url, textEncodingName: rawValue.textEncodingName, mimeType: rawValue.mimeType)
-  }
-}
