@@ -1,13 +1,12 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 24.09.21.
 //
 
 import Sparkle
 import SparklyClient
-
 
 extension AppcastItem {
   init(rawValue: SUAppcastItem) {
@@ -35,12 +34,17 @@ extension AppcastItem {
 
 extension DownloadData {
   init(rawValue: SPUDownloadData) {
-    self.init(data: rawValue.data, url: rawValue.url, textEncodingName: rawValue.textEncodingName, mimeType: rawValue.mimeType)
+    self.init(
+      data: rawValue.data,
+      url: rawValue.url,
+      textEncodingName: rawValue.textEncodingName,
+      mimeType: rawValue.mimeType
+    )
   }
 }
 
 extension SPUUpdater {
-  func updateSettings(from userSettings: UpdaterUserSettings) {
+  func updateSettings(from userSettings: UpdaterSettings) {
     self.automaticallyChecksForUpdates = userSettings.automaticallyCheckForUpdates
     self.automaticallyDownloadsUpdates = userSettings.automaticallyDownloadUpdates
     self.sendsSystemProfile = userSettings.sendSystemProfile
@@ -48,7 +52,7 @@ extension SPUUpdater {
   }
 }
 
-extension UpdaterUserSettings {
+extension UpdaterSettings {
   /// Retrieve save settings from `UserDefaults`.
   /// - Parameter userDefault: a `UserDefaults` instance.
   public init(from userDefault: UserDefaults) {
@@ -115,5 +119,3 @@ extension UserUpdateState {
     self.init(stage: stage, userInitiated: rawValue.userInitiated)
   }
 }
-
-
