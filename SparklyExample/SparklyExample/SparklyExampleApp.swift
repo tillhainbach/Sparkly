@@ -88,6 +88,22 @@ final class AppViewModel: ObservableObject {
       }
       .store(in: &cancellables)
   }
+
+  func bindingForSetting<Value>(
+    on keyPath: WritableKeyPath<UpdaterSettings, Value>
+  ) -> Binding<Value> {
+    Binding(
+      get: {
+        let settings = UpdaterSettings.init(from: UserDefaults.standard)
+        return settings[keyPath: keyPath]
+      },
+      set: { [weak self] in
+        var settings = UpdaterSettings.init(from: UserDefaults.standard)
+        settings[keyPath: keyPath] = $0
+        self?.updateSettings(settings)
+      }
+    )
+  }
 }
 
 @main
@@ -102,16 +118,8 @@ struct SparklyExampleApp: App {
         if self.appViewModel.updateCheckInProgress {
           UpdateView(
             viewModel: .init(
-              automaticallyCheckForUpdates: Binding(
-                get: {
-                  let settings = UpdaterSettings.init(from: UserDefaults.standard)
-                  return settings.automaticallyCheckForUpdates
-                },
-                set: {
-                  var settings = UpdaterSettings.init(from: UserDefaults.standard)
-                  settings.automaticallyCheckForUpdates = $0
-                  appViewModel.updateSettings(settings)
-                }
+              automaticallyCheckForUpdates: appViewModel.bindingForSetting(
+                on: \.automaticallyCheckForUpdates
               ),
               updateEventPublisher: appViewModel.updaterClient.updaterEventPublisher,
               cancelUpdate: appViewModel.cancel,
@@ -164,84 +172,7 @@ extension SparklyExampleApp {
 
 extension SparklyExampleApp {
   static let liveUpdater = AppViewModel(
-    updaterClient: .live(
-      hostBundle: .main,
-      applicationBundle: .main
-    ),
+    updaterClient: .live(hostBundle: .main, applicationBundle: .main),
     applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
-}
-
-extension SparklyExampleApp {
-  static let mockUpdater = AppViewModel(
-    updaterClient: .appMock,
-    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
-  )
-}
-
-extension UpdaterClient {
-  static var appMock: Self {
-    let mockUpdater = PassthroughSubject<UpdaterClient.Action, Never>()
-    let publisher = PassthroughSubject<UpdaterClient.Event, Never>()
-    var cancellables: Set<AnyCancellable> = []
-
-    mockUpdater
-      .sink { action in
-        switch action {
-        case .checkForUpdates:
-          publisher.send(.canCheckForUpdates(false))
-          publisher.send(.updateCheck(.checking))
-          DispatchQueue.main.asyncAfter(deadline: .now().advanced(by: .seconds(1))) {
-            publisher.send(.updateCheck(.extracting(completed: 0.0)))
-          }
-          (0...100)
-            .forEach { i in
-              DispatchQueue.main.asyncAfter(
-                deadline: .now().advanced(by: .milliseconds(1020 + i * 100))
-              ) {
-                publisher.send(.updateCheck(.extracting(completed: Double(i) / 100.0)))
-              }
-            }
-
-        case .startUpdater:
-          publisher.send(.canCheckForUpdates(true))
-
-        case .updateUserSettings(_):
-          break
-
-        case .setHTTPHeaders(_):
-          break
-
-        case .cancel:
-          publisher.send(.dismissUpdateInstallation)
-          publisher.send(.canCheckForUpdates(true))
-          break
-
-        case .reply(let response):
-          switch response {
-          case .skip:
-            publisher.send(.dismissUpdateInstallation)
-            mockUpdater.send(.cancel)
-
-          case .install:
-            break
-
-          case .dismiss:
-            publisher.send(.dismissUpdateInstallation)
-            mockUpdater.send(.cancel)
-
-          }
-
-          break
-        }
-
-      }
-      .store(in: &cancellables)
-
-    return .init(
-      send: mockUpdater.send(_:),
-      updaterEventPublisher: publisher.eraseToAnyPublisher(),
-      cancellables: cancellables
-    )
-  }
 }

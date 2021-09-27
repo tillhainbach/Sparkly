@@ -13,14 +13,16 @@ import XCTest
 class AppViewModelTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
 
-  func testAppDidStartUpdaterOnLaunch() throws {
+  func test_startsUpdateCheckSessionAndCanBeCancelled() throws {
 
     // Mocks
     // application mocks the boot of the application
     let application = PassthroughSubject<Notification, Never>()
     // updater and updaterHasStarted mock the updater and its state
     let updater = PassthroughSubject<UpdaterClient.Event, Never>()
+
     var updaterHasStarted = false
+    var updateHTTPHeadersHaveBeenSet = false
 
     let appViewModel = AppViewModel(
       updaterClient: .init(
@@ -30,15 +32,22 @@ class AppViewModelTests: XCTestCase {
             updaterHasStarted = true  // set mock to have been started
             // notify app that the updater is ready to check for updates
             updater.send(.canCheckForUpdates(true))
-            break
+
+          case .checkForUpdates:
+            updater.send(.canCheckForUpdates(false))
+            updater.send(.updateCheck(.checking))
+
+          case .cancel:
+            updater.send(.dismissUpdateInstallation)
+            updater.send(.canCheckForUpdates(true))
 
           case .setHTTPHeaders(_):
-            break
+            updateHTTPHeadersHaveBeenSet = true
 
           default:
             // Fail test if any other action has been sent as a response to application launch
             XCTFail("The action \(action) should not have been sent!")
-            break
+
           }
         },
         updaterEventPublisher: updater.eraseToAnyPublisher(),
@@ -49,17 +58,28 @@ class AppViewModelTests: XCTestCase {
 
     // assert on fixtures
     XCTAssertFalse(updaterHasStarted)
+    XCTAssertTrue(updateHTTPHeadersHaveBeenSet)
     XCTAssertFalse(appViewModel.canCheckForUpdates)
 
     // mock application launch
     application.send(Notification(name: NSApplication.didFinishLaunchingNotification))
 
-    // assert mock updater has been started
+    // assert mock updater has been started and headers have been set.
     XCTAssertTrue(updaterHasStarted)
+    XCTAssertTrue(updateHTTPHeadersHaveBeenSet)
 
     // assert appViewModel can check for updates
     XCTAssertTrue(appViewModel.canCheckForUpdates)
 
+    appViewModel.checkForUpdates()
+
+    XCTAssertFalse(appViewModel.canCheckForUpdates)
+    XCTAssertTrue(appViewModel.updateCheckInProgress)
+
+    appViewModel.cancel()
+
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    XCTAssertFalse(appViewModel.updateCheckInProgress)
   }
 
 }

@@ -25,6 +25,9 @@
 		2B80537A2700B72500749046 /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8053792700B72500749046 /* Sparkly */; };
 		2B80537E2700B78A00749046 /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2B80537D2700B78A00749046 /* Sparkly */; };
 		2B8053802701FED200749046 /* UpdateViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80537F2701FED200749046 /* UpdateViewModelTests.swift */; };
+		2B8053892702240000749046 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8053882702240000749046 /* SnapshotTesting */; };
+		2B80538B270237DF00749046 /* SparklyClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B80538A270237DF00749046 /* SparklyClient */; };
+		2B80539227024E2D00749046 /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 2B80539127024E2D00749046 /* CombineSchedulers */; };
 		2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
 		2B86D2B12668C739007F9350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
 		2B86D2B32668C73C007F9350 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B22668C73C007F9350 /* Assets.xcassets */; };
@@ -122,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B80538B270237DF00749046 /* SparklyClient in Frameworks */,
 				2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +135,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B80537E2700B78A00749046 /* Sparkly in Frameworks */,
+				2B8053892702240000749046 /* SnapshotTesting in Frameworks */,
+				2B80539227024E2D00749046 /* CombineSchedulers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +283,7 @@
 			name = SparklyExample;
 			packageProductDependencies = (
 				2BDEDC6526F9DDF8007BC87E /* Sparkly */,
+				2B80538A270237DF00749046 /* SparklyClient */,
 			);
 			productName = SparklyExample;
 			productReference = 2B86D2AB2668C739007F9350 /* SparklyExample.app */;
@@ -299,6 +306,8 @@
 			name = SparklyExampleTests;
 			packageProductDependencies = (
 				2B80537D2700B78A00749046 /* Sparkly */,
+				2B8053882702240000749046 /* SnapshotTesting */,
+				2B80539127024E2D00749046 /* CombineSchedulers */,
 			);
 			productName = SparklyExampleTests;
 			productReference = 2B86D2BD2668C73C007F9350 /* SparklyExampleTests.xctest */;
@@ -335,6 +344,8 @@
 			);
 			mainGroup = 2B86D2A22668C739007F9350;
 			packageReferences = (
+				2B8053872702240000749046 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				2B80539027024E2D00749046 /* XCRemoteSwiftPackageReference "combine-schedulers" */,
 			);
 			productRefGroup = 2B86D2AC2668C739007F9350 /* Products */;
 			projectDirPath = "";
@@ -754,6 +765,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		2B8053872702240000749046 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2B80539027024E2D00749046 /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		2B8053792700B72500749046 /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -762,6 +792,20 @@
 		2B80537D2700B78A00749046 /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Sparkly;
+		};
+		2B8053882702240000749046 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B8053872702240000749046 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+		2B80538A270237DF00749046 /* SparklyClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SparklyClient;
+		};
+		2B80539127024E2D00749046 /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B80539027024E2D00749046 /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
 		};
 		2BDEDC6526F9DDF8007BC87E /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;

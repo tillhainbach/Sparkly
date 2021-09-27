@@ -15,7 +15,7 @@ final class UpdateViewModel: ObservableObject {
   @Published var updateState: UpdateCheckState?
 
   var state: UserUpdateState?
-  private var send: (UserUpdateState.Choice) -> Void
+  private let send: (UserUpdateState.Choice) -> Void
   let cancelUpdate: () -> Void
 
   private var cancellable: AnyCancellable?
@@ -139,7 +139,7 @@ struct UpdateView: View {
 
       case .installing:
         BasicStatusView(
-          status: "Ready to install",
+          status: "Installing...",
           progress: { ProgressView(value: 0, total: 0) },
           button: { Button("Cancel", action: noop) }
         )
