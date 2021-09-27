@@ -9,7 +9,7 @@ import Combine
 import SparklyClient
 import SwiftUI
 
-class UpdateViewModel: ObservableObject {
+final class UpdateViewModel: ObservableObject {
   @Binding var automaticallyCheckForUpdates: Bool
   @Published var downloadData: DownloadData?
   @Published var updateState: UpdateCheckState?
