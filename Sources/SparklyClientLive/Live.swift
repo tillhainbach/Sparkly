@@ -6,8 +6,8 @@
 //
 import Combine
 import Foundation
-@_exported import SparklyClient
 import Sparkle
+@_exported import SparklyClient
 
 extension UpdaterClient {
   /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
@@ -38,7 +38,7 @@ extension UpdaterClient {
 
       func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
         self.cancelCallback = cancellation
-        eventSubject.send(.updateCheckInitiated)
+        eventSubject.send(.updateCheck(.checking))
       }
 
       func showUpdateFound(
@@ -52,10 +52,7 @@ extension UpdaterClient {
 
         self.replyCallback = reply
         eventSubject.send(
-          .updateFound(
-            update: AppcastItem(rawValue: appcastItem),
-            state: userState
-          )
+          .updateCheck(.found(AppcastItem(rawValue: appcastItem), state: userState))
         )
       }
 
@@ -79,35 +76,41 @@ extension UpdaterClient {
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
         cancelCallback = cancellation
-        eventSubject.send(.downloadInFlight(total: 0, completed: 0))
+        eventSubject.send(.updateCheck(.downloading(total: 0, completed: 0)))
       }
 
       func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {
         self.totalDownloadData = Double(expectedContentLength)
         self.totalDataReceived = 0.0
-        eventSubject.send(.downloadInFlight(total: self.totalDownloadData, completed: 0))
+        eventSubject.send(
+          .updateCheck(.downloading(total: self.totalDownloadData, completed: 0))
+        )
       }
 
       func showDownloadDidReceiveData(ofLength length: UInt64) {
         self.totalDataReceived += Double(length)
-        eventSubject.send(.downloadInFlight(total: self.totalDownloadData, completed: self.totalDataReceived))
+        eventSubject.send(
+          .updateCheck(
+            .downloading(total: self.totalDownloadData, completed: self.totalDataReceived)
+          )
+        )
       }
 
       func showDownloadDidStartExtractingUpdate() {
-        eventSubject.send(.extractingUpdate(completed: 0))
+        eventSubject.send(.updateCheck(.extracting(completed: 0)))
       }
 
       func showExtractionReceivedProgress(_ progress: Double) {
-        eventSubject.send(.extractingUpdate(completed: progress))
+        eventSubject.send(.updateCheck(.extracting(completed: progress)))
       }
 
       func showInstallingUpdate() {
-        eventSubject.send(.installing)
+        eventSubject.send(.updateCheck(.installing))
       }
 
       func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
         replyCallback = reply
-        eventSubject.send(.readyToRelaunch)
+        eventSubject.send(.updateCheck(.readyToRelaunch))
       }
 
       func showSendingTerminationSignal() {
@@ -119,19 +122,23 @@ extension UpdaterClient {
         acknowledgement: @escaping () -> Void
       ) {
         #if DEBUG
-        print("""
-        `showUpdateInstalledAndRelaunched` is currently not implemented.
-        If you will like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-        """)
+          print(
+            """
+            `showUpdateInstalledAndRelaunched` is currently not implemented.
+            If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+            """
+          )
         #endif
       }
 
       func showUpdateInFocus() {
         #if DEBUG
-        print("""
-        `showUpdateInFocus` is currently not implemented.
-        If you will like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-        """)
+          print(
+            """
+            `showUpdateInFocus` is currently not implemented.
+            If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+            """
+          )
         #endif
       }
 
@@ -207,4 +214,3 @@ extension UpdaterClient {
     )
   }
 }
-
