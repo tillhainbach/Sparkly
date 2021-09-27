@@ -9,7 +9,6 @@ import Combine
 import SparklyClient
 import SwiftUI
 
-
 struct ErrorAlert: Identifiable {
   let id = UUID()
   let title: String

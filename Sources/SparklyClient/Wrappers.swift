@@ -127,7 +127,6 @@ extension UpdaterSettings {
 
 }
 
-
 /// Preset of fixed update intervals.
 public enum UpdateInterval: String, CaseIterable, Identifiable, Equatable {
   case daily = "Daily"
