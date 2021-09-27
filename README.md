@@ -36,7 +36,7 @@ Use SwiftPackageManager. Add the following to your dependencies.
 ```swift
 dependencies: [
   // Dependencies declare other packages that this package depends on.
-  .package(url: "https://github.com/tillhainbach/Sparkly.git", from: "0.1.0")
+  .package(url: "https://github.com/tillhainbach/Sparkly.git", .branch("main"))
 ],
 ```
 
