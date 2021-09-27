@@ -52,33 +52,6 @@ extension SPUUpdater {
   }
 }
 
-extension UpdaterSettings {
-  /// Retrieve save settings from `UserDefaults`.
-  /// - Parameter userDefault: a `UserDefaults` instance.
-  public init(from userDefault: UserDefaults) {
-    self.init(
-      automaticallyCheckForUpdates: userDefault.bool(
-        forKey: UserDefaultKeys.automaticallyDownloadUpdates.rawValue
-      ),
-      updateInterval: .init(
-        from: userDefault.double(forKey: UserDefaultKeys.updateInterval.rawValue)
-      ),
-      automaticallyDownloadUpdates: userDefault.bool(
-        forKey: UserDefaultKeys.automaticallyDownloadUpdates.rawValue
-      ),
-      sendSystemProfile: userDefault.bool(forKey: UserDefaultKeys.sendSystemProfile.rawValue)
-    )
-  }
-
-  private enum UserDefaultKeys: String {
-    case automaticallyCheckForUpdatesKey = "SUEnableAutomaticChecks"
-    case updateInterval = "SUScheduledCheckInterval"
-    case automaticallyDownloadUpdates = "SUAutomaticallyUpdate"
-    case sendSystemProfile = "SUSendProfileInfo"
-  }
-
-}
-
 extension UserUpdateState.Stage {
   init?(rawValue: SPUUserUpdateStage) {
     switch rawValue {
