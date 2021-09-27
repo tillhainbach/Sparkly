@@ -178,8 +178,6 @@ public struct UserUpdateState: Equatable {
 
 }
 
-
-
 public struct DownloadData: Equatable {
 
   public let data: Data

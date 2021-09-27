@@ -122,23 +122,23 @@ extension UpdaterClient {
         acknowledgement: @escaping () -> Void
       ) {
         #if DEBUG
-          print(
-            """
-            `showUpdateInstalledAndRelaunched` is currently not implemented.
-            If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-            """
-          )
+        print(
+          """
+          `showUpdateInstalledAndRelaunched` is currently not implemented.
+          If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+          """
+        )
         #endif
       }
 
       func showUpdateInFocus() {
         #if DEBUG
-          print(
-            """
-            `showUpdateInFocus` is currently not implemented.
-            If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-            """
-          )
+        print(
+          """
+          `showUpdateInFocus` is currently not implemented.
+          If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
+          """
+        )
         #endif
       }
 
