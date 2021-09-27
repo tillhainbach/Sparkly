@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import SUUpdaterClient
+@testable import SparklyClient
 
 final class SparklyTests: XCTestCase {
   func testUpdaterIntervalsConvertToTimeInterval() throws {
@@ -9,7 +9,7 @@ final class SparklyTests: XCTestCase {
 
     // using for-loop and switch so that the compiler warns use to update the unit-test
     // whenever a new supported interval is added.
-    for interval in SUUpdateInterval.allCases {
+    for interval in UpdateInterval.allCases {
       switch interval {
       case .daily:
         target = 86_400
