@@ -59,16 +59,16 @@ final class UpdateViewModel: ObservableObject {
   }
 }
 
-struct BasicStatusView<Progress, Button>: View where Progress: View, Button: View {
+struct BasicStatusView<P, B>: View where P: View, B: View {
 
   let status: String
-  let progress: () -> Progress
-  let button: () -> Button
+  let progress: () -> P
+  let button: () -> B
 
   init(
     status: String,
-    progress: @escaping () -> Progress,
-    button: @escaping () -> Button
+    progress: @escaping () -> P,
+    button: @escaping () -> B
   ) {
     self.status = status
     self.progress = progress
