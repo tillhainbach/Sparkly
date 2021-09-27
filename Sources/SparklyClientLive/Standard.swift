@@ -6,8 +6,8 @@
 //
 import Combine
 import Foundation
-@_exported import SparklyClient
 import Sparkle
+@_exported import SparklyClient
 
 extension UpdaterClient {
   /// Create a *standard* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
