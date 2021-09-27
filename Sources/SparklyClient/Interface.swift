@@ -81,7 +81,7 @@ extension UpdaterClient {
   }
 }
 
-/// The state of an update check
+/// The state of an update check.
 public enum UpdateCheckState: Equatable {
   case checking
   case downloading(total: Double, completed: Double)

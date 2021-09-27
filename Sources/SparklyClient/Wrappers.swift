@@ -148,17 +148,19 @@ extension UpdateInterval {
   private static let month: TimeInterval = Self.day * 30  // for simplicity set to every 30 days
 }
 
-/// Wrapper for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h)
+/// Wrapper for [SPUUserUpdateState](https://github.com/sparkle-project/Sparkle/blob/c6f1cd4e3cbdf4fbd3b12f779dd677775a77f60f/Sparkle/SPUUserUpdateState.h) .
 public struct UserUpdateState: Equatable {
 
   public var stage: Stage
   public var userInitiated: Bool
 
+  /// Initialize UserUpdateState.
   public init(stage: UserUpdateState.Stage, userInitiated: Bool) {
     self.stage = stage
     self.userInitiated = userInitiated
   }
 
+  /// The stage of an update.
   public enum Stage {
     /// The update has not been downloaded.
     case notDownloaded
@@ -170,6 +172,7 @@ public struct UserUpdateState: Equatable {
     case installing
   }
 
+  /// Possible user choices.
   public enum Choice {
     case skip
     case install
@@ -178,13 +181,19 @@ public struct UserUpdateState: Equatable {
 
 }
 
+/// Wrapper type for `SPUDownloadData`.
 public struct DownloadData: Equatable {
 
+  /// See `SPUDownloadDate` for explanation.
   public let data: Data
+  /// See `SPUDownloadDate` for explanation.
   public let url: URL
+  /// See `SPUDownloadDate` for explanation.
   public let textEncodingName: String?
+  /// See `SPUDownloadDate` for explanation.
   public let mimeType: String?
 
+  /// Init DownloadData.
   public init(data: Data, url: URL, textEncodingName: String?, mimeType: String?) {
     self.data = data
     self.url = url
