@@ -20,8 +20,10 @@ public final class UpdateCommandViewModel: ObservableObject {
   /// - Parameters:
   ///   - canCheckForUpdates: A Publisher that emits whether the updater can check for updates or not.
   ///   - checkForUpdates: A closure that triggers an update check.
-  public init(canCheckForUpdates: AnyPublisher<Bool, Never>, checkForUpdates: @escaping () -> Void)
-  {
+  public init(
+    canCheckForUpdates: AnyPublisher<Bool, Never>,
+    checkForUpdates: @escaping () -> Void
+  ) {
     self.checkForUpdates = checkForUpdates
     canCheckForUpdates
       .assign(to: &$canCheckForUpdates)
