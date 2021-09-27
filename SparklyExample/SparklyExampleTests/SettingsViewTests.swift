@@ -5,7 +5,7 @@
 //  Created by Till Hainbach on 03.06.21.
 //
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import XCTest
 
 @testable import SparklyExample
@@ -13,20 +13,20 @@ import XCTest
 class SettingsViewTests: XCTestCase {
 
   func testDidCallOnSettingsChanged() throws {
-    let startSettings = SUUpdaterUserSettings(
+    let startSettings = UpdaterSettings(
       automaticallyCheckForUpdates: false,
       updateInterval: .daily,
       automaticallyDownloadUpdates: false,
       sendSystemProfile: true
     )
-    let targetSettings = SUUpdaterUserSettings(
+    let targetSettings = UpdaterSettings(
       automaticallyCheckForUpdates: true,
       updateInterval: .weekly,
       automaticallyDownloadUpdates: true,
       sendSystemProfile: true
     )
 
-    var newSettings: SUUpdaterUserSettings? = nil
+    var newSettings: UpdaterSettings? = nil
 
     let settingsViewModel = SparkleSettingsViewModel(
       updaterSettings: .init(

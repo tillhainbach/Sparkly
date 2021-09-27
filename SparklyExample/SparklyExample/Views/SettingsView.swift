@@ -5,14 +5,14 @@
 //  Created by Till Hainbach on 09.06.21.
 //
 import Combine
-import SUUpdaterClient
+import SparklyClient
 import SwiftUI
 
 /// The view model that drives a`SparkleSettingsView`.
 public final class SparkleSettingsViewModel: ObservableObject {
 
   /// The published `updaterSettings`.
-  @Published public var updaterSettings: SUUpdaterUserSettings
+  @Published public var updaterSettings: UpdaterSettings
 
   private var cancellable: AnyCancellable?
 
@@ -20,8 +20,8 @@ public final class SparkleSettingsViewModel: ObservableObject {
   /// - Parameter updaterSettings: The SUUpdaterUserSettings,
   /// - Parameter onSettingsChanged: Callback to send new settings to the updater client.
   public init(
-    updaterSettings: SUUpdaterUserSettings,
-    onSettingsChanged: @escaping (SUUpdaterUserSettings) -> Void
+    updaterSettings: UpdaterSettings,
+    onSettingsChanged: @escaping (UpdaterSettings) -> Void
   ) {
     self.updaterSettings = updaterSettings
     cancellable = $updaterSettings.sink(receiveValue: onSettingsChanged)
@@ -30,7 +30,7 @@ public final class SparkleSettingsViewModel: ObservableObject {
 }
 
 /// A View to set user-specific Sparkle settings.
-public struct SparkleSettingsView: View {
+public struct SettingsView: View {
 
   @ObservedObject var viewModel: SparkleSettingsViewModel
 
@@ -52,7 +52,7 @@ public struct SparkleSettingsView: View {
 
           if viewModel.updaterSettings.automaticallyCheckForUpdates {
             Picker("Update interval", selection: $viewModel.updaterSettings.updateInterval) {
-              ForEach(SUUpdateInterval.allCases) {
+              ForEach(UpdateInterval.allCases) {
                 Text($0.rawValue)
               }
             }
@@ -77,11 +77,11 @@ public struct SparkleSettingsView: View {
   }
 }
 
-struct SparkleSettingsView_Previews: PreviewProvider {
+struct SettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    SparkleSettingsView(
+    SettingsView(
       viewModel: SparkleSettingsViewModel(
-        updaterSettings: SUUpdaterUserSettings(),
+        updaterSettings: .init(),
         onSettingsChanged: { _ in }
       )
     )

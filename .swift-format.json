@@ -5,7 +5,7 @@
   "indentation": {
     "spaces": 2
   },
-  "indentConditionalCompilationBlocks": true,
+  "indentConditionalCompilationBlocks": false,
   "indentSwitchCaseLabels": false,
   "lineBreakAroundMultilineExpressionChainComponents": true,
   "lineBreakBeforeControlFlowKeywords": false,
@@ -16,7 +16,7 @@
   "prioritizeKeepingFunctionOutputTogether": false,
   "respectsExistingLineBreaks": true,
   "rules": {
-    "AllPublicDeclarationsHaveDocumentation": true,
+    "AllPublicDeclarationsHaveDocumentation": false,
     "AlwaysUseLowerCamelCase": true,
     "AmbiguousTrailingClosureOverload": true,
     "BeginDocumentationCommentWithOneLineSummary": true,

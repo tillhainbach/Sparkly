@@ -4,77 +4,47 @@
 //
 //  Created by Till Hainbach on 03.06.21.
 //
+
 import Combine
-import SUUpdaterClient
-import SUUpdaterClientLive
-import SparklyCommands
+import Sparkly
 import SwiftUI
-
-final class AppViewModel: ObservableObject {
-
-  @Published var canCheckForUpdates = false
-  let updaterClient: SUUpdaterClient
-  var cancellables: Set<AnyCancellable> = []
-
-  init(
-    updaterClient: SUUpdaterClient,
-    applicationDidFinishLaunching: AnyPublisher<Notification, Never>
-  ) {
-    self.updaterClient = updaterClient
-    connectToUpdater()
-    applicationDidFinishLaunching
-      .sink { [weak self] notification in
-
-        // Just to be super sure
-        if notification.name == NSApplication.didFinishLaunchingNotification {
-          self?.updaterClient.send(.startUpdater)
-        }
-      }
-      .store(in: &cancellables)
-
-  }
-
-  func checkForUpdates() {
-    guard canCheckForUpdates else { return }
-    updaterClient.send(.checkForUpdates)
-  }
-
-  func updateSettings(_ settings: SUUpdaterUserSettings) {
-    updaterClient.send(.updateUserSettings(settings))
-  }
-
-  private func connectToUpdater() {
-    updaterClient.updaterEventPublisher
-      .sink { [weak self] event in
-        switch event {
-        case .canCheckForUpdates(let canCheckForUpdates):
-          self?.canCheckForUpdates = canCheckForUpdates
-        default:
-
-          break
-        }
-      }
-      .store(in: &cancellables)
-  }
-}
 
 @main
 struct SparklyExampleApp: App {
-  @StateObject private var appViewModel = AppViewModel(
-    updaterClient: .standard(hostBundle: .main, applicationBundle: .main),
-    applicationDidFinishLaunching: NotificationCenter.default
-      .publisher(for: NSApplication.didFinishLaunchingNotification)
-      .eraseToAnyPublisher()
-  )
+  // You can switch between pre-configured instances `liveUpdater` and `standardUpdater`
+  // for testing purposes.
+  @StateObject private var appViewModel = liveUpdater
 
   var body: some Scene {
     WindowGroup {
-      ContentView(viewModel: ViewModel())
+      Group {
+        if self.appViewModel.updateCheckInProgress {
+          UpdateView(
+            viewModel: .init(
+              automaticallyCheckForUpdates: appViewModel.bindingForSetting(
+                on: \.automaticallyCheckForUpdates
+              ),
+              updateEventPublisher: appViewModel.updaterClient.updaterEventPublisher,
+              cancelUpdate: appViewModel.cancel,
+              send: { appViewModel.updaterClient.send(.reply($0)) }
+            )
+          )
+        } else {
+          ContentView(viewModel: ViewModel())
+        }
+      }
+      .alert(item: $appViewModel.errorAlert) { errorAlert in
+        Alert(
+          title: Text(errorAlert.title),
+          message: Text(errorAlert.message),
+          dismissButton: .default(Text("Ok"), action: errorAlert.dismiss)
+        )
+      }
     }
     Settings {
-      SparkleSettingsView(
+      SettingsView(
         viewModel: SparkleSettingsViewModel(
-          updaterSettings: SUUpdaterUserSettings.init(from: UserDefaults.standard),
+          updaterSettings: .init(from: UserDefaults.standard),
           onSettingsChanged: appViewModel.updateSettings(_:)
         )
       )
@@ -88,4 +58,24 @@ struct SparklyExampleApp: App {
       )
     }
   }
+}
+
+extension SparklyExampleApp {
+  static let applicationDidFinishLaunchingPublisher = NotificationCenter.default
+    .publisher(for: NSApplication.didFinishLaunchingNotification)
+    .eraseToAnyPublisher()
+}
+
+extension SparklyExampleApp {
+  static let standardUpdater = AppViewModel(
+    updaterClient: .standard(hostBundle: .main, applicationBundle: .main),
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
+  )
+}
+
+extension SparklyExampleApp {
+  static let liveUpdater = AppViewModel(
+    updaterClient: .live(hostBundle: .main, applicationBundle: .main),
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
+  )
 }
