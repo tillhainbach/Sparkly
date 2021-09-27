@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
+   LastUpgradeVersion = "1300"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -48,6 +48,20 @@
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
+               BuildableName = "SparklyExampleLiveTests.xctest"
+               BlueprintName = "SparklyExampleLiveTests"
+               ReferencedContainer = "container:SparklyExample.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -70,9 +84,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2BA8CD1C267226F500C4A117"
-               BuildableName = "SparklyIntegrationTests.xctest"
-               BlueprintName = "SparklyIntegrationTests"
+               BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
+               BuildableName = "SparklyExampleLiveTests.xctest"
+               BlueprintName = "SparklyExampleLiveTests"
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>

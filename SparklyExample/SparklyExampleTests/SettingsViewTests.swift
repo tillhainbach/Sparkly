@@ -13,20 +13,20 @@ import XCTest
 class SettingsViewTests: XCTestCase {
 
   func testDidCallOnSettingsChanged() throws {
-    let startSettings = UpdaterUserSettings(
+    let startSettings = UpdaterSettings(
       automaticallyCheckForUpdates: false,
       updateInterval: .daily,
       automaticallyDownloadUpdates: false,
       sendSystemProfile: true
     )
-    let targetSettings = UpdaterUserSettings(
+    let targetSettings = UpdaterSettings(
       automaticallyCheckForUpdates: true,
       updateInterval: .weekly,
       automaticallyDownloadUpdates: true,
       sendSystemProfile: true
     )
 
-    var newSettings: UpdaterUserSettings? = nil
+    var newSettings: UpdaterSettings? = nil
 
     let settingsViewModel = SparkleSettingsViewModel(
       updaterSettings: .init(

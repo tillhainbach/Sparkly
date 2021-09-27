@@ -9,33 +9,13 @@ import Combine
 import SparklyClient
 import SwiftUI
 
-struct ProgressState {
-  var done: Double
-  let total: Double
-
-  init(total: Double, done: Double = 0.0) {
-    self.total = total
-    self.done = done
-  }
-}
-
-enum UpdateState {
-  case initiated
-  case found(AppcastItem)
-  case inFlight(total: Double, completed: Double)
-  case extracting(completed: Double)
-  case installing
-  case readyToInstall
-}
-
 class UpdateViewModel: ObservableObject {
   @Binding var automaticallyCheckForUpdates: Bool
   @Published var downloadData: DownloadData?
-  @Published var updateState: UpdateState = .initiated
-  //@Published var progress: ProgressState?
+  @Published var updateState: UpdateCheckState?
 
   var state: UserUpdateState?
-  var reply: (UserUpdateState.Choice) -> Void
+  private var send: (UserUpdateState.Choice) -> Void
   let cancelUpdate: () -> Void
 
   private var cancellable: AnyCancellable?
@@ -48,11 +28,21 @@ class UpdateViewModel: ObservableObject {
   ) {
     self._automaticallyCheckForUpdates = automaticallyCheckForUpdates
     self.cancelUpdate = cancelUpdate
-    self.reply = send
+    self.send = send
     self.cancellable = updateEventPublisher.removeDuplicates()
       .sink { [weak self] in
         self?.handleEvent(event: $0)
       }
+  }
+
+  func reply(_ choice: UserUpdateState.Choice) {
+    switch self.updateState {
+    case .found(_, _), .readyToRelaunch:
+      self.send(choice)
+
+    default:
+      break
+    }
   }
 
   private func handleEvent(event: UpdaterClient.Event) {
@@ -60,24 +50,8 @@ class UpdateViewModel: ObservableObject {
     case .showUpdateReleaseNotes(let downloadData):
       self.downloadData = downloadData
 
-    case .updateCheckInitiated:
-      self.updateState = .initiated
-
-    case .updateFound(let update, let state):
-      self.updateState = .found(update)
-      self.state = state
-
-    case .downloadInFlight(let total, let completed):
-      self.updateState = .inFlight(total: total, completed: completed)
-
-    case .extractingUpdate(let completed):
-      self.updateState = .extracting(completed: completed)
-
-    case .installing:
-      self.updateState = .installing
-
-    case .readyToRelaunch:
-      self.updateState = .readyToInstall
+    case .updateCheck(let state):
+      self.updateState = state
 
     default:
       break
@@ -127,14 +101,14 @@ struct UpdateView: View {
   var body: some View {
     Group {
       switch viewModel.updateState {
-      case .initiated:
+      case .checking:
         BasicStatusView(
           status: "Checking for Updates",
           progress: { ProgressView(value: 0.0, total: 0.0) },
           button: { Button("Cancel", action: viewModel.cancelUpdate) }
         )
 
-      case .found(let update):
+      case .found(let update, _):
         FoundUpdateView(
           automaticallyCheckForUpdates: $viewModel.automaticallyCheckForUpdates,
           downloadData: $viewModel.downloadData,
@@ -144,7 +118,7 @@ struct UpdateView: View {
           installUpdate: { viewModel.reply(.install) }
         )
 
-      case .inFlight(let total, let completed):
+      case .downloading(let total, let completed):
         BasicStatusView(
           status: "Update in flight",
           progress: { ProgressView(value: completed, total: total) },
@@ -170,13 +144,15 @@ struct UpdateView: View {
           button: { Button("Cancel", action: noop) }
         )
 
-      case .readyToInstall:
+      case .readyToRelaunch:
         BasicStatusView(
           status: "Ready to install",
           progress: { ProgressView(value: 1, total: 1) },
           button: { Button("Install and Relaunch", action: { viewModel.reply(.install) }) }
         )
 
+      case .none:
+        EmptyView()
       }
     }
     .padding()
@@ -197,13 +173,13 @@ struct UpdateView_Previews: PreviewProvider {
 
   static var foundViewModel: UpdateViewModel {
     let viewModel = defaultViewModel()
-    viewModel.updateState = .found(.mock)
+    viewModel.updateState = .found(.mock, state: .init(stage: .installing, userInitiated: false))
     return viewModel
   }
 
   static var inFlightViewModel: UpdateViewModel {
     let viewModel = defaultViewModel()
-    viewModel.updateState = .inFlight(total: 0, completed: 0)
+    viewModel.updateState = .downloading(total: 0, completed: 0)
     return viewModel
   }
 
@@ -215,7 +191,7 @@ struct UpdateView_Previews: PreviewProvider {
 
   static var readyToInstallViewModel: UpdateViewModel {
     let viewModel = defaultViewModel()
-    viewModel.updateState = .readyToInstall
+    viewModel.updateState = .readyToRelaunch
     return viewModel
   }
 

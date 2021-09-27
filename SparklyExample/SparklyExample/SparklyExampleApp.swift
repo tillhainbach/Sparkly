@@ -4,6 +4,7 @@
 //
 //  Created by Till Hainbach on 03.06.21.
 //
+
 import Combine
 import Sparkly
 import SwiftUI
@@ -49,7 +50,7 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.checkForUpdates)
   }
 
-  func updateSettings(_ settings: UpdaterUserSettings) {
+  func updateSettings(_ settings: UpdaterSettings) {
     updaterClient.send(.updateUserSettings(settings))
   }
 
@@ -60,26 +61,20 @@ final class AppViewModel: ObservableObject {
   private func connectToUpdater() {
     updaterClient.updaterEventPublisher
       .sink { [weak self] event in
-        print("\(event)")
         switch event {
 
         case .canCheckForUpdates(let canCheckForUpdates):
-          print("Can check for Updates: \(canCheckForUpdates)")
           self?.canCheckForUpdates = canCheckForUpdates
 
-        case .updateCheckInitiated:
-          self?.updateCheckInProgress = true
+        case .updateCheck(let state):
+          if state == .checking {
+            self?.updateCheckInProgress = true
+          }
 
-        case .dismissUpdateInstallation:
+        case .dismissUpdateInstallation, .terminationSignal:
           self?.updateCheckInProgress = false
 
-        case .showUpdateReleaseNotes,
-          .updateFound,
-          .downloadInFlight,
-          .extractingUpdate,
-          .installing,
-          .readyToRelaunch,
-          .terminationSignal:
+        case .showUpdateReleaseNotes:
           break
 
         case .failure(let error):
@@ -109,11 +104,11 @@ struct SparklyExampleApp: App {
             viewModel: .init(
               automaticallyCheckForUpdates: Binding(
                 get: {
-                  let settings = UpdaterUserSettings.init(from: UserDefaults.standard)
+                  let settings = UpdaterSettings.init(from: UserDefaults.standard)
                   return settings.automaticallyCheckForUpdates
                 },
                 set: {
-                  var settings = UpdaterUserSettings.init(from: UserDefaults.standard)
+                  var settings = UpdaterSettings.init(from: UserDefaults.standard)
                   settings.automaticallyCheckForUpdates = $0
                   appViewModel.updateSettings(settings)
                 }
@@ -195,16 +190,16 @@ extension UpdaterClient {
         switch action {
         case .checkForUpdates:
           publisher.send(.canCheckForUpdates(false))
-          publisher.send(.updateCheckInitiated)
+          publisher.send(.updateCheck(.checking))
           DispatchQueue.main.asyncAfter(deadline: .now().advanced(by: .seconds(1))) {
-            publisher.send(.extractingUpdate(completed: 0.0))
+            publisher.send(.updateCheck(.extracting(completed: 0.0)))
           }
           (0...100)
             .forEach { i in
               DispatchQueue.main.asyncAfter(
                 deadline: .now().advanced(by: .milliseconds(1020 + i * 100))
               ) {
-                publisher.send(.extractingUpdate(completed: Double(i) / 100.0))
+                publisher.send(.updateCheck(.extracting(completed: Double(i) / 100.0)))
               }
             }
 

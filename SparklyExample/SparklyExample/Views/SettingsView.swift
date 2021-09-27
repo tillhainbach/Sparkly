@@ -12,7 +12,7 @@ import SwiftUI
 public final class SparkleSettingsViewModel: ObservableObject {
 
   /// The published `updaterSettings`.
-  @Published public var updaterSettings: UpdaterUserSettings
+  @Published public var updaterSettings: UpdaterSettings
 
   private var cancellable: AnyCancellable?
 
@@ -20,8 +20,8 @@ public final class SparkleSettingsViewModel: ObservableObject {
   /// - Parameter updaterSettings: The SUUpdaterUserSettings,
   /// - Parameter onSettingsChanged: Callback to send new settings to the updater client.
   public init(
-    updaterSettings: UpdaterUserSettings,
-    onSettingsChanged: @escaping (UpdaterUserSettings) -> Void
+    updaterSettings: UpdaterSettings,
+    onSettingsChanged: @escaping (UpdaterSettings) -> Void
   ) {
     self.updaterSettings = updaterSettings
     cancellable = $updaterSettings.sink(receiveValue: onSettingsChanged)
