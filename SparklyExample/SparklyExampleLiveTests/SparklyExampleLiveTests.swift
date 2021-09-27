@@ -10,8 +10,6 @@ import SparklyClientLive
 import SwiftUI
 import XCTest
 
-@testable import SparklyExample
-
 class SparklyExampleLiveTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
 
@@ -72,15 +70,7 @@ class SparklyExampleLiveTests: XCTestCase {
 
     XCTAssertEqual(canCheckForUpdates, [false])
 
-    let application = PassthroughSubject<Notification, Never>()
-    let appViewModel = AppViewModel(
-      updaterClient: client,
-      applicationDidFinishLaunching: application.eraseToAnyPublisher()
-    )
-
-    // start application
-    application.send(Notification(name: NSApplication.didFinishLaunchingNotification))
-
+    client.send(.startUpdater)
     XCTAssertEqual(canCheckForUpdates, [false, true])
     XCTAssertEqual(receivedEvents, [.canCheckForUpdates(true)])
 
@@ -90,7 +80,6 @@ class SparklyExampleLiveTests: XCTestCase {
     XCTAssertEqual(receivedEvents, [.canCheckForUpdates(true), .canCheckForUpdates(false)])
 
     wait(for: [expectUpdateCheckInitiated], timeout: 0.1)
-    XCTAssertTrue(appViewModel.updateCheckInProgress)
 
     XCTAssertEqual(canCheckForUpdates, [false, true, false])
     XCTAssertEqual(

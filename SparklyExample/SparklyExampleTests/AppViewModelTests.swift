@@ -13,22 +13,6 @@ import XCTest
 class AppViewModelTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
 
-  func testUpdateViewModel() {
-
-    var reply: UserUpdateState.Choice!
-
-    let viewModel = UpdateViewModel(
-      automaticallyCheckForUpdates: .constant(true),
-      updateEventPublisher: Just(UpdaterClient.Event.updateCheck(.checking)).eraseToAnyPublisher(),
-      cancelUpdate: noop,
-      send: { reply = $0 }
-    )
-
-    viewModel.reply(.install)
-
-    XCTAssertTrue(reply == .install)
-  }
-
   func testAppDidStartUpdaterOnLaunch() throws {
 
     // Mocks

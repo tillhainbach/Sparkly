@@ -41,7 +41,7 @@ rm-container:
 server:
 	http-server Product -S -C dev/server/cert.pem Product -K dev/server/key.pem
 
-test: server
+test:
 		xcodebuild test \
 	    -workspace Sparkly.xcworkspace \
 			-scheme SparklyExample
