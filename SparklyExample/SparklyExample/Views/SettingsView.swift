@@ -42,7 +42,7 @@ public struct SettingsView: View {
         Section(
           header: Text("Check for Updates"),
           footer: Text("Choose if updates should be checked for automatically")
-            + Text("and specify the interval")
+            + Text(" and specify the interval")
         ) {
 
           Toggle(
