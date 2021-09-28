@@ -22,7 +22,6 @@
 		2B80537A2700B72500749046 /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8053792700B72500749046 /* Sparkly */; };
 		2B8053802701FED200749046 /* UpdateViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80537F2701FED200749046 /* UpdateViewModelTests.swift */; };
 		2B8053892702240000749046 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8053882702240000749046 /* SnapshotTesting */; };
-		2B80538B270237DF00749046 /* SparklyClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B80538A270237DF00749046 /* SparklyClient */; };
 		2B80539227024E2D00749046 /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 2B80539127024E2D00749046 /* CombineSchedulers */; };
 		2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
 		2B86D2B12668C739007F9350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
@@ -127,7 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B80538B270237DF00749046 /* SparklyClient in Frameworks */,
 				2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +284,6 @@
 			name = SparklyExample;
 			packageProductDependencies = (
 				2BDEDC6526F9DDF8007BC87E /* Sparkly */,
-				2B80538A270237DF00749046 /* SparklyClient */,
 			);
 			productName = SparklyExample;
 			productReference = 2B86D2AB2668C739007F9350 /* SparklyExample.app */;
@@ -640,7 +637,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SparklyExample/SparklyExample.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.0.1;
@@ -797,10 +794,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2B8053872702240000749046 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
-		};
-		2B80538A270237DF00749046 /* SparklyClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SparklyClient;
 		};
 		2B80539127024E2D00749046 /* CombineSchedulers */ = {
 			isa = XCSwiftPackageProductDependency;
