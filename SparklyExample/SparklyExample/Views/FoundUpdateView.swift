@@ -66,7 +66,7 @@ struct FoundUpdateView: View {
         HStack {
           Toggle(
             "Automatically download and install updates in the future",
-            isOn: $automaticallyCheckForUpdates
+            isOn: $automaticallyDownloadUpdates
           )
         }
         HStack {
@@ -83,7 +83,6 @@ struct FoundUpdateView: View {
 struct FoundUpdateView_Previews: PreviewProvider {
   static var previews: some View {
     FoundUpdateView(
-      automaticallyCheckForUpdates: .constant(true),
       downloadData: .constant(
         .init(
           data: "New Update".data(using: .utf8)!,
