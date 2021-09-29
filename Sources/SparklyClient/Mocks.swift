@@ -38,6 +38,9 @@ extension UpdaterClient {
 
         case .reply:
           break
+
+        case .setPermission:
+          break
         }
 
       })

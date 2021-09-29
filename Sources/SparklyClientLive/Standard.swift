@@ -58,7 +58,7 @@ extension UpdaterClient {
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
 
-        case .cancel, .reply:
+        case .cancel, .reply, .setPermission:
           break
         }
       }
