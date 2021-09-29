@@ -38,6 +38,9 @@
 		2B989862270263A900C55CF5 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
 		2B9898632702640200C55CF5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9898602702636C00C55CF5 /* AppViewModel.swift */; };
 		2B9898642702642C00C55CF5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9898602702636C00C55CF5 /* AppViewModel.swift */; };
+		2BB09263270375A600CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
+		2BB092642703781A00CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
+		2BB092652703781C00CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
 		2BD5C59726FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */; };
 		2BD5C59826FF465C00A6E49C /* org.sparkle-project.Downloader.xpc in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */; };
 		2BD5C59926FF466800A6E49C /* org.sparkle-project.Downloader.xpc in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -108,6 +111,7 @@
 		2B90560326F775F40081AB5F /* helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		2B90560726F778710081AB5F /* FoundUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundUpdateView.swift; sourceTree = "<group>"; };
 		2B9898602702636C00C55CF5 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePermissionView.swift; sourceTree = "<group>"; };
 		2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.InstallerLauncher.xpc"; sourceTree = "<group>"; };
 		2BD5C59526FF465C00A6E49C /* org.sparkle-project.Downloader.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "org.sparkle-project.Downloader.entitlements"; sourceTree = "<group>"; };
 		2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 				2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */,
 				2B90560126F632FA0081AB5F /* UpdateView.swift */,
 				2B90560726F778710081AB5F /* FoundUpdateView.swift */,
+				2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -416,6 +421,7 @@
 				2B80537527009F8600749046 /* SettingsView.swift in Sources */,
 				2B9898642702642C00C55CF5 /* AppViewModel.swift in Sources */,
 				2B80537627009F8600749046 /* UpdateView.swift in Sources */,
+				2BB092652703781C00CFC6E5 /* UpdatePermissionView.swift in Sources */,
 				2B989862270263A900C55CF5 /* SparklyExampleApp.swift in Sources */,
 				2B29F9C326FF6D18000E4045 /* SparklyExampleLiveTests.swift in Sources */,
 				2B80537827009F8600749046 /* FoundUpdateView.swift in Sources */,
@@ -431,6 +437,7 @@
 				2B86D2B12668C739007F9350 /* ContentView.swift in Sources */,
 				2B9898612702636C00C55CF5 /* AppViewModel.swift in Sources */,
 				2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */,
+				2BB09263270375A600CFC6E5 /* UpdatePermissionView.swift in Sources */,
 				2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */,
 				2B8A7DE02670BCC6009D7FC0 /* SettingsView.swift in Sources */,
 				2B90560426F775F40081AB5F /* helpers.swift in Sources */,
@@ -445,6 +452,7 @@
 				2B80536F27009F8400749046 /* SettingsView.swift in Sources */,
 				2B9898632702640200C55CF5 /* AppViewModel.swift in Sources */,
 				2B80537227009F8400749046 /* FoundUpdateView.swift in Sources */,
+				2BB092642703781A00CFC6E5 /* UpdatePermissionView.swift in Sources */,
 				2B80537027009F8400749046 /* UpdateView.swift in Sources */,
 				2B97905526FE66D600D6F4F6 /* AppViewModelTests.swift in Sources */,
 				2B97905426FE66D400D6F4F6 /* SettingsViewTests.swift in Sources */,

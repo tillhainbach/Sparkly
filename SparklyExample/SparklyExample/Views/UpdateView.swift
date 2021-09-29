@@ -57,6 +57,11 @@ final class UpdateViewModel: ObservableObject {
       break
     }
   }
+
+  func readyToInstallTapped() {
+    NSApplication.shared.keyWindow?.close()
+    self.reply(.install)
+  }
 }
 
 struct BasicStatusView<P, B>: View where P: View, B: View {
@@ -148,7 +153,7 @@ struct UpdateView: View {
         BasicStatusView(
           status: "Ready to install",
           progress: { ProgressView(value: 1, total: 1) },
-          button: { Button("Install and Relaunch", action: { viewModel.reply(.install) }) }
+          button: { Button("Install and Relaunch", action: viewModel.readyToInstallTapped) }
         )
 
       case .none:

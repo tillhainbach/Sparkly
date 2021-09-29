@@ -110,16 +110,12 @@ extension UpdaterClient {
         case .startUpdater:
           publisher.send(.canCheckForUpdates(true))
 
-        case .updateUserSettings(_):
-          break
-
-        case .setHTTPHeaders(_):
-          break
+        case .updateUserSettings(_), .setPermission, .setHTTPHeaders(_):
+          XCTFail("Received unexpected action: \(action)")
 
         case .cancel:
           publisher.send(.dismissUpdateInstallation)
           publisher.send(.canCheckForUpdates(true))
-          break
 
         case .reply(let response):
           switch response {
@@ -160,8 +156,6 @@ extension UpdaterClient {
             mockUpdater.send(.cancel)
 
           }
-
-          break
         }
 
       }

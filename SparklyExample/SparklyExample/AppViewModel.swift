@@ -16,6 +16,12 @@ struct ErrorAlert: Identifiable {
   let dismiss: () -> Void
 }
 
+enum Window: String, CaseIterable {
+  case main = "main"
+  case updatePermissionRequest = "update-permission-request"
+  case updateCheck = "update-check"
+}
+
 final class AppViewModel: ObservableObject {
 
   @Published var canCheckForUpdates = false
@@ -68,7 +74,7 @@ final class AppViewModel: ObservableObject {
 
         case .updateCheck(let state):
           if state == .checking {
-            self?.updateCheckInProgress = true
+            self?.newWindow(.updateCheck)
           }
 
         case .dismissUpdateInstallation, .terminationSignal:
@@ -84,9 +90,20 @@ final class AppViewModel: ObservableObject {
             dismiss: { self?.updaterClient.send(.cancel) }
           )
 
+        case .permissionRequest:
+          print("Received Permission Request!")
+          self?.newWindow(.updatePermissionRequest)
         }
       }
       .store(in: &cancellables)
+  }
+
+  private func newWindow(_ window: Window) {
+    guard let urlScheme = Bundle.main.urlScheme else { return }
+    if let url = URL(string: "\(urlScheme)://\(window.rawValue)") {
+      print("Will open Window \(url.description)")
+      NSWorkspace.shared.open(url)
+    }
   }
 
   func bindingForSetting<Value>(
@@ -103,5 +120,15 @@ final class AppViewModel: ObservableObject {
         self?.updateSettings(settings)
       }
     )
+  }
+
+  func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {
+    self.updaterClient.send(
+      .setPermission(
+        automaticUpdateChecks: automaticallyCheckForUpdate,
+        sendSystemProfile: sendSystemProfile
+      )
+    )
+    newWindow(.main)
   }
 }

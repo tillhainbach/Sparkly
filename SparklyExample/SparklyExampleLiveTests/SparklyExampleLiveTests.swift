@@ -122,7 +122,7 @@ class SparklyExampleLiveTests: XCTestCase {
         case .failure(_):
           XCTFail("Should not fail!")
 
-        case .canCheckForUpdates(_), .showUpdateReleaseNotes(_):
+        case .canCheckForUpdates(_), .showUpdateReleaseNotes(_), .permissionRequest:
           break
 
         case .dismissUpdateInstallation:
@@ -135,6 +135,7 @@ class SparklyExampleLiveTests: XCTestCase {
           if state == .checking {
             self.client.send(.cancel)
           }
+
         }
       }
       .store(in: &cancellables)
