@@ -10,12 +10,6 @@ import SparklyClient
 import SwiftUI
 import WebKit
 
-extension Bundle {
-  var appVersion: String {
-    Self.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
-  }
-}
-
 struct WebView: NSViewRepresentable {
   let request: URLRequest
 
