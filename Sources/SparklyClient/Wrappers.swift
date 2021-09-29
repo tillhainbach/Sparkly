@@ -75,7 +75,6 @@ public enum UpdaterSettingsKeys: String {
   case sendSystemProfile = "SUSendProfileInfo"
 }
 
-
 /// Preset of fixed update intervals.
 public enum UpdateInterval: String, CaseIterable, Identifiable, Equatable {
   case daily = "Daily"

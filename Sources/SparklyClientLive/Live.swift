@@ -197,7 +197,10 @@ extension UpdaterClient {
 
         case .setPermission(let automaticUpdateChecks, let sendSystemProfile):
           userDriver.permissionRequest?(
-            .init(automaticUpdateChecks: automaticUpdateChecks, sendSystemProfile: sendSystemProfile)
+            .init(
+              automaticUpdateChecks: automaticUpdateChecks,
+              sendSystemProfile: sendSystemProfile
+            )
           )
 
         }
