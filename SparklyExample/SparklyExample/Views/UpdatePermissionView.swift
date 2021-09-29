@@ -11,23 +11,45 @@ struct UpdatePermissionView: View {
   @State private var sendSystemProfile = false
   let response: (Bool, Bool) -> Void
 
+  let appName = Bundle.main.appName
+
   var body: some View {
     VStack {
-      Text("Update Permission")
-
-      Toggle("Send Sytem Profile Infos", isOn: $sendSystemProfile)
-
       HStack {
-        Button("Check Updates automatically") {
-          respondAndClose(autoCheck: true)
-        }
+        Image(systemName: "arrow.down.app.fill")
+          .resizable()
+          .frame(width: 80, height: 80)
+          .padding(.trailing)
+        VStack(alignment: .leading) {
+          Text("Check for updates automatically?")
+            .font(.headline)
+            .padding(.bottom, 1)
 
-        Button("Don't Check Updates automatically") {
-          respondAndClose(autoCheck: false)
+          Text("Should \(appName) automatically check for updates?")
+          Text("You can always check for updates manually from the \(appName) menu.")
+
+          Toggle("send anonymous system profile infos", isOn: $sendSystemProfile)
+            .font(.footnote)
         }
       }
+
+      HStack {
+        Spacer()
+        Button("Don't Check") {
+          respondAndClose(autoCheck: false)
+        }
+
+        Button("Check automatically") {
+          respondAndClose(autoCheck: true)
+        }
+        .buttonStyle(DefaultButtonStyle())
+        .keyboardShortcut(.defaultAction)
+
+      }
+
     }
     .padding()
+    .frame(maxWidth: 500, minHeight: 180)
   }
 
   func respondAndClose(autoCheck: Bool) {

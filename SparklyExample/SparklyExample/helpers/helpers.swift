@@ -28,6 +28,12 @@ extension Bundle {
 }
 
 extension Bundle {
+  var appName: String {
+    Self.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? ""
+  }
+}
+
+extension Bundle {
   var urlScheme: String? {
     let urlType = Self.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]]
     let schemes = urlType?.first?["CFBundleURLSchemes"] as? [String]
