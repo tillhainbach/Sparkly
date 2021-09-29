@@ -26,7 +26,8 @@ struct SparklyExampleApp: App {
           )
         }
     }
-    WindowGroup(Window.updateCheck.rawValue) {
+
+    WindowGroup(Window.updateCheck.rawValue.kebabToTitle()) {
       UpdateView(
         viewModel: .init(
           automaticallyCheckForUpdates: appViewModel.bindingForSetting(
@@ -43,7 +44,8 @@ struct SparklyExampleApp: App {
       )
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updateCheck.rawValue))
-    WindowGroup(Window.updatePermissionRequest.rawValue) {
+
+    WindowGroup(Window.updatePermissionRequest.rawValue.kebabToTitle()) {
       UpdatePermissionView(response: {
         appViewModel.updaterClient.send(
           .setPermission(automaticUpdateChecks: $0, sendSystemProfile: $1)

@@ -34,3 +34,12 @@ extension Bundle {
     return schemes?.first
   }
 }
+
+extension String {
+  func kebabToTitle() -> String {
+    self.split(separator: "-")
+      .map(\.localizedCapitalized)
+      .joined(separator: " ")
+
+  }
+}
