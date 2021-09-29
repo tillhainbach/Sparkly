@@ -25,7 +25,6 @@ enum Window: String, CaseIterable {
 final class AppViewModel: ObservableObject {
 
   @Published var canCheckForUpdates = false
-  @Published var updateCheckInProgress = false
   @Published var errorAlert: ErrorAlert? = nil
   let updaterClient: UpdaterClient
   var cancellables: Set<AnyCancellable> = []
@@ -73,10 +72,7 @@ final class AppViewModel: ObservableObject {
             self?.newWindow(.updateCheck)
           }
 
-        case .dismissUpdateInstallation, .terminationSignal:
-          self?.updateCheckInProgress = false
-
-        case .showUpdateReleaseNotes:
+        case .dismissUpdateInstallation, .terminationSignal, .showUpdateReleaseNotes:
           break
 
         case .failure(let error):

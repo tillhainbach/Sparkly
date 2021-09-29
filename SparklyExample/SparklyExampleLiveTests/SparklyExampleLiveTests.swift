@@ -48,7 +48,7 @@ class SparklyExampleLiveTests: XCTestCase {
         case .updateCheck(.downloading(let total, let completed)):
           if total == completed && total != 0 {
             expectDownloadInFlight.fulfill()
-            XCTAssertEqual(4_456_010, total)
+            XCTAssertEqual(4_474_762, total)
           }
 
         case .updateCheck(.extracting(let completed)):

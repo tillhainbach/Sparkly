@@ -31,7 +31,6 @@
 		2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
 		2B90560426F775F40081AB5F /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560326F775F40081AB5F /* helpers.swift */; };
 		2B90560826F778710081AB5F /* FoundUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560726F778710081AB5F /* FoundUpdateView.swift */; };
-		2B97905426FE66D400D6F4F6 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */; };
 		2B97905526FE66D600D6F4F6 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */; };
 		2B98985F270262CC00C55CF5 /* SparklyClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B98985E270262CC00C55CF5 /* SparklyClient */; };
 		2B9898612702636C00C55CF5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9898602702636C00C55CF5 /* AppViewModel.swift */; };
@@ -104,7 +103,6 @@
 		2B86D2B72668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B86D2B82668C73C007F9350 /* SparklyExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SparklyExample.entitlements; sourceTree = "<group>"; };
 		2B86D2BD2668C73C007F9350 /* SparklyExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTests.swift; sourceTree = "<group>"; };
 		2B86D2C32668C73C007F9350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2B90560126F632FA0081AB5F /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 			children = (
 				2B80537F2701FED200749046 /* UpdateViewModelTests.swift */,
 				2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */,
-				2B86D2C12668C73C007F9350 /* SettingsViewTests.swift */,
 				2B86D2C32668C73C007F9350 /* Info.plist */,
 			);
 			path = SparklyExampleTests;
@@ -455,7 +452,6 @@
 				2BB092642703781A00CFC6E5 /* UpdatePermissionView.swift in Sources */,
 				2B80537027009F8400749046 /* UpdateView.swift in Sources */,
 				2B97905526FE66D600D6F4F6 /* AppViewModelTests.swift in Sources */,
-				2B97905426FE66D400D6F4F6 /* SettingsViewTests.swift in Sources */,
 				2B8053802701FED200749046 /* UpdateViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
