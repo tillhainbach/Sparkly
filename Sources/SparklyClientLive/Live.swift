@@ -21,6 +21,7 @@ extension UpdaterClient {
       let eventSubject: PassthroughSubject<Event, Never>
       var cancelCallback: (() -> Void)?
       var replyCallback: ((SPUUserUpdateChoice) -> Void)?
+      var permissionRequest: ((SUUpdatePermissionResponse) -> Void)?
       var totalDownloadData = 0.0
       var totalDataReceived = 0.0
 
@@ -33,7 +34,8 @@ extension UpdaterClient {
         _ request: SPUUpdatePermissionRequest,
         reply: @escaping (SUUpdatePermissionResponse) -> Void
       ) {
-        fatalError("Unimplemented")
+        self.permissionRequest = reply
+        eventSubject.send(.permissionRequest)
       }
 
       func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
@@ -178,30 +180,31 @@ extension UpdaterClient {
           } catch {
             eventSubject.send(.failure(error as NSError))
           }
-          break
 
         case .checkForUpdates:
           updater.checkForUpdates()
-          break
-
-        case .updateUserSettings(let userSettings):
-          updater.updateSettings(from: userSettings)
-          break
 
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
-          break
 
         case .cancel:
           userDriver.cancelCallback?()
           userDriver.cancelCallback = nil
-          break
 
         case .reply(let choice):
           userDriver.replyCallback?(choice.toSparkle())
           userDriver.replyCallback = nil
-          break
+
+        case .setPermission(let automaticUpdateChecks, let sendSystemProfile):
+          userDriver.permissionRequest?(
+            .init(
+              automaticUpdateChecks: automaticUpdateChecks,
+              sendSystemProfile: sendSystemProfile
+            )
+          )
+
         }
+
       }
       .store(in: &cancellables)
 

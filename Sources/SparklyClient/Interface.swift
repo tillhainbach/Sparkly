@@ -55,6 +55,8 @@ extension UpdaterClient {
     /// and e.g. show an appropriate alert. Some errors by need to be acknowledged by sending  `Action.cancel` to the updater
     case failure(_ error: NSError)
 
+    case permissionRequest
+
     /// This event emits if the updater wants to show release notes
     case showUpdateReleaseNotes(DownloadData)
 
@@ -77,7 +79,7 @@ extension UpdaterClient {
     case reply(UserUpdateState.Choice)
     case setHTTPHeaders([String: String])
     case startUpdater
-    case updateUserSettings(UpdaterSettings)
+    case setPermission(automaticUpdateChecks: Bool, sendSystemProfile: Bool)
   }
 }
 

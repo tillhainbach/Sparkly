@@ -10,12 +10,6 @@ import SparklyClient
 import SwiftUI
 import WebKit
 
-extension Bundle {
-  var appVersion: String {
-    Self.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
-  }
-}
-
 struct WebView: NSViewRepresentable {
   let request: URLRequest
 
@@ -31,7 +25,9 @@ struct WebView: NSViewRepresentable {
 
 struct FoundUpdateView: View {
 
-  @Binding var automaticallyCheckForUpdates: Bool
+  @AppStorage(UpdaterSettingsKeys.automaticallyDownloadUpdates.rawValue)
+  var automaticallyDownloadUpdates: Bool = false
+
   @Binding var downloadData: DownloadData?
   let update: AppcastItem
   let skipUpdate: () -> Void
@@ -70,7 +66,7 @@ struct FoundUpdateView: View {
         HStack {
           Toggle(
             "Automatically download and install updates in the future",
-            isOn: $automaticallyCheckForUpdates
+            isOn: $automaticallyDownloadUpdates
           )
         }
         HStack {
@@ -87,7 +83,6 @@ struct FoundUpdateView: View {
 struct FoundUpdateView_Previews: PreviewProvider {
   static var previews: some View {
     FoundUpdateView(
-      automaticallyCheckForUpdates: .constant(true),
       downloadData: .constant(
         .init(
           data: "New Update".data(using: .utf8)!,

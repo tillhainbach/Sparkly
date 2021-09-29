@@ -16,10 +16,15 @@ struct ErrorAlert: Identifiable {
   let dismiss: () -> Void
 }
 
+enum Window: String, CaseIterable {
+  case main = "main"
+  case updatePermissionRequest = "update-permission-request"
+  case updateCheck = "update-check"
+}
+
 final class AppViewModel: ObservableObject {
 
   @Published var canCheckForUpdates = false
-  @Published var updateCheckInProgress = false
   @Published var errorAlert: ErrorAlert? = nil
   let updaterClient: UpdaterClient
   var cancellables: Set<AnyCancellable> = []
@@ -50,10 +55,6 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.checkForUpdates)
   }
 
-  func updateSettings(_ settings: UpdaterSettings) {
-    updaterClient.send(.updateUserSettings(settings))
-  }
-
   func cancel() {
     updaterClient.send(.cancel)
   }
@@ -68,13 +69,10 @@ final class AppViewModel: ObservableObject {
 
         case .updateCheck(let state):
           if state == .checking {
-            self?.updateCheckInProgress = true
+            self?.newWindow(.updateCheck)
           }
 
-        case .dismissUpdateInstallation, .terminationSignal:
-          self?.updateCheckInProgress = false
-
-        case .showUpdateReleaseNotes:
+        case .dismissUpdateInstallation, .terminationSignal, .showUpdateReleaseNotes:
           break
 
         case .failure(let error):
@@ -84,24 +82,29 @@ final class AppViewModel: ObservableObject {
             dismiss: { self?.updaterClient.send(.cancel) }
           )
 
+        case .permissionRequest:
+          print("Received Permission Request!")
+          self?.newWindow(.updatePermissionRequest)
         }
       }
       .store(in: &cancellables)
   }
 
-  func bindingForSetting<Value>(
-    on keyPath: WritableKeyPath<UpdaterSettings, Value>
-  ) -> Binding<Value> {
-    Binding(
-      get: {
-        let settings = UpdaterSettings.init(from: UserDefaults.standard)
-        return settings[keyPath: keyPath]
-      },
-      set: { [weak self] in
-        var settings = UpdaterSettings.init(from: UserDefaults.standard)
-        settings[keyPath: keyPath] = $0
-        self?.updateSettings(settings)
-      }
+  private func newWindow(_ window: Window) {
+    guard let urlScheme = Bundle.main.urlScheme else { return }
+    if let url = URL(string: "\(urlScheme)://\(window.rawValue)") {
+      print("Will open Window \(url.description)")
+      NSWorkspace.shared.open(url)
+    }
+  }
+
+  func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {
+    self.updaterClient.send(
+      .setPermission(
+        automaticUpdateChecks: automaticallyCheckForUpdate,
+        sendSystemProfile: sendSystemProfile
+      )
     )
+    newWindow(.main)
   }
 }

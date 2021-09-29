@@ -68,63 +68,11 @@ public struct AppcastItem: Equatable {
 
 // MARK: - UpdaterSettings
 
-/// A model for sparkle settings that are relevant for the user.
-///
-/// This does not 1-to-1 correspond to Sparkle's `SPUUpdaterSettings` but is rather
-/// an opinionated selections of settings that might be of interest to users of an application.
-public struct UpdaterSettings: Equatable {
-
-  /// Enable or Disable automatic update checks.
-  public var automaticallyCheckForUpdates: Bool
-
-  /// Set the interval for which updates are checked.
-  public var updateInterval: UpdateInterval
-
-  /// Enable or Disable automatic downloading and installation of updates.
-  public var automaticallyDownloadUpdates: Bool
-
-  /// Allow sending of anonymous system profile data.
-  public var sendSystemProfile: Bool
-
-  /// Initialize SUUpdaterUserSettings.
-  public init(
-    automaticallyCheckForUpdates: Bool = true,
-    updateInterval: UpdateInterval = .daily,
-    automaticallyDownloadUpdates: Bool = false,
-    sendSystemProfile: Bool = false
-  ) {
-    self.automaticallyCheckForUpdates = automaticallyCheckForUpdates
-    self.updateInterval = updateInterval
-    self.automaticallyDownloadUpdates = automaticallyDownloadUpdates
-    self.sendSystemProfile = sendSystemProfile
-  }
-}
-
-extension UpdaterSettings {
-  /// Retrieve save settings from `UserDefaults`.
-  /// - Parameter userDefault: a `UserDefaults` instance.
-  public init(from userDefault: UserDefaults) {
-    self.init(
-      automaticallyCheckForUpdates: userDefault.bool(
-        forKey: UserDefaultKeys.automaticallyDownloadUpdates.rawValue
-      ),
-      updateInterval: .init(
-        from: userDefault.double(forKey: UserDefaultKeys.updateInterval.rawValue)
-      ),
-      automaticallyDownloadUpdates: userDefault.bool(
-        forKey: UserDefaultKeys.automaticallyDownloadUpdates.rawValue
-      ),
-      sendSystemProfile: userDefault.bool(forKey: UserDefaultKeys.sendSystemProfile.rawValue)
-    )
-  }
-
-  private enum UserDefaultKeys: String {
-    case automaticallyCheckForUpdatesKey = "SUEnableAutomaticChecks"
-    case updateInterval = "SUScheduledCheckInterval"
-    case automaticallyDownloadUpdates = "SUAutomaticallyUpdate"
-    case sendSystemProfile = "SUSendProfileInfo"
-  }
-
+public enum UpdaterSettingsKeys: String {
+  case automaticallyCheckForUpdatesKey = "SUEnableAutomaticChecks"
+  case updateInterval = "SUScheduledCheckInterval"
+  case automaticallyDownloadUpdates = "SUAutomaticallyUpdate"
+  case sendSystemProfile = "SUSendProfileInfo"
 }
 
 /// Preset of fixed update intervals.

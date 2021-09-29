@@ -52,13 +52,10 @@ extension UpdaterClient {
         case .checkForUpdates:
           updater.checkForUpdates()
 
-        case .updateUserSettings(let userSettings):
-          updater.updateSettings(from: userSettings)
-
         case .setHTTPHeaders(let newHTTPHeaders):
           updater.httpHeaders = newHTTPHeaders
 
-        case .cancel, .reply:
+        case .cancel, .reply, .setPermission:
           break
         }
       }

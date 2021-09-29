@@ -8,31 +8,20 @@ import Combine
 import SparklyClient
 import SwiftUI
 
-/// The view model that drives a`SparkleSettingsView`.
-public final class SparkleSettingsViewModel: ObservableObject {
-
-  /// The published `updaterSettings`.
-  @Published public var updaterSettings: UpdaterSettings
-
-  private var cancellable: AnyCancellable?
-
-  /// Initialize `SparkleSettingsViewModel`
-  /// - Parameter updaterSettings: The SUUpdaterUserSettings,
-  /// - Parameter onSettingsChanged: Callback to send new settings to the updater client.
-  public init(
-    updaterSettings: UpdaterSettings,
-    onSettingsChanged: @escaping (UpdaterSettings) -> Void
-  ) {
-    self.updaterSettings = updaterSettings
-    cancellable = $updaterSettings.sink(receiveValue: onSettingsChanged)
-  }
-
-}
-
 /// A View to set user-specific Sparkle settings.
 public struct SettingsView: View {
 
-  @ObservedObject var viewModel: SparkleSettingsViewModel
+  @AppStorage(UpdaterSettingsKeys.automaticallyCheckForUpdatesKey.rawValue)
+  var automaticallyCheckForUpdates: Bool = false
+
+  @AppStorage(UpdaterSettingsKeys.automaticallyDownloadUpdates.rawValue)
+  var automaticallyDownloadUpdates: Bool = false
+
+  @AppStorage(UpdaterSettingsKeys.sendSystemProfile.rawValue)
+  var sendSystemProfile: Bool = false
+
+  @AppStorage(UpdaterSettingsKeys.updateInterval.rawValue)
+  var updateInterval: UpdateInterval = .daily
 
   /// The body of the settings view.
   public var body: some View {
@@ -42,16 +31,16 @@ public struct SettingsView: View {
         Section(
           header: Text("Check for Updates"),
           footer: Text("Choose if updates should be checked for automatically")
-            + Text("and specify the interval")
+            + Text(" and specify the interval")
         ) {
 
           Toggle(
             "Automatically check for updates",
-            isOn: $viewModel.updaterSettings.automaticallyCheckForUpdates
+            isOn: $automaticallyCheckForUpdates
           )
 
-          if viewModel.updaterSettings.automaticallyCheckForUpdates {
-            Picker("Update interval", selection: $viewModel.updaterSettings.updateInterval) {
+          if automaticallyCheckForUpdates {
+            Picker("Update interval", selection: $updateInterval) {
               ForEach(UpdateInterval.allCases) {
                 Text($0.rawValue)
               }
@@ -63,12 +52,12 @@ public struct SettingsView: View {
         Section {
           Toggle(
             "Automatically download Updates",
-            isOn: $viewModel.updaterSettings.automaticallyDownloadUpdates
+            isOn: $automaticallyDownloadUpdates
           )
         }
 
         Section {
-          Toggle("Send System profile", isOn: $viewModel.updaterSettings.sendSystemProfile)
+          Toggle("Send System profile", isOn: $sendSystemProfile)
         }
       }
     }
@@ -79,11 +68,6 @@ public struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    SettingsView(
-      viewModel: SparkleSettingsViewModel(
-        updaterSettings: .init(),
-        onSettingsChanged: { _ in }
-      )
-    )
+    SettingsView()
   }
 }

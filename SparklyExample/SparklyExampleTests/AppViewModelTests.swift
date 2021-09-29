@@ -74,12 +74,10 @@ class AppViewModelTests: XCTestCase {
     appViewModel.checkForUpdates()
 
     XCTAssertFalse(appViewModel.canCheckForUpdates)
-    XCTAssertTrue(appViewModel.updateCheckInProgress)
 
     appViewModel.cancel()
 
     XCTAssertTrue(appViewModel.canCheckForUpdates)
-    XCTAssertFalse(appViewModel.updateCheckInProgress)
   }
 
 }
