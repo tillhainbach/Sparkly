@@ -30,9 +30,6 @@ struct SparklyExampleApp: App {
     WindowGroup(Window.updateCheck.rawValue.kebabToTitle()) {
       UpdateView(
         viewModel: .init(
-          automaticallyCheckForUpdates: appViewModel.bindingForSetting(
-            on: \.automaticallyCheckForUpdates
-          ),
           updateEventPublisher: appViewModel.updaterClient.updaterEventPublisher,
           cancelUpdate: appViewModel.cancel,
           send: { appViewModel.updaterClient.send(.reply($0)) }
@@ -57,22 +54,16 @@ struct SparklyExampleApp: App {
       )
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updatePermissionRequest.rawValue))
-    Settings {
-      SettingsView(
-        viewModel: SparkleSettingsViewModel(
-          updaterSettings: .init(from: UserDefaults.standard),
-          onSettingsChanged: appViewModel.updateSettings(_:)
+
+    Settings { SettingsView() }
+      .commands {
+        UpdateCommand(
+          viewModel: UpdateCommandViewModel(
+            canCheckForUpdates: appViewModel.$canCheckForUpdates.eraseToAnyPublisher(),
+            checkForUpdates: appViewModel.checkForUpdates
+          )
         )
-      )
-    }
-    .commands {
-      UpdateCommand(
-        viewModel: UpdateCommandViewModel(
-          canCheckForUpdates: appViewModel.$canCheckForUpdates.eraseToAnyPublisher(),
-          checkForUpdates: appViewModel.checkForUpdates
-        )
-      )
-    }
+      }
   }
 }
 

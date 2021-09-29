@@ -79,7 +79,6 @@ extension UpdaterClient {
     case reply(UserUpdateState.Choice)
     case setHTTPHeaders([String: String])
     case startUpdater
-    case updateUserSettings(UpdaterSettings)
     case setPermission(automaticUpdateChecks: Bool, sendSystemProfile: Bool)
   }
 }

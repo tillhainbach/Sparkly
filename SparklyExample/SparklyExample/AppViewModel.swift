@@ -56,10 +56,6 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.checkForUpdates)
   }
 
-  func updateSettings(_ settings: UpdaterSettings) {
-    updaterClient.send(.updateUserSettings(settings))
-  }
-
   func cancel() {
     updaterClient.send(.cancel)
   }
@@ -104,22 +100,6 @@ final class AppViewModel: ObservableObject {
       print("Will open Window \(url.description)")
       NSWorkspace.shared.open(url)
     }
-  }
-
-  func bindingForSetting<Value>(
-    on keyPath: WritableKeyPath<UpdaterSettings, Value>
-  ) -> Binding<Value> {
-    Binding(
-      get: {
-        let settings = UpdaterSettings.init(from: UserDefaults.standard)
-        return settings[keyPath: keyPath]
-      },
-      set: { [weak self] in
-        var settings = UpdaterSettings.init(from: UserDefaults.standard)
-        settings[keyPath: keyPath] = $0
-        self?.updateSettings(settings)
-      }
-    )
   }
 
   func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {

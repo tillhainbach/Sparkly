@@ -22,7 +22,6 @@ class UpdateViewModelTests: XCTestCase {
     var reply: UserUpdateState.Choice!
 
     let viewModel = UpdateViewModel(
-      automaticallyCheckForUpdates: .constant(true),
       updateEventPublisher: Just(UpdaterClient.Event.updateCheck(.readyToRelaunch))
         .eraseToAnyPublisher(),
       cancelUpdate: noop,
@@ -39,7 +38,6 @@ class UpdateViewModelTests: XCTestCase {
     let client = UpdaterClient.mock(scheduler: scheduler)
 
     let viewModel = UpdateViewModel(
-      automaticallyCheckForUpdates: .constant(true),
       updateEventPublisher: client.updaterEventPublisher,
       cancelUpdate: {},
       send: { _ in }
@@ -110,7 +108,7 @@ extension UpdaterClient {
         case .startUpdater:
           publisher.send(.canCheckForUpdates(true))
 
-        case .updateUserSettings(_), .setPermission, .setHTTPHeaders(_):
+        case .setPermission, .setHTTPHeaders(_):
           XCTFail("Received unexpected action: \(action)")
 
         case .cancel:

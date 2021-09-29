@@ -22,17 +22,13 @@ extension UpdaterClient {
 
         case .setHTTPHeaders(let newHTTPHeaders):
           print("Updating headers for \(newHTTPHeaders)")
-          break
 
         case .checkForUpdates:
           print("checking for updates")
-          break
+
         case .startUpdater:
           print("updater did start")
-          break
-        case .updateUserSettings:
-          print("changing update settings")
-          break
+
         case .cancel:
           break
 

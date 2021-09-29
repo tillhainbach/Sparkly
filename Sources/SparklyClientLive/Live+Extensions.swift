@@ -43,15 +43,6 @@ extension DownloadData {
   }
 }
 
-extension SPUUpdater {
-  func updateSettings(from userSettings: UpdaterSettings) {
-    self.automaticallyChecksForUpdates = userSettings.automaticallyCheckForUpdates
-    self.automaticallyDownloadsUpdates = userSettings.automaticallyDownloadUpdates
-    self.sendsSystemProfile = userSettings.sendSystemProfile
-    self.updateCheckInterval = userSettings.updateInterval.toTimeInterval()
-  }
-}
-
 extension UserUpdateState.Stage {
   init?(rawValue: SPUUserUpdateStage) {
     switch rawValue {

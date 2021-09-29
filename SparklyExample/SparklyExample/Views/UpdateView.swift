@@ -10,7 +10,6 @@ import SparklyClient
 import SwiftUI
 
 final class UpdateViewModel: ObservableObject {
-  @Binding var automaticallyCheckForUpdates: Bool
   @Published var downloadData: DownloadData?
   @Published var updateState: UpdateCheckState?
 
@@ -21,12 +20,10 @@ final class UpdateViewModel: ObservableObject {
   private var cancellable: AnyCancellable?
 
   init(
-    automaticallyCheckForUpdates: Binding<Bool>,
     updateEventPublisher: AnyPublisher<UpdaterClient.Event, Never>,
     cancelUpdate: @escaping () -> Void,
     send: @escaping (UserUpdateState.Choice) -> Void
   ) {
-    self._automaticallyCheckForUpdates = automaticallyCheckForUpdates
     self.cancelUpdate = cancelUpdate
     self.send = send
     self.cancellable = updateEventPublisher.removeDuplicates()
@@ -115,7 +112,6 @@ struct UpdateView: View {
 
       case .found(let update, _):
         FoundUpdateView(
-          automaticallyCheckForUpdates: $viewModel.automaticallyCheckForUpdates,
           downloadData: $viewModel.downloadData,
           update: update,
           skipUpdate: { viewModel.reply(.skip) },
@@ -167,7 +163,6 @@ struct UpdateView: View {
 struct UpdateView_Previews: PreviewProvider {
   static func defaultViewModel() -> UpdateViewModel {
     UpdateViewModel(
-      automaticallyCheckForUpdates: .constant(true),
       updateEventPublisher: Empty().eraseToAnyPublisher(),
       cancelUpdate: noop,
       send: noop(_:)

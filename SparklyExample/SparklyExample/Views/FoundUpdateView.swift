@@ -25,7 +25,9 @@ struct WebView: NSViewRepresentable {
 
 struct FoundUpdateView: View {
 
-  @Binding var automaticallyCheckForUpdates: Bool
+  @AppStorage(UpdaterSettingsKeys.automaticallyDownloadUpdates.rawValue)
+  var automaticallyDownloadUpdates: Bool = false
+
   @Binding var downloadData: DownloadData?
   let update: AppcastItem
   let skipUpdate: () -> Void
