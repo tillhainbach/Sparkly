@@ -39,14 +39,12 @@ rm-container:
 	rm -rf /Users/tillhainbach/Library/Containers/de.hainbach.SparklyExample
 
 server:
-	nohup npx http-server Product -S -C dev/server/cert.pem Product -K dev/server/key.pem > server.log 2>&1 & echo $$! > save_pid.txt
+	nohup http-server dev -S -C dev/server/cert.pem -K dev/server/key.pem > server.log & echo $$! > save_pid.txt
 
 test: 
-	@make server
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
 		-scheme SparklyExample
-	@make kill-server
 
 kill-server:
 	kill -9 `cat save_pid.txt`

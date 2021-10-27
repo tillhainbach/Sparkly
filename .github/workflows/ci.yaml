@@ -7,32 +7,14 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout Project
+        uses: actions/checkout@v1
 
-      - name: Restore swift build cache
-        uses: actions/cache@v1
-        with:
-          path: .build
-          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-
-
-      - name: build swift-format
-        run: |
-          if [ -d ".build" ]; then
-            if ! [ -x "$(command -v swift-format)" ]; then
-              sudo cp -f .build/release/swift-format /usr/local/bin/swift-format
-            fi
-          else
-            git clone -b swift-5.4-branch https://github.com/apple/swift-format.git
-            cd swift-format
-            swift build --disable-sandbox -c release
-            mv .build .. && cd ..
-            sudo cp -f .build/release/swift-format /usr/local/bin/swift-format
-          fi
+      - name: Install swift-format
+        run: brew install swift-format
 
       - name: lint
         run: make lint
@@ -57,8 +39,14 @@ jobs:
         with:
           node-version: "14"
 
-      - name: build
-        run: make build
+      - name: install http-server
+        run: npm install -g http-server
+
+      - name: start test-server
+        run: make server && sleep 2 && cat server.log
 
       - name: test
         run: make test
+
+      - name: check server logs
+        run: cat server.log
