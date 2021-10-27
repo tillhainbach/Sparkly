@@ -19,13 +19,15 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "http-server": "^14.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.0",
     "simple-git-hooks": "^2.4.1"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpx lint-staged -q",
-    "commit-msg": "pnpx --no-install commitlint --edit $1"
+    "commit-msg": "pnpx --no-install commitlint --edit $1",
+    "pre-push": "make set-ci-url"
   },
   "lint-staged": {
     "*.{swift}": "swift format lint --configuration .swift-format.json",

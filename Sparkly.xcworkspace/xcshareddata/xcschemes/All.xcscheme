@@ -17,7 +17,7 @@
                BlueprintIdentifier = "2B86D2AA2668C739007F9350"
                BuildableName = "SparklyExample.app"
                BlueprintName = "SparklyExample"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "2B86D2BC2668C73C007F9350"
                BuildableName = "SparklyExampleTests.xctest"
                BlueprintName = "SparklyExampleTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,21 @@
                BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
                BuildableName = "SparklyExampleLiveTests.xctest"
                BlueprintName = "SparklyExampleLiveTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SparklyClientTests"
+               BuildableName = "SparklyClientTests"
+               BlueprintName = "SparklyClientTests"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -58,38 +72,59 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2B86D2AA2668C739007F9350"
+            BuildableName = "SparklyExample.app"
+            BlueprintName = "SparklyExample"
+            ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
+            BuildableName = "SparklyExampleLiveTests.xctest"
+            BlueprintName = "SparklyExampleLiveTests"
+            ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2B86D2BC2668C73C007F9350"
+            BuildableName = "SparklyExampleTests.xctest"
+            BlueprintName = "SparklyExampleTests"
+            ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
             BlueprintIdentifier = "Sparkly"
             BuildableName = "Sparkly"
             BlueprintName = "Sparkly"
-            ReferencedContainer = "container:..">
+            ReferencedContainer = "container:">
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SparklyClient"
             BuildableName = "SparklyClient"
             BlueprintName = "SparklyClient"
-            ReferencedContainer = "container:..">
+            ReferencedContainer = "container:">
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SparklyClientLive"
             BuildableName = "SparklyClientLive"
             BlueprintName = "SparklyClientLive"
-            ReferencedContainer = "container:..">
+            ReferencedContainer = "container:">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "SparklyClientTests"
+            BuildableName = "SparklyClientTests"
+            BlueprintName = "SparklyClientTests"
+            ReferencedContainer = "container:">
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SparklyCommands"
             BuildableName = "SparklyCommands"
             BlueprintName = "SparklyCommands"
-            ReferencedContainer = "container:..">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2B86D2AA2668C739007F9350"
-            BuildableName = "SparklyExample.app"
-            BlueprintName = "SparklyExample"
-            ReferencedContainer = "container:SparklyExample.xcodeproj">
+            ReferencedContainer = "container:">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
@@ -100,7 +135,7 @@
                BlueprintIdentifier = "2B86D2BC2668C73C007F9350"
                BuildableName = "SparklyExampleTests.xctest"
                BlueprintName = "SparklyExampleTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -110,7 +145,17 @@
                BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
                BuildableName = "SparklyExampleLiveTests.xctest"
                BlueprintName = "SparklyExampleLiveTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SparklyClientTests"
+               BuildableName = "SparklyClientTests"
+               BlueprintName = "SparklyClientTests"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -133,7 +178,7 @@
             BlueprintIdentifier = "2B86D2AA2668C739007F9350"
             BuildableName = "SparklyExample.app"
             BlueprintName = "SparklyExample"
-            ReferencedContainer = "container:SparklyExample.xcodeproj">
+            ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -150,7 +195,7 @@
             BlueprintIdentifier = "2B86D2AA2668C739007F9350"
             BuildableName = "SparklyExample.app"
             BlueprintName = "SparklyExample"
-            ReferencedContainer = "container:SparklyExample.xcodeproj">
+            ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

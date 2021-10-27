@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SparklyClient"
-               BuildableName = "SparklyClient"
-               BlueprintName = "SparklyClient"
+               BlueprintIdentifier = "SparklyClientLive"
+               BuildableName = "SparklyClientLive"
+               BlueprintName = "SparklyClientLive"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,19 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SparklyClientTests"
-               BuildableName = "SparklyClientTests"
-               BlueprintName = "SparklyClientTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -61,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SparklyClient"
-            BuildableName = "SparklyClient"
-            BlueprintName = "SparklyClient"
+            BlueprintIdentifier = "SparklyClientLive"
+            BuildableName = "SparklyClientLive"
+            BlueprintName = "SparklyClientLive"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

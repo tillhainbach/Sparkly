@@ -107,7 +107,7 @@ class SparklyExampleLiveTests: XCTestCase {
       XCTAssertTrue(false)
     }
 
-    wait(for: [expectExtracting, expectInstalling, expectReadyToRelaunch], timeout: 5.0)
+    wait(for: [expectExtracting, expectInstalling, expectReadyToRelaunch], timeout: 20.0)
   }
 
   func test_LiveSparkle_canCancelUpdateCheck() {
