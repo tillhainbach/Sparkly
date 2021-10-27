@@ -39,23 +39,19 @@ rm-container:
 	rm -rf /Users/tillhainbach/Library/Containers/de.hainbach.SparklyExample
 
 server:
-	http-server Product -S -C dev/server/cert.pem Product -K dev/server/key.pem
+	nohup http-server Product -S -C dev/server/cert.pem Product -K dev/server/key.pem > server.log 2>&1 & echo $$! > save_pid.txt
 
-test:
-		xcodebuild test \
-	    -workspace Sparkly.xcworkspace \
-			-scheme SparklyExample
+test: 
+	@make server
+	xcodebuild test \
+		-workspace Sparkly.xcworkspace \
+		-scheme SparklyExample
+	@make kill-server
+
+kill-server:
+	kill -9 `cat save_pid.txt`
+	rm save_pid.txt
+	rm server.log
 
 zip:
 	zsh scripts/zip-archive.sh $(PROJECT_NAME)
-
-
-
-
-
-
-
-
-
-
-
