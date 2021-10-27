@@ -9,6 +9,9 @@ DerivedData/
 # node stuff
 node_modules/ 
 
+# dev stuff
+dev
+
 # build stuff
 Archive/
 Product/

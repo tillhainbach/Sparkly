@@ -26,7 +26,8 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpx lint-staged -q",
-    "commit-msg": "pnpx --no-install commitlint --edit $1"
+    "commit-msg": "pnpx --no-install commitlint --edit $1",
+    "pre-push": "make set-ci-url"
   },
   "lint-staged": {
     "*.{swift}": "swift format lint --configuration .swift-format.json",
