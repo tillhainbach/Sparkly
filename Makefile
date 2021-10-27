@@ -75,8 +75,8 @@ test:
 ci-test:
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
-		-scheme SparklyExample
-		-skip-testing:SparklyExampleTests/UpdateViewModelTests/testUserInitiatedUpdateCheck
+		-scheme SparklyExample \
+		-skip-testing "SparklyExampleTests/UpdateViewModelTests/testUserInitiatedUpdateCheck"
 
 set-local-url:
 	@make set-url URL=https://127.0.0.1:8080/appcast.xml
