@@ -8,7 +8,7 @@
             <sparkle:version>0.0.2</sparkle:version>
             <sparkle:shortVersionString>0.0.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://127.0.0.1:8080/SparklyExample.zip" length="4474762" type="application/octet-stream" sparkle:edSignature="yCZL8Ye3VM45uNwLUWbqZTuxVZHJeDXbYMyGffSmmQBMMcEmxczN+Qww94R/iOWCHe8wlCw6/Ac9FtRDcxDpAA=="/>
+            <enclosure url="https://github.com/tillhainbach/Sparkly/releases/download/0.1.0/SparklyExample.zip" length="4474762" type="application/octet-stream" sparkle:edSignature="yCZL8Ye3VM45uNwLUWbqZTuxVZHJeDXbYMyGffSmmQBMMcEmxczN+Qww94R/iOWCHe8wlCw6/Ac9FtRDcxDpAA=="/>
         </item>
     </channel>
 </rss>
