@@ -55,6 +55,43 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "Sparkly"
+            BuildableName = "Sparkly"
+            BlueprintName = "Sparkly"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "SparklyClient"
+            BuildableName = "SparklyClient"
+            BlueprintName = "SparklyClient"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "SparklyClientLive"
+            BuildableName = "SparklyClientLive"
+            BlueprintName = "SparklyClientLive"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "SparklyCommands"
+            BuildableName = "SparklyCommands"
+            BlueprintName = "SparklyCommands"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2B86D2AA2668C739007F9350"
+            BuildableName = "SparklyExample.app"
+            BlueprintName = "SparklyExample"
+            ReferencedContainer = "container:SparklyExample.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">

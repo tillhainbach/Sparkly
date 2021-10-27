@@ -70,12 +70,12 @@ rm-container:
 test:
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
-		-scheme SparklyExample
+		-scheme All
 
 ci-test:
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
-		-scheme SparklyExample \
+		-scheme All \
 		-skip-testing "SparklyExampleTests/UpdateViewModelTests/testUserInitiatedUpdateCheck"
 
 set-local-url:
