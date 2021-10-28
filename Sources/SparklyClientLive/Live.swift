@@ -162,12 +162,10 @@ extension UpdaterClient {
     )
 
     var cancellables: Set<AnyCancellable> = []
-    // FIXME: `.canCheckForUpdates` is not KVO-compliant, falling back to `.sessionInProgress`
+
     // Don't forget to send `.canCheckForUpdates` on `updater.start()`
-    updater.publisher(for: \.sessionInProgress)
-      .sink { _ in
-        eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
-      }
+    updater.publisher(for: \.canCheckForUpdates)
+      .sink { eventSubject.send(.canCheckForUpdates($0)) }
       .store(in: &cancellables)
 
     actionSubject
@@ -176,7 +174,7 @@ extension UpdaterClient {
         case .startUpdater:
           do {
             try updater.start()
-            eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
+//            eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
             eventSubject.send(.failure(error as NSError))
           }

@@ -25,8 +25,14 @@ class SparklyExampleLiveTests: XCTestCase {
       description: baseDescription + "`updateCheckInitiated`"
     )
     let expectUpdateFound = expectation(description: baseDescription + "`updateFound`")
-    let expectDownloadInFlight = expectation(description: baseDescription + "`downloadInFlight`")
-    let expectExtracting = expectation(description: baseDescription + "`extracting`")
+    let expectDownloadStarted = expectation(description: baseDescription + "`.downloading(0, 0)`")
+    let expectDownloadInFlight = expectation(
+      description: baseDescription + "`.downloading(3_525_695, 0)`"
+    )
+    let expectDownloadFinished = expectation(
+      description: baseDescription + "`.downloading(3_525_695, 3_525_695)`"
+    )
+    let expectExtractingFinished = expectation(description: baseDescription + "`extracting`")
     let expectInstalling = expectation(description: baseDescription + "`installing`")
     let expectReadyToRelaunch = expectation(description: baseDescription + "`readyToRelaunch`")
 
@@ -46,14 +52,23 @@ class SparklyExampleLiveTests: XCTestCase {
           expectUpdateFound.fulfill()
 
         case .updateCheck(.downloading(let total, let completed)):
-          if total == completed && total != 0 {
+          switch (total, completed) {
+          case (0.0, 0.0):
+            expectDownloadStarted.fulfill()
+
+          case (3_525_695, 0.0):
             expectDownloadInFlight.fulfill()
-            XCTAssertEqual(4_474_762, total)
+
+          case (3_525_695, 3_525_695):
+            expectDownloadFinished.fulfill()
+
+          default:
+            break
           }
 
         case .updateCheck(.extracting(let completed)):
           if completed == 1.0 {
-            expectExtracting.fulfill()
+            expectExtractingFinished.fulfill()
           }
 
         case .updateCheck(.installing):
@@ -81,39 +96,30 @@ class SparklyExampleLiveTests: XCTestCase {
 
     wait(for: [expectUpdateCheckInitiated], timeout: 0.1)
 
-    XCTAssertEqual(canCheckForUpdates, [false, true, false])
+    XCTAssertEqual(canCheckForUpdates, [false, true, false, true])
     XCTAssertEqual(
       receivedEvents,
-      [.canCheckForUpdates(true), .canCheckForUpdates(false), .updateCheck(.checking)]
+      [
+        .canCheckForUpdates(true),
+        .canCheckForUpdates(false),
+        .canCheckForUpdates(true),
+        .updateCheck(.checking),
+      ]
     )
 
     wait(for: [expectUpdateFound], timeout: 2)
 
-    XCTAssertEqual(canCheckForUpdates, [false, true, false])
+    XCTAssertEqual(canCheckForUpdates, [false, true, false, true])
 
-    if let event = receivedEvents.last, case .updateCheck(.found(_, _)) = event {
-      XCTAssertTrue(true)
-    } else {
-      XCTAssertTrue(false)
-    }
+    wait(for: [expectDownloadStarted, expectDownloadInFlight, expectDownloadFinished], timeout: 2)
 
-    wait(for: [expectDownloadInFlight], timeout: 2)
-
-    if let event = receivedEvents.last,
-      case .updateCheck(.downloading(let total, let completed)) = event
-    {
-      XCTAssertEqual(total, completed)
-    } else {
-      XCTAssertTrue(false)
-    }
-
-    wait(for: [expectExtracting, expectInstalling, expectReadyToRelaunch], timeout: 20.0)
+    wait(for: [expectExtractingFinished, expectInstalling, expectReadyToRelaunch], timeout: 20.0)
   }
 
   func test_LiveSparkle_canCancelUpdateCheck() {
 
     let expectDismissUpdateInstallation = expectation(
-      description: "Expect `dismissUpdateInstallation to be send"
+      description: "Expect `dismissUpdateInstallation` to be send"
     )
 
     client.updaterEventPublisher

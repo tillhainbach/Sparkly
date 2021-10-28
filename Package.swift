@@ -29,7 +29,7 @@ let package = Package(
       name: "Sparkle",
       url: "https://github.com/sparkle-project/Sparkle",
       .exact(
-        Version(2, 0, 0, prereleaseIdentifiers: ["beta", "2"], buildMetadataIdentifiers: [])
+        Version(2, 0, 0, prereleaseIdentifiers: ["beta", "4"], buildMetadataIdentifiers: [])
       )
     )
   ],

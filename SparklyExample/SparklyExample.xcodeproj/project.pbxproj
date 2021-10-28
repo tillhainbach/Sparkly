@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B086DE426FF4CB000AA17F9 /* org.sparkle-project.Downloader.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2B086DE526FF4CB200AA17F9 /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B29F9C326FF6D18000E4045 /* SparklyExampleLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B29F9C226FF6D18000E4045 /* SparklyExampleLiveTests.swift */; };
 		2B80536F27009F8400749046 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */; };
 		2B80537027009F8400749046 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
@@ -40,10 +38,6 @@
 		2BB09263270375A600CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
 		2BB092642703781A00CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
 		2BB092652703781C00CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
-		2BD5C59726FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */; };
-		2BD5C59826FF465C00A6E49C /* org.sparkle-project.Downloader.xpc in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */; };
-		2BD5C59926FF466800A6E49C /* org.sparkle-project.Downloader.xpc in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2BD5C59A26FF466A00A6E49C /* org.sparkle-project.InstallerLauncher.xpc in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2BDEDC6526F9DDF8007BC87E /* Sparkly */; };
 /* End PBXBuildFile section */
 
@@ -71,8 +65,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
 			dstSubfolderSpec = 16;
 			files = (
-				2B086DE426FF4CB000AA17F9 /* org.sparkle-project.Downloader.xpc in CopyFiles */,
-				2B086DE526FF4CB200AA17F9 /* org.sparkle-project.InstallerLauncher.xpc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +74,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
 			dstSubfolderSpec = 16;
 			files = (
-				2BD5C59926FF466800A6E49C /* org.sparkle-project.Downloader.xpc in Copy Files */,
-				2BD5C59A26FF466A00A6E49C /* org.sparkle-project.InstallerLauncher.xpc in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,9 +100,6 @@
 		2B90560726F778710081AB5F /* FoundUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundUpdateView.swift; sourceTree = "<group>"; };
 		2B9898602702636C00C55CF5 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePermissionView.swift; sourceTree = "<group>"; };
-		2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.InstallerLauncher.xpc"; sourceTree = "<group>"; };
-		2BD5C59526FF465C00A6E49C /* org.sparkle-project.Downloader.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "org.sparkle-project.Downloader.entitlements"; sourceTree = "<group>"; };
-		2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; path = "org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,16 +132,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B1CEBBB266921220082EB0F /* XPCServices */ = {
-			isa = PBXGroup;
-			children = (
-				2BD5C59526FF465C00A6E49C /* org.sparkle-project.Downloader.entitlements */,
-				2BD5C59626FF465C00A6E49C /* org.sparkle-project.Downloader.xpc */,
-				2BD5C59426FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc */,
-			);
-			path = XPCServices;
-			sourceTree = "<group>";
-		};
 		2B29F9C126FF6D18000E4045 /* SparklyExampleLiveTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +146,6 @@
 				2B86D2AD2668C739007F9350 /* SparklyExample */,
 				2B86D2C02668C73C007F9350 /* SparklyExampleTests */,
 				2B29F9C126FF6D18000E4045 /* SparklyExampleLiveTests */,
-				2B1CEBBB266921220082EB0F /* XPCServices */,
 				2B86D2AC2668C739007F9350 /* Products */,
 				2BA8CD272672476800C4A117 /* Frameworks */,
 			);
@@ -372,9 +348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BD5C59826FF465C00A6E49C /* org.sparkle-project.Downloader.xpc in Resources */,
 				2B86D2B62668C73C007F9350 /* Preview Assets.xcassets in Resources */,
-				2BD5C59726FF465C00A6E49C /* org.sparkle-project.InstallerLauncher.xpc in Resources */,
 				2B86D2B32668C73C007F9350 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
