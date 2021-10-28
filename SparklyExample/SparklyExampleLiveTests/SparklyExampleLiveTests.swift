@@ -16,6 +16,7 @@ class SparklyExampleLiveTests: XCTestCase {
   let client = UpdaterClient.live(hostBundle: .main, applicationBundle: .main)
 
   func test_LiveSparkle_HappyPathFlow() {
+    let expectedTotal: Double = 3_525_612
 
     var canCheckForUpdates: [Bool] = [false]
     var receivedEvents: [UpdaterClient.Event] = []
@@ -27,10 +28,10 @@ class SparklyExampleLiveTests: XCTestCase {
     let expectUpdateFound = expectation(description: baseDescription + "`updateFound`")
     let expectDownloadStarted = expectation(description: baseDescription + "`.downloading(0, 0)`")
     let expectDownloadInFlight = expectation(
-      description: baseDescription + "`.downloading(3_525_695, 0)`"
+      description: baseDescription + "`.downloading(\(expectedTotal), 0)`"
     )
     let expectDownloadFinished = expectation(
-      description: baseDescription + "`.downloading(3_525_695, 3_525_695)`"
+      description: baseDescription + "`.downloading(\(expectedTotal), \(expectedTotal))`"
     )
     let expectExtractingFinished = expectation(description: baseDescription + "`extracting`")
     let expectInstalling = expectation(description: baseDescription + "`installing`")
@@ -56,10 +57,10 @@ class SparklyExampleLiveTests: XCTestCase {
           case (0.0, 0.0):
             expectDownloadStarted.fulfill()
 
-          case (3_525_695, 0.0):
+          case (expectedTotal, 0.0):
             expectDownloadInFlight.fulfill()
 
-          case (3_525_695, 3_525_695):
+          case (expectedTotal, expectedTotal):
             expectDownloadFinished.fulfill()
 
           default:
