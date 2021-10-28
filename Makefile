@@ -1,9 +1,11 @@
 .PHONY: appcast archive build check-version clean format \
 				lint release rm-container server test zip
 
+ARCHIVE_DIR=.archive
+PRODUCT_DIR=.product
 PROJECT_NAME=SparklyExample
 SCRIPT_DIR=scripts
-SERVER_DIR=dev/server
+SERVER_DIR=.dev/server
 SERVER_LOG=$(SERVER_DIR)/logs/server.log
 SERVER_PID=$(SERVER_DIR)/logs/save_pid.txt
 INFO_PLIST=$(PROJECT_NAME)/$(PROJECT_NAME)/Info.plist
@@ -15,11 +17,12 @@ archive: clean build
 	xcodebuild archive \
 	    -workspace Sparkly.xcworkspace \
 	    -scheme $(PROJECT_NAME) \
-	    -archivePath Archive/$(PROJECT_NAME).xcarchive
+	    -archivePath $(ARCHIVE_DIR)/$(PROJECT_NAME).xcarchive
+	
 	xcodebuild \
 	    -exportArchive \
-	    -archivePath Archive/$(PROJECT_NAME).xcarchive \
-	    -exportPath Product/ \
+	    -archivePath $(ARCHIVE_DIR)/$(PROJECT_NAME).xcarchive \
+	    -exportPath $(PRODUCT_DIR)/ \
 	    -exportOptionsPlist exportOptions.plist
 
 build:
@@ -37,10 +40,10 @@ clean-build:
 	@make build
 
 clean:
-	rm -rf Archive/*
-	rm -rf Product/*.zip
-	rm -rf Product/*.app
-	rm -rf Product/appcast
+	rm -rf $(ARCHIVE_DIR)/*.xcarchive
+	rm -rf $(PRODUCT_DIR)/*.zip
+	rm -rf $(PRODUCT_DIR)/*.app
+	rm -rf $(PRODUCT_DIR)/appcast
 
 format:
 	swift-format format -ir --configuration .swift-format.json .
