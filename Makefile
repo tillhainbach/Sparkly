@@ -11,6 +11,7 @@ SERVER_PID=$(SERVER_DIR)/logs/save_pid.txt
 INFO_PLIST=$(PROJECT_NAME)/$(PROJECT_NAME)/Info.plist
 LOCAL_URL=https://127.0.0.1:8080/appcast.xml
 CI_URL=https://tillhainbach.github.io/Sparkly/appcast.xml
+VERSION="0.0.2"
 
 appcast:
 	generate_appcast $(PRODUCT_DIR)
@@ -82,8 +83,8 @@ rm-container:
 	rm -rf ~/Library/Containers/de.hainbach.SparklyExample
 
 set-release-version:
-	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion 0.0.2" $(INFO_PLIST)
-	/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 0.0.2" $(INFO_PLIST)
+	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $(VERSION)" $(INFO_PLIST)
+	/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $(VERSION)" $(INFO_PLIST)
 
 set-ci-url:
 	@make set-url URL=$(CI_URL)
@@ -111,6 +112,12 @@ ifneq ($(shell /usr/libexec/PlistBuddy -c "Print :SUFeedURL" $(INFO_PLIST)),$(CI
 else
 	@echo "✅ SUFeedURL"
 endif
+
+update-gh-release:
+	-gh release delete $(VERSION)
+	-git tag -d $(VERSION)
+	-git push --delete origin $(VERSION)
+	-gh release create $(VERSION) $(PRODUCT_DIR)/SparklyExample.zip -n "This release of the test app is only for ci. Do not use!" -t "CI-Test Release"
 
 zip:
 	zsh scripts/zip-archive.sh $(PROJECT_NAME) $(PRODUCT_DIR)
