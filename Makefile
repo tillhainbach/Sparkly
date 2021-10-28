@@ -59,7 +59,7 @@ lint:
 local-server:
 	nohup http-server Product -S -C $(SERVER_DIR)/cert.pem -K $(SERVER_DIR)/key.pem > $(SERVER_LOG) & echo $$! > $(SERVER_PID)
 
-local-test: set-local-url
+local-test: set-local-url kill-http-server
 	@make local-server
 	@make test
 	@make kill-local-server
@@ -73,7 +73,8 @@ rm-container:
 test:
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
-		-scheme All
+		-scheme All \
+		-destination 'platform=macOS,arch=x86_64'
 
 ci-test:
 	xcodebuild test \
@@ -89,6 +90,12 @@ set-ci-url:
 
 set-url:
 	/usr/libexec/PlistBuddy -c "Set :SUFeedURL $(URL)" $(INFO_PLIST)
+
+show-running-servers:
+	ps -ef | grep -v  "grep" | grep "http-server"
+
+kill-http-server:
+	ps -ef | grep -v  "grep" | grep "http-server" | while read -r; do kill -9 "${REPLY:4:5}"; done
 
 zip:
 	zsh scripts/zip-archive.sh $(PROJECT_NAME)
