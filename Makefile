@@ -105,7 +105,7 @@ test: build-dev
 		-skip-testing $(SKIP_TESTS)
 
 test-feed-url:
-ifeq ($(shell /usr/libexec/PlistBuddy -c "Print :SUFeedURL" $(INFO_PLIST)),$(CI_URL))
+ifneq ($(shell /usr/libexec/PlistBuddy -c "Print :SUFeedURL" $(INFO_PLIST)),$(CI_URL))
 	@echo "❌ SUFeedURL must be set to $(CI_URL) for ci!\nrun 'make set-ci-url' before pushing!"
 	@exit -1
 else
