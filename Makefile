@@ -102,7 +102,7 @@ test: build-dev
 	xcodebuild test \
 		-workspace Sparkly.xcworkspace \
 		-scheme All \
-		-destination 'platform=macOS,arch=x86_64'
+		-destination 'platform=macOS,arch=x86_64' \
 		-skip-testing $(SKIP_TESTS)
 
 test-feed-url:
