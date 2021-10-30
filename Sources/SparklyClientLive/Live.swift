@@ -210,8 +210,8 @@ extension UpdaterClient {
       send: actionSubject.send(_:),
       updaterEventPublisher:
         eventSubject
-        .eraseToAnyPublisher(),
-      cancellables: cancellables
+        .handleEvents(receiveCancel: { cancellables.removeAll() })
+        .eraseToAnyPublisher()
     )
   }
 }

@@ -31,7 +31,17 @@ let package = Package(
       .exact(
         Version(2, 0, 0, prereleaseIdentifiers: ["beta", "4"], buildMetadataIdentifiers: [])
       )
-    )
+    ),
+    .package(
+      name: "combine-schedulers",
+      url: "https://github.com/pointfreeco/combine-schedulers",
+      .upToNextMajor(from: "0.5.3")
+    ),
+//    .package(
+//      name: "xctest-dynamic-overlay",
+//      url: "https://github.com/pointfreeco/xctest-dynamic-overlay.git",
+//      .upToNextMajor(from: "0.2.1")
+//    )
   ],
   targets: [
     .target(
@@ -44,7 +54,10 @@ let package = Package(
     ),
     .target(
       name: "SparklyClient",
-      dependencies: []
+      dependencies: [
+        .product(name: "CombineSchedulers", package: "combine-schedulers"),
+//        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
+      ]
     ),
     .target(
       name: "SparklyClientLive",

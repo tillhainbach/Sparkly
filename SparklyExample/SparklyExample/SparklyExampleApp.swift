@@ -13,7 +13,7 @@ import SwiftUI
 struct SparklyExampleApp: App {
   // You can switch between pre-configured instances `liveUpdater` and `standardUpdater`
   // for testing purposes.
-  @StateObject private var appViewModel: AppViewModel = .failsToCheckForUpdates
+  @StateObject private var appViewModel: AppViewModel = .liveUpdater
 
   var body: some Scene {
     WindowGroup {

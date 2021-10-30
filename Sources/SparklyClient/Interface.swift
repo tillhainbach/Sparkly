@@ -17,18 +17,13 @@ public struct UpdaterClient {
   /// A publisher that emits events from the updater.
   public let updaterEventPublisher: AnyPublisher<Event, Never>
 
-  // hold on to the cancellables so that it is not immediately destructured...
-  private var cancellables: Set<AnyCancellable>
-
   /// Initialize the UpdaterClient.
   public init(
     send: @escaping (Action) -> Void,
-    updaterEventPublisher: AnyPublisher<Event, Never>,
-    cancellables: Set<AnyCancellable>
+    updaterEventPublisher: AnyPublisher<Event, Never>
   ) {
     self.send = send
     self.updaterEventPublisher = updaterEventPublisher
-    self.cancellables = cancellables
   }
 
 }
@@ -113,8 +108,7 @@ extension UpdaterClient {
         send: actionSubject.send(_:),
         updaterEventPublisher: eventSubject
           .handleEvents(receiveCancel: { self.cancellable?.cancel() })
-          .eraseToAnyPublisher(),
-        cancellables: []
+          .eraseToAnyPublisher()
       )
     }
   }
