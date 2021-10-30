@@ -92,3 +92,30 @@ public enum UpdateCheckState: Equatable {
   case installing
   case readyToRelaunch
 }
+
+extension UpdaterClient {
+  public final class Interface {
+    let eventSubject = PassthroughSubject<Event, Never>()
+    let actionSubject = PassthroughSubject<Action, Never>()
+    var cancellable: AnyCancellable?
+    var handleAction: (Action) -> Void = { _ in }
+
+    init() {
+      self.cancellable = actionSubject.sink { [weak self] in self?.handleAction($0) }
+    }
+
+    func send(_ event: Event) -> Void {
+      eventSubject.send(event)
+    }
+
+    var client: UpdaterClient {
+      return .init(
+        send: actionSubject.send(_:),
+        updaterEventPublisher: eventSubject
+          .handleEvents(receiveCancel: { self.cancellable?.cancel() })
+          .eraseToAnyPublisher(),
+        cancellables: []
+      )
+    }
+  }
+}
