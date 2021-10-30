@@ -35,3 +35,10 @@ enum Window: String, CaseIterable {
 
   var title: String { self.rawValue.replacingOccurrences(of: "-", with: " ").localizedCapitalized }
 }
+
+extension Window {
+  init?(title: String) {
+    let rawValue = title.replacingOccurrences(of: " ", with: "-").lowercased()
+    self.init(rawValue: rawValue)
+  }
+}

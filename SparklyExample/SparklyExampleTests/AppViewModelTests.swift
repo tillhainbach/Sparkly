@@ -29,7 +29,7 @@ class AppViewModelTests: XCTestCase {
       windowManager: .init(
         openWindow: { activeWindow = Window(rawValue: $0) },
         closeWindow: {
-          guard activeWindow == Window(rawValue: $0) && activeWindow != nil else {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
             XCTFail()
             return
           }
