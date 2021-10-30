@@ -35,7 +35,7 @@
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForTesting = "NO"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -100,16 +100,6 @@
                BlueprintIdentifier = "2B86D2BC2668C73C007F9350"
                BuildableName = "SparklyExampleTests.xctest"
                BlueprintName = "SparklyExampleTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
-               BuildableName = "SparklyExampleLiveTests.xctest"
-               BlueprintName = "SparklyExampleLiveTests"
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>

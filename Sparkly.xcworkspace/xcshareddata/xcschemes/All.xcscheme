@@ -158,6 +158,16 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2B86BF05272DC477005AB794"
+               BuildableName = "SparklyExampleSnapshotTests.xctest"
+               BlueprintName = "SparklyExampleSnapshotTests"
+               ReferencedContainer = "container:SparklyExample/SparklyExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "combine-schedulers",
-        "repositoryURL": "https://github.com/pointfreeco/combine-schedulers",
+        "repositoryURL": "https://github.com/pointfreeco/combine-schedulers.git",
         "state": {
           "branch": null,
           "revision": "4cf088c29a20f52be0f2ca54992b492c54e0076b",
@@ -21,7 +21,7 @@
       },
       {
         "package": "SnapshotTesting",
-        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing",
+        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
         "state": {
           "branch": null,
           "revision": "f8a9c997c3c1dab4e216a8ec9014e23144cbab37",
