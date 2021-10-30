@@ -119,7 +119,7 @@ final class AppViewModel: ObservableObject {
   }
 
   private func closeWindow(_ window: Window) {
-    windowManager.closeWindow(window.rawValue)
+    windowManager.closeWindow(window.title)
   }
 
   private func openWindow(_ window: Window) {
@@ -142,8 +142,8 @@ extension AppViewModel {
 }
 
 extension AppViewModel {
-  static let failing = AppViewModel(
-    updaterClient: .failing,
+  static let failsToCheckForUpdates = AppViewModel(
+    updaterClient: .failsToCheckForUpdates,
     applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
 }

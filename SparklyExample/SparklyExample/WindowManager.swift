@@ -13,6 +13,9 @@ struct WindowManager {
 }
 
 extension WindowManager {
+  /// *Live* implementation of `WindowManager`.
+  ///
+  /// Open a new window by providing its **kabab-cased url slug** and close a window by providing its **window title**
   static let live = Self(
     openWindow: {
       guard let url = (Bundle.main.urlScheme?.appending("://\($0)")).flatMap(URL.init) else {
@@ -30,5 +33,5 @@ enum Window: String, CaseIterable {
   case updatePermissionRequest = "update-permission-request"
   case updateCheck = "update-check"
 
-  var title: String { self.rawValue.kebabToTitle() }
+  var title: String { self.rawValue.replacingOccurrences(of: "-", with: " ").localizedCapitalized }
 }
