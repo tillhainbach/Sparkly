@@ -13,13 +13,6 @@ struct ErrorAlert: Identifiable {
   let id = UUID()
   let title: String
   let message: String
-  let dismiss: () -> Void
-}
-
-enum Window: String, CaseIterable {
-  case main = "main"
-  case updatePermissionRequest = "update-permission-request"
-  case updateCheck = "update-check"
 }
 
 final class AppViewModel: ObservableObject {
@@ -27,14 +20,25 @@ final class AppViewModel: ObservableObject {
   @Published var canCheckForUpdates = false
   @Published var errorAlert: ErrorAlert? = nil
   let updaterClient: UpdaterClient
+  var updateViewModel: UpdateViewModel?
+  lazy var updatePermissionViewModel = UpdatePermissionViewModel(
+    response: self.sendPermission(automaticallyCheckForUpdate:sendSystemProfile:)
+  )
+
   var cancellables: Set<AnyCancellable> = []
+  let windowManager: WindowManager
 
   init(
     updaterClient: UpdaterClient,
-    applicationDidFinishLaunching: AnyPublisher<Notification, Never>
+    applicationDidFinishLaunching: AnyPublisher<Notification, Never>,
+    windowManager: WindowManager = .live
   ) {
+    self.windowManager = windowManager
     self.updaterClient = updaterClient
-    connectToUpdater()
+    self.updaterClient.updaterEventPublisher
+      .sink { [weak self] in self?.handle(event: $0) }
+      .store(in: &cancellables)
+
     applicationDidFinishLaunching
       .sink { [weak self] notification in
 
@@ -59,43 +63,8 @@ final class AppViewModel: ObservableObject {
     updaterClient.send(.cancel)
   }
 
-  private func connectToUpdater() {
-    updaterClient.updaterEventPublisher
-      .sink { [weak self] event in
-        switch event {
-
-        case .canCheckForUpdates(let canCheckForUpdates):
-          self?.canCheckForUpdates = canCheckForUpdates
-
-        case .updateCheck(let state):
-          if state == .checking {
-            self?.newWindow(.updateCheck)
-          }
-
-        case .dismissUpdateInstallation, .terminationSignal, .showUpdateReleaseNotes:
-          break
-
-        case .failure(let error):
-          self?.errorAlert = .init(
-            title: "Update Error",
-            message: error.localizedDescription,
-            dismiss: { self?.updaterClient.send(.cancel) }
-          )
-
-        case .permissionRequest:
-          print("Received Permission Request!")
-          self?.newWindow(.updatePermissionRequest)
-        }
-      }
-      .store(in: &cancellables)
-  }
-
-  private func newWindow(_ window: Window) {
-    guard let urlScheme = Bundle.main.urlScheme else { return }
-    if let url = URL(string: "\(urlScheme)://\(window.rawValue)") {
-      print("Will open Window \(url.description)")
-      NSWorkspace.shared.open(url)
-    }
+  func alertDismissButtonTapped() {
+    self.updaterClient.send(.cancel)
   }
 
   func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {
@@ -105,6 +74,76 @@ final class AppViewModel: ObservableObject {
         sendSystemProfile: sendSystemProfile
       )
     )
-    newWindow(.main)
+    closeWindow(.updatePermissionRequest)
   }
+
+  private func handle(event: UpdaterClient.Event) {
+    switch event {
+    case .canCheckForUpdates(let canCheckForUpdates):
+      self.canCheckForUpdates = canCheckForUpdates
+
+    case .updateCheck(.checking):
+      self.updateViewModel = .init(
+        updateState: .checking,
+        cancelUpdate: self.cancel,
+        send: { self.updaterClient.send(.reply($0)) }
+      )
+      self.openWindow(.updateCheck)
+
+    case .updateCheck(let newState):
+      self.updateViewModel?.updateState = newState
+
+    case .dismissUpdateInstallation:
+      self.closeWindow(.updateCheck)
+      self.updateViewModel = nil
+
+    case .terminationSignal:
+      break
+
+    case .showUpdateReleaseNotes(let data):
+      self.updateViewModel?.downloadData = data
+
+    case .failure(let error):
+      self.errorAlert = .init(
+        title: "Update Error",
+        message: error.localizedDescription
+      )
+      self.closeWindow(.updateCheck)
+      self.updateViewModel = nil
+
+    case .permissionRequest:
+      self.openWindow(.updatePermissionRequest)
+
+    }
+
+  }
+
+  private func closeWindow(_ window: Window) {
+    windowManager.closeWindow(window.rawValue)
+  }
+
+  private func openWindow(_ window: Window) {
+    windowManager.openWindow(window.rawValue)
+  }
+
+}
+
+extension AppViewModel {
+  static let applicationDidFinishLaunchingPublisher = NotificationCenter.default
+    .publisher(for: NSApplication.didFinishLaunchingNotification)
+    .eraseToAnyPublisher()
+}
+
+extension AppViewModel {
+  static let requestForPermission = AppViewModel(
+    updaterClient: .requestForPermission,
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
+  )
+}
+
+extension AppViewModel {
+  static let failing = AppViewModel(
+    updaterClient: .failing,
+    applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
+  )
 }

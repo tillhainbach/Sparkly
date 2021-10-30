@@ -10,91 +10,59 @@ import SparklyClient
 import SwiftUI
 
 final class UpdateViewModel: ObservableObject {
+  enum Route {
+    case status(StatusViewState)
+    case found(FoundUpdateViewModel)
+  }
+
   @Published var downloadData: DownloadData?
-  @Published var updateState: UpdateCheckState?
+  @Published var updateState: UpdateCheckState
+  var route: Route {
+    switch updateState {
+    case .checking:
+      return .status(.init(status: "Checking for Updates", action: cancel))
 
-  var state: UserUpdateState?
-  private let send: (UserUpdateState.Choice) -> Void
-  let cancelUpdate: () -> Void
+    case .downloading(let total, let value):
+      return .status(.init(status: "Update in flight", value: value, total: total, action: cancel))
 
-  private var cancellable: AnyCancellable?
+    case .extracting(let completed):
+      let total = completed == 0.0 ? 0.0 : 1.0
+      return .status(
+        .init(status: "Update Extracting", value: completed, total: total, action: cancel)
+      )
+
+    case .found(let update, _):
+      return .found(.init(update: update, downloadData: downloadData, reply: reply))
+
+    case .installing:
+      return .status(.init(status: "Installing...", action: cancel))
+
+    case .readyToRelaunch:
+      return .status(
+        .init(
+          status: "Ready to install",
+          buttonLabel: "Install and Relaunch",
+          value: 1.0,
+          total: 1.0,
+          action: { self.reply(.install) }
+        )
+      )
+    }
+  }
+
+  private let reply: (UserUpdateState.Choice) -> Void
+  private let cancel: () -> Void
 
   init(
-    updateEventPublisher: AnyPublisher<UpdaterClient.Event, Never>,
+    updateState: UpdateCheckState = .checking,
     cancelUpdate: @escaping () -> Void,
     send: @escaping (UserUpdateState.Choice) -> Void
   ) {
-    self.cancelUpdate = cancelUpdate
-    self.send = send
-    self.cancellable = updateEventPublisher.removeDuplicates()
-      .sink { [weak self] in
-        self?.handleEvent(event: $0)
-      }
+    self.cancel = cancelUpdate
+    self.reply = send
+    self.updateState = updateState
   }
 
-  func reply(_ choice: UserUpdateState.Choice) {
-    switch self.updateState {
-    case .found(_, _), .readyToRelaunch:
-      self.send(choice)
-
-    default:
-      break
-    }
-  }
-
-  private func handleEvent(event: UpdaterClient.Event) {
-    switch event {
-    case .showUpdateReleaseNotes(let downloadData):
-      self.downloadData = downloadData
-
-    case .updateCheck(let state):
-      self.updateState = state
-
-    default:
-      break
-    }
-  }
-
-  func readyToInstallTapped() {
-    NSApplication.shared.keyWindow?.close()
-    self.reply(.install)
-  }
-}
-
-struct BasicStatusView<P, B>: View where P: View, B: View {
-
-  let status: String
-  let progress: () -> P
-  let button: () -> B
-
-  init(
-    status: String,
-    progress: @escaping () -> P,
-    button: @escaping () -> B
-  ) {
-    self.status = status
-    self.progress = progress
-    self.button = button
-  }
-
-  var body: some View {
-    HStack(alignment: .top) {
-      Image(systemName: "arrow.down.app.fill")
-        .resizable()
-        .frame(width: 40, height: 40)
-        .padding(.trailing)
-      VStack(alignment: .leading) {
-        Text(status)
-          .font(.headline)
-        progress()
-        HStack {
-          Spacer()
-          self.button()
-        }
-      }
-    }
-    .frame(width: 250, height: 100)
-  }
 }
 
 struct UpdateView: View {
@@ -102,104 +70,30 @@ struct UpdateView: View {
 
   var body: some View {
     Group {
-      switch viewModel.updateState {
-      case .checking:
-        BasicStatusView(
-          status: "Checking for Updates",
-          progress: { ProgressView(value: 0.0, total: 0.0) },
-          button: { Button("Cancel", action: viewModel.cancelUpdate) }
-        )
-
-      case .found(let update, _):
-        FoundUpdateView(
-          downloadData: $viewModel.downloadData,
-          update: update,
-          skipUpdate: { viewModel.reply(.skip) },
-          remindMeLater: { viewModel.reply(.dismiss) },
-          installUpdate: { viewModel.reply(.install) }
-        )
-
-      case .downloading(let total, let completed):
-        BasicStatusView(
-          status: "Update in flight",
-          progress: { ProgressView(value: completed, total: total) },
-          button: { Button("Cancel", action: viewModel.cancelUpdate) }
-        )
-
-      case .extracting(let completed):
-        BasicStatusView(
-          status: "Update Extracting",
-          progress: {
-            ProgressView(
-              value: completed,
-              total: completed == 0.0 ? 0.0 : 1.0
-            )
-          },
-          button: { Button("Cancel", action: viewModel.cancelUpdate) }
-        )
-
-      case .installing:
-        BasicStatusView(
-          status: "Installing...",
-          progress: { ProgressView(value: 0, total: 0) },
-          button: { Button("Cancel", action: noop) }
-        )
-
-      case .readyToRelaunch:
-        BasicStatusView(
-          status: "Ready to install",
-          progress: { ProgressView(value: 1, total: 1) },
-          button: { Button("Install and Relaunch", action: viewModel.readyToInstallTapped) }
-        )
-
-      case .none:
-        EmptyView()
+      switch viewModel.route {
+      case .status(let viewState):
+        StatusView(state: viewState)
+      case .found(let foundUpdateViewModel):
+        FoundUpdateView(viewModel: foundUpdateViewModel)
       }
     }
     .padding()
   }
 }
 
+extension UpdateViewModel {
+  static func preview(state: UpdateCheckState) -> Self {
+    .init(updateState: state, cancelUpdate: noop, send: noop(_:))
+  }
+}
+
 struct UpdateView_Previews: PreviewProvider {
-  static func defaultViewModel() -> UpdateViewModel {
-    UpdateViewModel(
-      updateEventPublisher: Empty().eraseToAnyPublisher(),
-      cancelUpdate: noop,
-      send: noop(_:)
-    )
-  }
-
-  static let initiatedViewModel = defaultViewModel()
-
-  static var foundViewModel: UpdateViewModel {
-    let viewModel = defaultViewModel()
-    viewModel.updateState = .found(.mock, state: .init(stage: .installing, userInitiated: false))
-    return viewModel
-  }
-
-  static var inFlightViewModel: UpdateViewModel {
-    let viewModel = defaultViewModel()
-    viewModel.updateState = .downloading(total: 0, completed: 0)
-    return viewModel
-  }
-
-  static var extractingViewModel: UpdateViewModel {
-    let viewModel = defaultViewModel()
-    viewModel.updateState = .extracting(completed: 0.0)
-    return viewModel
-  }
-
-  static var readyToInstallViewModel: UpdateViewModel {
-    let viewModel = defaultViewModel()
-    viewModel.updateState = .readyToRelaunch
-    return viewModel
-  }
 
   static var previews: some View {
-    UpdateView(viewModel: initiatedViewModel)
-    UpdateView(viewModel: foundViewModel)
-    UpdateView(viewModel: inFlightViewModel)
-    UpdateView(viewModel: extractingViewModel)
-    UpdateView(viewModel: readyToInstallViewModel)
+    UpdateView(viewModel: .preview(state: .checking))
+    UpdateView(viewModel: .preview(state: .found(.mock, state: .mock)))
+    UpdateView(viewModel: .preview(state: .downloading(total: 0, completed: 0)))
+    UpdateView(viewModel: .preview(state: .extracting(completed: 0.0)))
+    UpdateView(viewModel: .preview(state: .readyToRelaunch))
   }
 }
