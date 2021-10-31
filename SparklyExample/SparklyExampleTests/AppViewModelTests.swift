@@ -5,6 +5,7 @@
 //  Created by Till Hainbach on 09.06.21.
 //
 import Combine
+import CombineSchedulers
 import SparklyClient
 import XCTest
 
@@ -12,72 +13,217 @@ import XCTest
 
 class AppViewModelTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
+  var testScheduler = DispatchQueue.test
 
-  func test_startsUpdateCheckSessionAndCanBeCancelled() throws {
+  func testUserInitiatedUpdateCheck() throws {
 
     // Mocks
     // application mocks the boot of the application
     let application = PassthroughSubject<Notification, Never>()
-    // updater and updaterHasStarted mock the updater and its state
-    let updater = PassthroughSubject<UpdaterClient.Event, Never>()
 
-    var updaterHasStarted = false
-    var updateHTTPHeadersHaveBeenSet = false
+    var activeWindow: Window?
 
     let appViewModel = AppViewModel(
-      updaterClient: .init(
-        send: { action in
-          switch action {
-          case .startUpdater:  // application did request to start the updater
-            updaterHasStarted = true  // set mock to have been started
-            // notify app that the updater is ready to check for updates
-            updater.send(.canCheckForUpdates(true))
-
-          case .checkForUpdates:
-            updater.send(.canCheckForUpdates(false))
-            updater.send(.updateCheck(.checking))
-
-          case .cancel:
-            updater.send(.dismissUpdateInstallation)
-            updater.send(.canCheckForUpdates(true))
-
-          case .setHTTPHeaders(_):
-            updateHTTPHeadersHaveBeenSet = true
-
-          default:
-            // Fail test if any other action has been sent as a response to application launch
-            XCTFail("The action \(action) should not have been sent!")
-
+      updaterClient: .mockUserInitiatedUpdateCheck(scheduler: testScheduler),
+      applicationDidFinishLaunching: application.eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
           }
-        },
-        updaterEventPublisher: updater.eraseToAnyPublisher(),
-        cancellables: []
-      ),
-      applicationDidFinishLaunching: application.eraseToAnyPublisher()
+          activeWindow = nil
+        }
+      )
     )
 
     // assert on fixtures
-    XCTAssertFalse(updaterHasStarted)
-    XCTAssertTrue(updateHTTPHeadersHaveBeenSet)
     XCTAssertFalse(appViewModel.canCheckForUpdates)
 
     // mock application launch
     application.send(Notification(name: NSApplication.didFinishLaunchingNotification))
 
-    // assert mock updater has been started and headers have been set.
-    XCTAssertTrue(updaterHasStarted)
-    XCTAssertTrue(updateHTTPHeadersHaveBeenSet)
-
     // assert appViewModel can check for updates
     XCTAssertTrue(appViewModel.canCheckForUpdates)
 
     appViewModel.checkForUpdates()
-
     XCTAssertFalse(appViewModel.canCheckForUpdates)
+    XCTAssert(appViewModel.updateViewModel?.updateState == .checking)
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance()
+    XCTAssert(appViewModel.updateViewModel?.updateState == .found(.mock, state: .mock))
+    XCTAssert(activeWindow == .updateCheck)
+
+    appViewModel.updaterClient.send(.reply(.install))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .downloading(total: 4, completed: 0))
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance()
+    XCTAssert(appViewModel.updateViewModel?.updateState == .downloading(total: 4, completed: 3))
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance(by: .seconds(1))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .downloading(total: 4, completed: 4))
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance(by: .seconds(1))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .extracting(completed: 0.0))
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance(by: .seconds(1))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .extracting(completed: 1.0))
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance(by: .seconds(1))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .installing)
+    XCTAssert(activeWindow == .updateCheck)
+
+    testScheduler.advance(by: .seconds(1))
+    XCTAssert(appViewModel.updateViewModel?.updateState == .readyToRelaunch)
+    XCTAssert(activeWindow == .updateCheck)
+
+    appViewModel.updaterClient.send(.reply(.install))
+    XCTAssertNil(appViewModel.updateViewModel)
+    XCTAssertNil(activeWindow)
+  }
+
+  func testUserCanCancelUpdateCheck() throws {
+
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .mockUserInitiatedUpdateCheck(scheduler: testScheduler),
+      applicationDidFinishLaunching: Empty().eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+    appViewModel.canCheckForUpdates = true  // start in ready state
+
+    appViewModel.checkForUpdates()
+    XCTAssertFalse(appViewModel.canCheckForUpdates)
+    XCTAssertNotNil(appViewModel.updateViewModel)
+    XCTAssert(activeWindow == .updateCheck)
 
     appViewModel.cancel()
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    XCTAssertNil(appViewModel.updateViewModel)
+    XCTAssertNil(activeWindow)
+  }
+
+  func testShowsUpdatePermissionRequest() {
+
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .requestForPermission(scheduler: testScheduler.eraseToAnyScheduler()),
+      applicationDidFinishLaunching: Just(
+        Notification(name: NSApplication.didFinishLaunchingNotification)
+      )
+      .eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
 
     XCTAssertTrue(appViewModel.canCheckForUpdates)
+    testScheduler.advance(by: 1)
+
+    XCTAssert(activeWindow == .updatePermissionRequest)
+
+    appViewModel.sendPermission(automaticallyCheckForUpdate: true, sendSystemProfile: true)
+    XCTAssertNil(activeWindow)
+
+  }
+
+  func testShowsAndDismissesAlert() throws {
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .failsToCheckForUpdates(scheduler: testScheduler.eraseToAnyScheduler()),
+      applicationDidFinishLaunching: Just(
+        Notification(name: NSApplication.didFinishLaunchingNotification)
+      )
+      .eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    XCTAssertNil(appViewModel.errorAlert)
+    appViewModel.checkForUpdates()
+    XCTAssertNotNil(appViewModel.updateViewModel)
+    XCTAssertNil(appViewModel.errorAlert)
+    XCTAssert(activeWindow == .updateCheck)
+    XCTAssertFalse(appViewModel.canCheckForUpdates)
+
+    testScheduler.advance(by: 3)
+
+    XCTAssertEqual(appViewModel.errorAlert?.title, "Update Error")
+    XCTAssertEqual(
+      appViewModel.errorAlert?.message,
+      "An error occurred in retrieving update information. Please try again later."
+    )
+
+    appViewModel.alertDismissButtonTapped()
+    XCTAssertNil(appViewModel.errorAlert)
+    XCTAssertNil(appViewModel.updateViewModel)
+    XCTAssertNil(activeWindow)
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+
+  }
+
+  func testUpdateWindowIsFocused() {
+    var activeWindow: Window?
+
+    let mockUpdater = PassthroughSubject<UpdaterClient.Event, Never>()
+
+    let appViewModel = AppViewModel(
+      updaterClient: .init(send: noop(_:), publisher: mockUpdater.eraseToAnyPublisher()),
+      applicationDidFinishLaunching: Empty().eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+
+    appViewModel.currentWindow = .updatePermissionRequest
+    XCTAssertNil(activeWindow)
+
+    mockUpdater.send(.focusUpdate)
+
+    XCTAssertEqual(activeWindow, .updatePermissionRequest)
+
   }
 
 }

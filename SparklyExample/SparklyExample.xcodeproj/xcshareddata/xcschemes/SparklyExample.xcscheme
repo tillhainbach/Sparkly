@@ -34,20 +34,6 @@
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
-               BuildableName = "SparklyExampleLiveTests.xctest"
-               BlueprintName = "SparklyExampleLiveTests"
-               ReferencedContainer = "container:SparklyExample.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -107,9 +93,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2B29F9BF26FF6D18000E4045"
-               BuildableName = "SparklyExampleLiveTests.xctest"
-               BlueprintName = "SparklyExampleLiveTests"
+               BlueprintIdentifier = "2B86BF2A272EEC8A005AB794"
+               BuildableName = "SparklyIntegrationTests.xctest"
+               BlueprintName = "SparklyIntegrationTests"
                ReferencedContainer = "container:SparklyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>

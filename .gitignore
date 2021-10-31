@@ -10,8 +10,8 @@ DerivedData/
 node_modules/ 
 
 # dev stuff
-dev
+.dev
 
 # build stuff
-Archive/
-Product/
+.archive/
+.product/

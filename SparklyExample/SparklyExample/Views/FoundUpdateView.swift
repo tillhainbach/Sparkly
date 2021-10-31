@@ -8,19 +8,36 @@
 import Combine
 import SparklyClient
 import SwiftUI
-import WebKit
 
-struct WebView: NSViewRepresentable {
-  let request: URLRequest
+final class FoundUpdateViewModel: ObservableObject {
+  @Published var downloadData: DownloadData?
+  let currentVersion: String
+  let reply: (UserUpdateState.Choice) -> Void
+  let update: AppcastItem
 
-  func makeNSView(context: Context) -> some NSView {
-    let webView = WKWebView()
-    webView.load(request)
-    return webView
+  init(
+    update: AppcastItem,
+    currentVersion: String = Bundle.main.appVersion,
+    downloadData: DownloadData? = nil,
+    reply: @escaping (UserUpdateState.Choice) -> Void
+  ) {
+    self.currentVersion = currentVersion
+    self.downloadData = downloadData
+    self.update = update
+    self.reply = reply
   }
 
-  func updateNSView(_ nsView: NSViewType, context: Context) {}
+  func skipUpdateButtonTapped() {
+    self.reply(.skip)
+  }
 
+  func remindMeLaterButtonTapped() {
+    self.reply(.dismiss)
+  }
+
+  func installUpdateButtonTapped() {
+    self.reply(.install)
+  }
 }
 
 struct FoundUpdateView: View {
@@ -28,12 +45,7 @@ struct FoundUpdateView: View {
   @AppStorage(UpdaterSettingsKeys.automaticallyDownloadUpdates.rawValue)
   var automaticallyDownloadUpdates: Bool = false
 
-  @Binding var downloadData: DownloadData?
-  let update: AppcastItem
-  let skipUpdate: () -> Void
-  let remindMeLater: () -> Void
-  let installUpdate: () -> Void
-  let currentVersion = Bundle.main.appVersion
+  @ObservedObject var viewModel: FoundUpdateViewModel
 
   var body: some View {
     HStack {
@@ -48,13 +60,13 @@ struct FoundUpdateView: View {
           VStack(alignment: .leading) {
             Text("A new Version of Example")
               .font(.headline)
-            Text("Example \(update.displayVersionString ?? "") is now available -")
-              + Text("you have \(currentVersion). Would you like to download it now?")
+            Text("Example \(viewModel.update.displayVersionString ?? "") is now available -")
+              + Text("you have \(viewModel.currentVersion). Would you like to download it now?")
           }
         }
         .padding(.bottom)
 
-        if let downloadData = downloadData {
+        if let downloadData = viewModel.downloadData {
           VStack(alignment: .leading) {
             Text("Release Notes:")
               .font(.subheadline)
@@ -70,53 +82,24 @@ struct FoundUpdateView: View {
           )
         }
         HStack {
-          Button("Skip This Version", action: skipUpdate)
+          Button("Skip This Version", action: viewModel.skipUpdateButtonTapped)
           Spacer()
-          Button("Remind Me Later", action: remindMeLater)
-          Button("Install Update", action: installUpdate)
+          Button("Remind Me Later", action: viewModel.remindMeLaterButtonTapped)
+          Button("Install Update", action: viewModel.installUpdateButtonTapped)
         }
       }
     }
     .frame(minWidth: 500, minHeight: 300)
   }
 }
+
+#if DEBUG
+
 struct FoundUpdateView_Previews: PreviewProvider {
   static var previews: some View {
-    FoundUpdateView(
-      downloadData: .constant(
-        .init(
-          data: "New Update".data(using: .utf8)!,
-          url: URL(string: "https://tillhainbach.github.io/Sparkly/")!,
-          textEncodingName: nil,
-          mimeType: nil
-        )
-      ),
-      update: .mock,
-      skipUpdate: noop,
-      remindMeLater: noop,
-      installUpdate: noop
-    )
-    .padding()
+    FoundUpdateView(viewModel: .init(update: .mock, downloadData: .mock, reply: noop(_:)))
+      .padding()
   }
 }
 
-extension AppcastItem {
-  static let mock: Self = .init(
-    versionString: "1234",
-    displayVersionString: "1.0",
-    fileURL: nil,
-    contentLength: 20,
-    infoURL: nil,
-    isInformationOnlyUpdate: false,
-    title: "Update",
-    dateString: Date().toString(),
-    date: Date(),
-    releaseNotesURL: nil,
-    itemDescription: nil,
-    minimumSystemVersion: nil,
-    maximumSystemVersion: nil,
-    installationType: nil,
-    phasedRolloutInterval: nil,
-    propertiesDictionary: [:]
-  )
-}
+#endif

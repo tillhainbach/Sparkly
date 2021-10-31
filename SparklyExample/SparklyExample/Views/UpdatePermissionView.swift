@@ -7,11 +7,32 @@
 
 import SwiftUI
 
-struct UpdatePermissionView: View {
-  @State private var sendSystemProfile = false
+final class UpdatePermissionViewModel: ObservableObject {
+  @Published var sendSystemProfile: Bool
+  let appName: String
   let response: (Bool, Bool) -> Void
 
-  let appName = Bundle.main.appName
+  init(
+    sendSystemProfile: Bool = false,
+    appName: String = Bundle.main.appName,
+    response: @escaping (Bool, Bool) -> Void
+  ) {
+    self.appName = appName
+    self.response = response
+    self.sendSystemProfile = sendSystemProfile
+  }
+
+  func checkAutomaticallyButtonTapped() {
+    self.response(true, sendSystemProfile)
+  }
+
+  func dontCheckAutomaticallyButtonTapped() {
+    self.response(false, sendSystemProfile)
+  }
+}
+
+struct UpdatePermissionView: View {
+  @ObservedObject var viewModel: UpdatePermissionViewModel
 
   var body: some View {
     VStack {
@@ -25,25 +46,21 @@ struct UpdatePermissionView: View {
             .font(.headline)
             .padding(.bottom, 1)
 
-          Text("Should \(appName) automatically check for updates?")
-          Text("You can always check for updates manually from the \(appName) menu.")
+          Text("Should \(viewModel.appName) automatically check for updates?")
+          Text("You can always check for updates manually from the \(viewModel.appName) menu.")
 
-          Toggle("send anonymous system profile infos", isOn: $sendSystemProfile)
+          Toggle("send anonymous system profile infos", isOn: $viewModel.sendSystemProfile)
             .font(.footnote)
         }
       }
 
       HStack {
         Spacer()
-        Button("Don't Check") {
-          respondAndClose(autoCheck: false)
-        }
+        Button("Don't Check", action: viewModel.dontCheckAutomaticallyButtonTapped)
 
-        Button("Check automatically") {
-          respondAndClose(autoCheck: true)
-        }
-        .buttonStyle(DefaultButtonStyle())
-        .keyboardShortcut(.defaultAction)
+        Button("Check automatically", action: viewModel.checkAutomaticallyButtonTapped)
+          .buttonStyle(DefaultButtonStyle())
+          .keyboardShortcut(.defaultAction)
 
       }
 
@@ -52,14 +69,10 @@ struct UpdatePermissionView: View {
     .frame(maxWidth: 500, minHeight: 180)
   }
 
-  func respondAndClose(autoCheck: Bool) {
-    response(autoCheck, sendSystemProfile)
-    NSApplication.shared.keyWindow?.close()
-  }
 }
 
 struct UpdatePermissionView_Previews: PreviewProvider {
   static var previews: some View {
-    UpdatePermissionView(response: noop(_:_:))
+    UpdatePermissionView(viewModel: .init(response: noop(_:_:)))
   }
 }

@@ -15,20 +15,15 @@ public struct UpdaterClient {
   public let send: (Action) -> Void
 
   /// A publisher that emits events from the updater.
-  public let updaterEventPublisher: AnyPublisher<Event, Never>
-
-  // hold on to the cancellables so that it is not immediately destructured...
-  private var cancellables: Set<AnyCancellable>
+  public let publisher: AnyPublisher<Event, Never>
 
   /// Initialize the UpdaterClient.
   public init(
     send: @escaping (Action) -> Void,
-    updaterEventPublisher: AnyPublisher<Event, Never>,
-    cancellables: Set<AnyCancellable>
+    publisher: AnyPublisher<Event, Never>
   ) {
     self.send = send
-    self.updaterEventPublisher = updaterEventPublisher
-    self.cancellables = cancellables
+    self.publisher = publisher
   }
 
 }
@@ -55,6 +50,10 @@ extension UpdaterClient {
     /// and e.g. show an appropriate alert. Some errors by need to be acknowledged by sending  `Action.cancel` to the updater
     case failure(_ error: NSError)
 
+    /// Show the user the current presented update or its progress in utmost focus
+    case focusUpdate
+
+    /// Show an updater permission request to the user
     case permissionRequest
 
     /// This event emits if the updater wants to show release notes
@@ -65,6 +64,12 @@ extension UpdaterClient {
 
     /// This event is emitted if the state of the current update check changes.
     case updateCheck(UpdateCheckState)
+
+    /// This event is emitted after an update has been successfully installed and the application has been relaunched.
+    ///
+    /// > This will only be invoked if the updater process is still alive, which is typically not the case if
+    /// > the updater's lifetime is tied to the application it is updating.
+    case updateInstalledAndRelaunched(Bool)
 
   }
 }
@@ -91,4 +96,31 @@ public enum UpdateCheckState: Equatable {
   case found(AppcastItem, state: UserUpdateState)
   case installing
   case readyToRelaunch
+}
+
+extension UpdaterClient {
+  public final class Interface {
+    let eventSubject = PassthroughSubject<Event, Never>()
+    let actionSubject = PassthroughSubject<Action, Never>()
+    var cancellable: AnyCancellable?
+    var handleAction: (Action) -> Void = { _ in }
+
+    init() {
+      self.cancellable = actionSubject.sink { [weak self] in self?.handleAction($0) }
+    }
+
+    func send(_ event: Event) {
+      eventSubject.send(event)
+    }
+
+    var client: UpdaterClient {
+      return .init(
+        send: actionSubject.send(_:),
+        publisher:
+          eventSubject
+          .handleEvents(receiveCancel: { self.cancellable?.cancel() })
+          .eraseToAnyPublisher()
+      )
+    }
+  }
 }

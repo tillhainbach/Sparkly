@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "combine-schedulers",
-        "repositoryURL": "https://github.com/pointfreeco/combine-schedulers",
+        "repositoryURL": "https://github.com/pointfreeco/combine-schedulers.git",
         "state": {
           "branch": null,
           "revision": "4cf088c29a20f52be0f2ca54992b492c54e0076b",
@@ -15,13 +15,13 @@
         "repositoryURL": "https://github.com/sparkle-project/Sparkle",
         "state": {
           "branch": null,
-          "revision": "76acd9cb5f52c9a0024d26e6d68917bbcb385b7a",
-          "version": "2.0.0-beta.2"
+          "revision": "0d43f88a83698e57d93789831318b053767d1560",
+          "version": "2.0.0-beta.4"
         }
       },
       {
         "package": "SnapshotTesting",
-        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing",
+        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
         "state": {
           "branch": null,
           "revision": "f8a9c997c3c1dab4e216a8ec9014e23144cbab37",

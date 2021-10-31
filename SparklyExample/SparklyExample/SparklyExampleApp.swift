@@ -13,7 +13,7 @@ import SwiftUI
 struct SparklyExampleApp: App {
   // You can switch between pre-configured instances `liveUpdater` and `standardUpdater`
   // for testing purposes.
-  @StateObject private var appViewModel = liveUpdater
+  @StateObject private var appViewModel: AppViewModel = .liveUpdater
 
   var body: some Scene {
     WindowGroup {
@@ -22,36 +22,28 @@ struct SparklyExampleApp: App {
           Alert(
             title: Text(errorAlert.title),
             message: Text(errorAlert.message),
-            dismissButton: .default(Text("Ok"), action: errorAlert.dismiss)
+            dismissButton: .default(Text("Ok"), action: appViewModel.alertDismissButtonTapped)
           )
         }
     }
 
-    WindowGroup(Window.updateCheck.rawValue.kebabToTitle()) {
-      UpdateView(
-        viewModel: .init(
-          updateEventPublisher: appViewModel.updaterClient.updaterEventPublisher,
-          cancelUpdate: appViewModel.cancel,
-          send: { appViewModel.updaterClient.send(.reply($0)) }
-        )
-      )
-      .handlesExternalEvents(
-        preferring: Set(arrayLiteral: Window.updateCheck.rawValue),
-        allowing: Set(arrayLiteral: "*")
-      )
+    WindowGroup(Window.updateCheck.title) {
+      if let updateViewModel = appViewModel.updateViewModel {
+        UpdateView(viewModel: updateViewModel)
+          .handlesExternalEvents(
+            preferring: Set(arrayLiteral: Window.updateCheck.rawValue),
+            allowing: Set(arrayLiteral: Window.updateCheck.rawValue)
+          )
+      }
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updateCheck.rawValue))
 
-    WindowGroup(Window.updatePermissionRequest.rawValue.kebabToTitle()) {
-      UpdatePermissionView(response: {
-        appViewModel.updaterClient.send(
-          .setPermission(automaticUpdateChecks: $0, sendSystemProfile: $1)
+    WindowGroup(Window.updatePermissionRequest.title) {
+      UpdatePermissionView(viewModel: appViewModel.updatePermissionViewModel)
+        .handlesExternalEvents(
+          preferring: Set(arrayLiteral: Window.updatePermissionRequest.rawValue),
+          allowing: Set(arrayLiteral: Window.updatePermissionRequest.rawValue)
         )
-      })
-      .handlesExternalEvents(
-        preferring: Set(arrayLiteral: Window.updatePermissionRequest.rawValue),
-        allowing: Set(arrayLiteral: "*")
-      )
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updatePermissionRequest.rawValue))
 
@@ -67,20 +59,14 @@ struct SparklyExampleApp: App {
   }
 }
 
-extension SparklyExampleApp {
-  static let applicationDidFinishLaunchingPublisher = NotificationCenter.default
-    .publisher(for: NSApplication.didFinishLaunchingNotification)
-    .eraseToAnyPublisher()
-}
-
-extension SparklyExampleApp {
+extension AppViewModel {
   static let standardUpdater = AppViewModel(
     updaterClient: .standard(hostBundle: .main, applicationBundle: .main),
     applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
 }
 
-extension SparklyExampleApp {
+extension AppViewModel {
   static let liveUpdater = AppViewModel(
     updaterClient: .live(hostBundle: .main, applicationBundle: .main),
     applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
