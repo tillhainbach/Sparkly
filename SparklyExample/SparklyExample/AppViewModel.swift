@@ -67,6 +67,10 @@ final class AppViewModel: ObservableObject {
   func alertDismissButtonTapped() {
     self.updaterClient.send(.cancel)
     self.errorAlert = nil
+    if let currentWindow = currentWindow {
+      closeWindow(currentWindow)
+    }
+
   }
 
   func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {
