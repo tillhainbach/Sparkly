@@ -36,7 +36,7 @@ final class AppViewModel: ObservableObject {
   ) {
     self.windowManager = windowManager
     self.updaterClient = updaterClient
-    self.updaterClient.updaterEventPublisher
+    self.updaterClient.publisher
       .sink { [weak self] in self?.handle(event: $0) }
       .store(in: &cancellables)
 

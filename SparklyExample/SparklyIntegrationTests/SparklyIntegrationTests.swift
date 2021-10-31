@@ -38,7 +38,7 @@ class SparklyIntegrationTests: XCTestCase {
     let expectInstalling = expectation(description: baseDescription + "`installing`")
     let expectReadyToRelaunch = expectation(description: baseDescription + "`readyToRelaunch`")
 
-    client.updaterEventPublisher
+    client.publisher
       .sink { event in
         receivedEvents.append(event)
         switch event {
@@ -130,7 +130,7 @@ class SparklyIntegrationTests: XCTestCase {
       description: "Expect `dismissUpdateInstallation` to be send"
     )
 
-    client.updaterEventPublisher
+    client.publisher
       .sink { event in
         switch event {
         case .canCheckForUpdates(_):

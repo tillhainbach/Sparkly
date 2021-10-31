@@ -15,15 +15,15 @@ public struct UpdaterClient {
   public let send: (Action) -> Void
 
   /// A publisher that emits events from the updater.
-  public let updaterEventPublisher: AnyPublisher<Event, Never>
+  public let publisher: AnyPublisher<Event, Never>
 
   /// Initialize the UpdaterClient.
   public init(
     send: @escaping (Action) -> Void,
-    updaterEventPublisher: AnyPublisher<Event, Never>
+    publisher: AnyPublisher<Event, Never>
   ) {
     self.send = send
-    self.updaterEventPublisher = updaterEventPublisher
+    self.publisher = publisher
   }
 
 }
@@ -116,7 +116,7 @@ extension UpdaterClient {
     var client: UpdaterClient {
       return .init(
         send: actionSubject.send(_:),
-        updaterEventPublisher: eventSubject
+        publisher: eventSubject
           .handleEvents(receiveCancel: { self.cancellable?.cancel() })
           .eraseToAnyPublisher()
       )

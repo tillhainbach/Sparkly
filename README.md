@@ -12,7 +12,7 @@ with SwiftUI and to increase the ability for unit-testing (e.g. ease of mocking 
 Sparkly provides a simple interface struct called `UpdaterClient`. This client is responsible for routing actions
 to and events from Sparkle. All actions and events are modelled as enums with associated values.
 ViewModels, or your preferred flavour, can send actions to sparkle using the `UpdaterClient.send(_:)`
-closure and subscript to updater events on the `UpdaterClient.updateEventPublisher` publisher.
+closure and subscribe to updater events on the `UpdaterClient.publisher`.
 
 > NOTE: `Sparkly` is currently under development. Not all actions and events are implemented
 > and the interface may change. However, most of the `SPUUserDriver` methods

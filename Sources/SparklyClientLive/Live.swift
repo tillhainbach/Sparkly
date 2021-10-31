@@ -203,7 +203,7 @@ extension UpdaterClient {
 
     return Self(
       send: actionSubject.send(_:),
-      updaterEventPublisher:
+      publisher:
         eventSubject
         .handleEvents(receiveCancel: { cancellables.removeAll() })
         .eraseToAnyPublisher()

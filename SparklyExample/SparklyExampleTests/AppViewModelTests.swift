@@ -203,10 +203,7 @@ class AppViewModelTests: XCTestCase {
     let mockUpdater = PassthroughSubject<UpdaterClient.Event, Never>()
 
     let appViewModel = AppViewModel(
-      updaterClient: .init(
-        send: noop(_:),
-        updaterEventPublisher: mockUpdater.eraseToAnyPublisher()
-      ),
+      updaterClient: .init(send: noop(_:), publisher: mockUpdater.eraseToAnyPublisher()),
       applicationDidFinishLaunching: Empty().eraseToAnyPublisher(),
       windowManager: .init(
         openWindow: { activeWindow = Window(rawValue: $0) },
