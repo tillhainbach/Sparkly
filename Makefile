@@ -50,7 +50,7 @@ clean:
 	rm -rf $(PRODUCT_DIR)/*
 
 format:
-	swift-format format -ir Sources SparklyExample --configuration .swift-format.json .
+	swift-format format -ir Sources SparklyExample --configuration .swift-format.json
 
 kill-all-servers:
 	ps -ef | grep -v  "grep" | grep "http-server" | \
@@ -62,7 +62,7 @@ kill-local-server:
 	rm $(SERVER_LOG) 
 
 lint:
-	swift-format lint -r Sources SparklyExample --configuration .swift-format.json .
+	swift-format lint -r Sources SparklyExample --configuration .swift-format.json
 
 local-server:
 	nohup http-server $(PRODUCT_DIR) -S -C $(SERVER_DIR)/cert.pem -K $(SERVER_DIR)/key.pem > $(SERVER_LOG) & echo $$! > $(SERVER_PID)
