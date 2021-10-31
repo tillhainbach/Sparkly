@@ -43,7 +43,7 @@ build-release:
 	@make build BUILD_CONFIG=Release
 
 ci-test:
-	@make test SKIP_TESTS="SparklyExampleTests/UpdateViewModelTests/testUserInitiatedUpdateCheck"
+	@make test SKIP_TESTS="-skip-testing SparklyExampleTests/UpdateViewModelTests/testUserInitiatedUpdateCheck"
 
 clean:
 	rm -rf $(ARCHIVE_DIR)/*
@@ -103,7 +103,7 @@ test: build-dev
 		-workspace Sparkly.xcworkspace \
 		-scheme All \
 		-destination 'platform=macOS,arch=x86_64' \
-		-skip-testing $(SKIP_TESTS)
+		$(SKIP_TESTS)
 
 test-feed-url:
 ifneq ($(shell /usr/libexec/PlistBuddy -c "Print :SUFeedURL" $(INFO_PLIST)),$(CI_URL))

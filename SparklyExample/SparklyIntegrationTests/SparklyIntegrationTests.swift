@@ -1,16 +1,16 @@
 //
-//  SparklyExampleLiveTests.swift
-//  SparklyExampleLiveTests
+//  SparklyIntegrationTests.swift
+//  SparklyIntegrationTests
 //
-//  Created by Till Hainbach on 25.09.21.
+//  Created by Till Hainbach on 31.10.21.
 //
 
 import Combine
-import SparklyClientLive
+import Sparkly
 import SwiftUI
 import XCTest
 
-class SparklyExampleLiveTests: XCTestCase {
+class SparklyIntegrationTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
 
   let client = UpdaterClient.live(hostBundle: .main, applicationBundle: .main)
@@ -126,21 +126,29 @@ class SparklyExampleLiveTests: XCTestCase {
     client.updaterEventPublisher
       .sink { event in
         switch event {
-        case .failure(_):
-          XCTFail("Should not fail!")
-
-        case .canCheckForUpdates(_), .showUpdateReleaseNotes(_), .permissionRequest:
+        case .canCheckForUpdates(_):
           break
 
         case .dismissUpdateInstallation:
           expectDismissUpdateInstallation.fulfill()
 
+        case .failure(_):
+          XCTFail("Should not fail!")
+
+        case .permissionRequest:
+          XCTFail("Should not send `.permissionRequest`!")
+
+        case .showUpdateReleaseNotes(_):
+          XCTFail("Should not send `.showUpdateReleaseNotes(_)`!")
+
         case .terminationSignal:
-          break
+          XCTFail("Should not send `.terminationSignal`!")
 
         case .updateCheck(let state):
           if state == .checking {
             self.client.send(.cancel)
+          } else {
+            XCTFail("Should not send other states!")
           }
 
         }

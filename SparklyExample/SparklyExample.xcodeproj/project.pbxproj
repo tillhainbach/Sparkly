@@ -7,20 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B29F9C326FF6D18000E4045 /* SparklyExampleLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B29F9C226FF6D18000E4045 /* SparklyExampleLiveTests.swift */; };
 		2B5F6070272D96B400FC3E8A /* UpdateViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80537F2701FED200749046 /* UpdateViewModelTests.swift */; };
 		2B682761272C661400889A93 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B682760272C661400889A93 /* WindowManager.swift */; };
-		2B682763272C719600889A93 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B682760272C661400889A93 /* WindowManager.swift */; };
 		2B6A49CD272D9F1F00A11979 /* SparklyClient in Frameworks */ = {isa = PBXBuildFile; productRef = 2B6A49CC272D9F1F00A11979 /* SparklyClient */; };
 		2B6A49CE272DA05100A11979 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */; };
 		2B6A49D2272DA0B500A11979 /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 2B6A49D1272DA0B500A11979 /* CombineSchedulers */; };
 		2B6A49D8272DA29E00A11979 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B682764272D6A2200889A93 /* TestSupport.swift */; };
-		2B80537327009F8600749046 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
-		2B80537527009F8600749046 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */; };
-		2B80537627009F8600749046 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
-		2B80537727009F8600749046 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560326F775F40081AB5F /* helpers.swift */; };
-		2B80537827009F8600749046 /* FoundUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560726F778710081AB5F /* FoundUpdateView.swift */; };
-		2B80537A2700B72500749046 /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8053792700B72500749046 /* Sparkly */; };
 		2B86BEF6272DBC81005AB794 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B682760272C661400889A93 /* WindowManager.swift */; };
 		2B86BEF7272DBC81005AB794 /* FoundUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560726F778710081AB5F /* FoundUpdateView.swift */; };
 		2B86BEF8272DBC81005AB794 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D87C272D7F7300492B4B /* WebView.swift */; };
@@ -34,35 +26,32 @@
 		2B86BF1E272DE699005AB794 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 2B86BF1D272DE699005AB794 /* SnapshotTesting */; };
 		2B86BF20272E068C005AB794 /* FoundUpdateViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BF1F272E068C005AB794 /* FoundUpdateViewTests.swift */; };
 		2B86BF22272E08ED005AB794 /* UpdatePermissionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BF21272E08ED005AB794 /* UpdatePermissionViewTests.swift */; };
+		2B86BF2E272EEC8A005AB794 /* SparklyIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BF2D272EEC8A005AB794 /* SparklyIntegrationTests.swift */; };
+		2B86BF37272EED6D005AB794 /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2B86BF36272EED6D005AB794 /* Sparkly */; };
 		2B86D2AF2668C739007F9350 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
 		2B86D2B12668C739007F9350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2B02668C739007F9350 /* ContentView.swift */; };
 		2B86D2B32668C73C007F9350 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B22668C73C007F9350 /* Assets.xcassets */; };
 		2B86D2B62668C73C007F9350 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B86D2B52668C73C007F9350 /* Preview Assets.xcassets */; };
 		2B86D87D272D7F7300492B4B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D87C272D7F7300492B4B /* WebView.swift */; };
-		2B86D87F272D801300492B4B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D87C272D7F7300492B4B /* WebView.swift */; };
 		2B86D881272D809100492B4B /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D880272D809100492B4B /* StatusView.swift */; };
-		2B86D883272D80AF00492B4B /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D880272D809100492B4B /* StatusView.swift */; };
 		2B8A7DE02670BCC6009D7FC0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A7DDF2670BCC6009D7FC0 /* SettingsView.swift */; };
 		2B90560226F632FA0081AB5F /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560126F632FA0081AB5F /* UpdateView.swift */; };
 		2B90560426F775F40081AB5F /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560326F775F40081AB5F /* helpers.swift */; };
 		2B90560826F778710081AB5F /* FoundUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90560726F778710081AB5F /* FoundUpdateView.swift */; };
 		2B9898612702636C00C55CF5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9898602702636C00C55CF5 /* AppViewModel.swift */; };
-		2B989862270263A900C55CF5 /* SparklyExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */; };
-		2B9898642702642C00C55CF5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9898602702636C00C55CF5 /* AppViewModel.swift */; };
 		2BB09263270375A600CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
-		2BB092652703781C00CFC6E5 /* UpdatePermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB09262270375A600CFC6E5 /* UpdatePermissionView.swift */; };
 		2BDEDC6626F9DDF8007BC87E /* Sparkly in Frameworks */ = {isa = PBXBuildFile; productRef = 2BDEDC6526F9DDF8007BC87E /* Sparkly */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2B29F9C426FF6D18000E4045 /* PBXContainerItemProxy */ = {
+		2B86BF00272DC0F9005AB794 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B86D2A32668C739007F9350 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2B86D2AA2668C739007F9350;
 			remoteInfo = SparklyExample;
 		};
-		2B86BF00272DC0F9005AB794 /* PBXContainerItemProxy */ = {
+		2B86BF2F272EEC8A005AB794 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B86D2A32668C739007F9350 /* Project object */;
 			proxyType = 1;
@@ -84,7 +73,7 @@
 		2B7AEA9E2668D7B00068A971 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
+			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
 			);
@@ -94,14 +83,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2B29F9C026FF6D18000E4045 /* SparklyExampleLiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyExampleLiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B29F9C226FF6D18000E4045 /* SparklyExampleLiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyExampleLiveTests.swift; sourceTree = "<group>"; };
 		2B43CAAA2671578900033AD6 /* AppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTests.swift; sourceTree = "<group>"; };
 		2B682760272C661400889A93 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		2B682764272D6A2200889A93 /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
 		2B80537F2701FED200749046 /* UpdateViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewModelTests.swift; sourceTree = "<group>"; };
 		2B86BF1F272E068C005AB794 /* FoundUpdateViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundUpdateViewTests.swift; sourceTree = "<group>"; };
 		2B86BF21272E08ED005AB794 /* UpdatePermissionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePermissionViewTests.swift; sourceTree = "<group>"; };
+		2B86BF2B272EEC8A005AB794 /* SparklyIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparklyIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B86BF2D272EEC8A005AB794 /* SparklyIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyIntegrationTests.swift; sourceTree = "<group>"; };
 		2B86D2AB2668C739007F9350 /* SparklyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SparklyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B86D2AE2668C739007F9350 /* SparklyExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklyExampleApp.swift; sourceTree = "<group>"; };
 		2B86D2B02668C739007F9350 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -122,11 +111,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2B29F9BD26FF6D18000E4045 /* Frameworks */ = {
+		2B86BF28272EEC8A005AB794 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B80537A2700B72500749046 /* Sparkly in Frameworks */,
+				2B86BF37272EED6D005AB794 /* Sparkly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,12 +140,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B29F9C126FF6D18000E4045 /* SparklyExampleLiveTests */ = {
+		2B86BF2C272EEC8A005AB794 /* SparklyIntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
-				2B29F9C226FF6D18000E4045 /* SparklyExampleLiveTests.swift */,
+				2B86BF2D272EEC8A005AB794 /* SparklyIntegrationTests.swift */,
 			);
-			path = SparklyExampleLiveTests;
+			path = SparklyIntegrationTests;
 			sourceTree = "<group>";
 		};
 		2B86D2A22668C739007F9350 = {
@@ -164,7 +153,7 @@
 			children = (
 				2B86D2AD2668C739007F9350 /* SparklyExample */,
 				2B86D2C02668C73C007F9350 /* SparklyExampleTests */,
-				2B29F9C126FF6D18000E4045 /* SparklyExampleLiveTests */,
+				2B86BF2C272EEC8A005AB794 /* SparklyIntegrationTests */,
 				2B86D2AC2668C739007F9350 /* Products */,
 				2BA8CD272672476800C4A117 /* Frameworks */,
 			);
@@ -175,7 +164,7 @@
 			children = (
 				2B86D2AB2668C739007F9350 /* SparklyExample.app */,
 				2B86D2BD2668C73C007F9350 /* SparklyExampleTests.xctest */,
-				2B29F9C026FF6D18000E4045 /* SparklyExampleLiveTests.xctest */,
+				2B86BF2B272EEC8A005AB794 /* SparklyIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,25 +238,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2B29F9BF26FF6D18000E4045 /* SparklyExampleLiveTests */ = {
+		2B86BF2A272EEC8A005AB794 /* SparklyIntegrationTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B29F9C626FF6D18000E4045 /* Build configuration list for PBXNativeTarget "SparklyExampleLiveTests" */;
+			buildConfigurationList = 2B86BF31272EEC8A005AB794 /* Build configuration list for PBXNativeTarget "SparklyIntegrationTests" */;
 			buildPhases = (
-				2B29F9BC26FF6D18000E4045 /* Sources */,
-				2B29F9BD26FF6D18000E4045 /* Frameworks */,
-				2B29F9BE26FF6D18000E4045 /* Resources */,
+				2B86BF27272EEC8A005AB794 /* Sources */,
+				2B86BF28272EEC8A005AB794 /* Frameworks */,
+				2B86BF29272EEC8A005AB794 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2B29F9C526FF6D18000E4045 /* PBXTargetDependency */,
+				2B86BF30272EEC8A005AB794 /* PBXTargetDependency */,
 			);
-			name = SparklyExampleLiveTests;
+			name = SparklyIntegrationTests;
 			packageProductDependencies = (
-				2B8053792700B72500749046 /* Sparkly */,
+				2B86BF36272EED6D005AB794 /* Sparkly */,
 			);
-			productName = SparklyExampleLiveTests;
-			productReference = 2B29F9C026FF6D18000E4045 /* SparklyExampleLiveTests.xctest */;
+			productName = SparklyIntegrationTests;
+			productReference = 2B86BF2B272EEC8A005AB794 /* SparklyIntegrationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		2B86D2AA2668C739007F9350 /* SparklyExample */ = {
@@ -325,8 +314,8 @@
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
-					2B29F9BF26FF6D18000E4045 = {
-						CreatedOnToolsVersion = 13.0;
+					2B86BF2A272EEC8A005AB794 = {
+						CreatedOnToolsVersion = 13.1;
 						TestTargetID = 2B86D2AA2668C739007F9350;
 					};
 					2B86D2AA2668C739007F9350 = {
@@ -356,13 +345,13 @@
 			targets = (
 				2B86D2AA2668C739007F9350 /* SparklyExample */,
 				2B86D2BC2668C73C007F9350 /* SparklyExampleTests */,
-				2B29F9BF26FF6D18000E4045 /* SparklyExampleLiveTests */,
+				2B86BF2A272EEC8A005AB794 /* SparklyIntegrationTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2B29F9BE26FF6D18000E4045 /* Resources */ = {
+		2B86BF29272EEC8A005AB794 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -409,22 +398,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2B29F9BC26FF6D18000E4045 /* Sources */ = {
+		2B86BF27272EEC8A005AB794 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B80537327009F8600749046 /* ContentView.swift in Sources */,
-				2B80537527009F8600749046 /* SettingsView.swift in Sources */,
-				2B86D883272D80AF00492B4B /* StatusView.swift in Sources */,
-				2B9898642702642C00C55CF5 /* AppViewModel.swift in Sources */,
-				2B80537627009F8600749046 /* UpdateView.swift in Sources */,
-				2BB092652703781C00CFC6E5 /* UpdatePermissionView.swift in Sources */,
-				2B989862270263A900C55CF5 /* SparklyExampleApp.swift in Sources */,
-				2B29F9C326FF6D18000E4045 /* SparklyExampleLiveTests.swift in Sources */,
-				2B80537827009F8600749046 /* FoundUpdateView.swift in Sources */,
-				2B80537727009F8600749046 /* helpers.swift in Sources */,
-				2B682763272C719600889A93 /* WindowManager.swift in Sources */,
-				2B86D87F272D801300492B4B /* WebView.swift in Sources */,
+				2B86BF2E272EEC8A005AB794 /* SparklyIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,25 +449,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2B29F9C526FF6D18000E4045 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2B86D2AA2668C739007F9350 /* SparklyExample */;
-			targetProxy = 2B29F9C426FF6D18000E4045 /* PBXContainerItemProxy */;
-		};
 		2B86BF01272DC0F9005AB794 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2B86D2AA2668C739007F9350 /* SparklyExample */;
 			targetProxy = 2B86BF00272DC0F9005AB794 /* PBXContainerItemProxy */;
 		};
+		2B86BF30272EEC8A005AB794 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B86D2AA2668C739007F9350 /* SparklyExample */;
+			targetProxy = 2B86BF2F272EEC8A005AB794 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2B29F9C726FF6D18000E4045 /* Debug */ = {
+		2B86BF32272EEC8A005AB794 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -500,8 +476,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExampleLiveTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -509,12 +486,10 @@
 			};
 			name = Debug;
 		};
-		2B29F9C826FF6D18000E4045 /* Release */ = {
+		2B86BF33272EEC8A005AB794 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -525,8 +500,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExampleLiveTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -659,7 +635,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.0.2;
+				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SparklyExample/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -670,7 +646,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.1;
 				OTHER_CODE_SIGN_FLAGS = "";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExample;
@@ -688,7 +664,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.0.2;
+				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SparklyExample/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -699,7 +675,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.hainbach.SparklyExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -755,11 +731,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B29F9C626FF6D18000E4045 /* Build configuration list for PBXNativeTarget "SparklyExampleLiveTests" */ = {
+		2B86BF31272EEC8A005AB794 /* Build configuration list for PBXNativeTarget "SparklyIntegrationTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2B29F9C726FF6D18000E4045 /* Debug */,
-				2B29F9C826FF6D18000E4045 /* Release */,
+				2B86BF32272EEC8A005AB794 /* Debug */,
+				2B86BF33272EEC8A005AB794 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -822,14 +798,14 @@
 			package = 2B6A49D0272DA0B500A11979 /* XCRemoteSwiftPackageReference "combine-schedulers" */;
 			productName = CombineSchedulers;
 		};
-		2B8053792700B72500749046 /* Sparkly */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Sparkly;
-		};
 		2B86BF1D272DE699005AB794 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2B6A49C9272D9B0200A11979 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
+		};
+		2B86BF36272EED6D005AB794 /* Sparkly */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sparkly;
 		};
 		2BDEDC6526F9DDF8007BC87E /* Sparkly */ = {
 			isa = XCSwiftPackageProductDependency;
