@@ -65,6 +65,7 @@ final class AppViewModel: ObservableObject {
 
   func alertDismissButtonTapped() {
     self.updaterClient.send(.cancel)
+    self.errorAlert = nil
   }
 
   func sendPermission(automaticallyCheckForUpdate: Bool, sendSystemProfile: Bool) {
@@ -108,8 +109,6 @@ final class AppViewModel: ObservableObject {
         title: "Update Error",
         message: error.localizedDescription
       )
-      self.closeWindow(.updateCheck)
-      self.updateViewModel = nil
 
     case .permissionRequest:
       self.openWindow(.updatePermissionRequest)

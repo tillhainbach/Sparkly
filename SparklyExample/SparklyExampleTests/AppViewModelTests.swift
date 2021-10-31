@@ -89,4 +89,112 @@ class AppViewModelTests: XCTestCase {
     XCTAssertNil(activeWindow)
   }
 
+  func testUserCanCancelUpdateCheck() throws {
+
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .mockUserInitiatedUpdateCheck(scheduler: testScheduler),
+      applicationDidFinishLaunching: Empty().eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+    appViewModel.canCheckForUpdates = true  // start in ready state
+
+    appViewModel.checkForUpdates()
+    XCTAssertFalse(appViewModel.canCheckForUpdates)
+    XCTAssertNotNil(appViewModel.updateViewModel)
+    XCTAssert(activeWindow == .updateCheck)
+
+    appViewModel.cancel()
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    XCTAssertNil(appViewModel.updateViewModel)
+    XCTAssertNil(activeWindow)
+  }
+
+  func testShowsUpdatePermissionRequest() {
+
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .requestForPermission(scheduler: testScheduler.eraseToAnyScheduler()),
+      applicationDidFinishLaunching: Just(
+        Notification(name: NSApplication.didFinishLaunchingNotification)
+      )
+      .eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    testScheduler.advance(by: 1)
+
+    XCTAssert(activeWindow == .updatePermissionRequest)
+
+    appViewModel.sendPermission(automaticallyCheckForUpdate: true, sendSystemProfile: true)
+    XCTAssertNil(activeWindow)
+
+  }
+
+  func testShowsAndDismissesAlert() throws {
+    var activeWindow: Window?
+
+    let appViewModel = AppViewModel(
+      updaterClient: .failsToCheckForUpdates(scheduler: testScheduler.eraseToAnyScheduler()),
+      applicationDidFinishLaunching: Just(
+        Notification(name: NSApplication.didFinishLaunchingNotification)
+      )
+      .eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+    XCTAssertNil(appViewModel.errorAlert)
+    appViewModel.checkForUpdates()
+    XCTAssertNotNil(appViewModel.updateViewModel)
+    XCTAssertNil(appViewModel.errorAlert)
+    XCTAssert(activeWindow == .updateCheck)
+    XCTAssertFalse(appViewModel.canCheckForUpdates)
+
+    testScheduler.advance(by: 3)
+
+    XCTAssertEqual(appViewModel.errorAlert?.title, "Update Error")
+    XCTAssertEqual(
+      appViewModel.errorAlert?.message,
+      "An error occurred in retrieving update information. Please try again later."
+    )
+
+    appViewModel.alertDismissButtonTapped()
+    XCTAssertNil(appViewModel.errorAlert)
+    XCTAssertNil(appViewModel.updateViewModel)
+    XCTAssertNil(activeWindow)
+    XCTAssertTrue(appViewModel.canCheckForUpdates)
+
+  }
+
 }
