@@ -156,7 +156,6 @@ extension UpdaterClient {
 
     var cancellables: Set<AnyCancellable> = []
 
-    // Don't forget to send `.canCheckForUpdates` on `updater.start()`
     updater.publisher(for: \.canCheckForUpdates)
       .sink { eventSubject.send(.canCheckForUpdates($0)) }
       .store(in: &cancellables)
