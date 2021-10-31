@@ -30,12 +30,20 @@ struct SparklyExampleApp: App {
     WindowGroup(Window.updateCheck.title) {
       if let updateViewModel = appViewModel.updateViewModel {
         UpdateView(viewModel: updateViewModel)
+          .handlesExternalEvents(
+            preferring: Set(arrayLiteral: Window.updateCheck.rawValue),
+            allowing: Set(arrayLiteral: Window.updateCheck.rawValue)
+          )
       }
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updateCheck.rawValue))
 
     WindowGroup(Window.updatePermissionRequest.title) {
       UpdatePermissionView(viewModel: appViewModel.updatePermissionViewModel)
+        .handlesExternalEvents(
+          preferring: Set(arrayLiteral: Window.updatePermissionRequest.rawValue),
+          allowing: Set(arrayLiteral: Window.updatePermissionRequest.rawValue)
+        )
     }
     .handlesExternalEvents(matching: Set(arrayLiteral: Window.updatePermissionRequest.rawValue))
 

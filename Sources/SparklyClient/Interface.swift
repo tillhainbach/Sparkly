@@ -50,6 +50,10 @@ extension UpdaterClient {
     /// and e.g. show an appropriate alert. Some errors by need to be acknowledged by sending  `Action.cancel` to the updater
     case failure(_ error: NSError)
 
+    /// Show the user the current presented update or its progress in utmost focus
+    case focusUpdate
+
+    /// Show an updater permission request to the user
     case permissionRequest
 
     /// This event emits if the updater wants to show release notes
@@ -60,6 +64,9 @@ extension UpdaterClient {
 
     /// This event is emitted if the state of the current update check changes.
     case updateCheck(UpdateCheckState)
+
+    /// This event is emitted after an update has been successfully installed and the application has been relaunched.
+    case updateInstalledAndRelaunched
 
   }
 }

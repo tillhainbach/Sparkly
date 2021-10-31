@@ -26,6 +26,7 @@ final class AppViewModel: ObservableObject {
   )
 
   var cancellables: Set<AnyCancellable> = []
+  var currentWindow: Window?
   let windowManager: WindowManager
 
   init(
@@ -83,6 +84,28 @@ final class AppViewModel: ObservableObject {
     case .canCheckForUpdates(let canCheckForUpdates):
       self.canCheckForUpdates = canCheckForUpdates
 
+    case .dismissUpdateInstallation:
+      self.closeWindow(.updateCheck)
+      self.updateViewModel = nil
+
+    case .failure(let error):
+      self.errorAlert = .init(
+        title: "Update Error",
+        message: error.localizedDescription
+      )
+
+    case .focusUpdate:
+      focusCurrentWindow()
+
+    case .permissionRequest:
+      self.openWindow(.updatePermissionRequest)
+
+    case .showUpdateReleaseNotes(let data):
+      self.updateViewModel?.downloadData = data
+
+    case .terminationSignal:
+      break
+
     case .updateCheck(.checking):
       self.updateViewModel = .init(
         updateState: .checking,
@@ -94,35 +117,31 @@ final class AppViewModel: ObservableObject {
     case .updateCheck(let newState):
       self.updateViewModel?.updateState = newState
 
-    case .dismissUpdateInstallation:
-      self.closeWindow(.updateCheck)
-      self.updateViewModel = nil
-
-    case .terminationSignal:
-      break
-
-    case .showUpdateReleaseNotes(let data):
-      self.updateViewModel?.downloadData = data
-
-    case .failure(let error):
+    case .updateInstalledAndRelaunched:
       self.errorAlert = .init(
-        title: "Update Error",
-        message: error.localizedDescription
+        title: "Update Successfully Installed",
+        message: "New update was installed!"
       )
-
-    case .permissionRequest:
-      self.openWindow(.updatePermissionRequest)
-
     }
 
   }
 
   private func closeWindow(_ window: Window) {
     windowManager.closeWindow(window.title)
+    currentWindow = nil
   }
 
   private func openWindow(_ window: Window) {
+    currentWindow = window
     windowManager.openWindow(window.rawValue)
+  }
+
+  private func focusCurrentWindow() {
+    guard let currentWindow = currentWindow else {
+      return
+    }
+
+    windowManager.openWindow(currentWindow.rawValue)
   }
 
 }

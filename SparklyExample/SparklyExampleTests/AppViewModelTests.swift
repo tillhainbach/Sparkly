@@ -197,4 +197,36 @@ class AppViewModelTests: XCTestCase {
 
   }
 
+  func testUpdateWindowIsFocused() {
+    var activeWindow: Window?
+
+    let mockUpdater = PassthroughSubject<UpdaterClient.Event, Never>()
+
+    let appViewModel = AppViewModel(
+      updaterClient: .init(
+        send: noop(_:),
+        updaterEventPublisher: mockUpdater.eraseToAnyPublisher()
+      ),
+      applicationDidFinishLaunching: Empty().eraseToAnyPublisher(),
+      windowManager: .init(
+        openWindow: { activeWindow = Window(rawValue: $0) },
+        closeWindow: {
+          guard activeWindow == Window(title: $0) && activeWindow != nil else {
+            XCTFail()
+            return
+          }
+          activeWindow = nil
+        }
+      )
+    )
+
+    appViewModel.currentWindow = .updatePermissionRequest
+    XCTAssertNil(activeWindow)
+
+    mockUpdater.send(.focusUpdate)
+
+    XCTAssertEqual(activeWindow, .updatePermissionRequest)
+
+  }
+
 }

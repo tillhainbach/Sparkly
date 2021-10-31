@@ -26,6 +26,7 @@ class SparklyIntegrationTests: XCTestCase {
       description: baseDescription + "`updateCheckInitiated`"
     )
     let expectUpdateFound = expectation(description: baseDescription + "`updateFound`")
+    let expectFocusUpdate = expectation(description: baseDescription + "`focusUpdate`")
     let expectDownloadStarted = expectation(description: baseDescription + "`.downloading(0, 0)`")
     let expectDownloadInFlight = expectation(
       description: baseDescription + "`.downloading(\(expectedTotal), 0)`"
@@ -45,11 +46,13 @@ class SparklyIntegrationTests: XCTestCase {
           canCheckForUpdates.append(newCanCheckForUpdates)
           break
 
+        case .focusUpdate:
+          expectFocusUpdate.fulfill()
+
         case .updateCheck(.checking):
           expectUpdateCheckInitiated.fulfill()
 
         case .updateCheck(.found(_, _)):
-          self.client.send(.reply(.install))
           expectUpdateFound.fulfill()
 
         case .updateCheck(.downloading(let total, let completed)):
@@ -109,8 +112,12 @@ class SparklyIntegrationTests: XCTestCase {
     )
 
     wait(for: [expectUpdateFound], timeout: 2)
-
     XCTAssertEqual(canCheckForUpdates, [false, true, false, true])
+
+    client.send(.checkForUpdates)
+    wait(for: [expectFocusUpdate], timeout: 0.5)
+
+    client.send(.reply(.install))
 
     wait(for: [expectDownloadStarted, expectDownloadInFlight, expectDownloadFinished], timeout: 2)
 
@@ -135,6 +142,9 @@ class SparklyIntegrationTests: XCTestCase {
         case .failure(_):
           XCTFail("Should not fail!")
 
+        case .focusUpdate:
+          XCTFail("Should not send `.focusUpdate`!")
+
         case .permissionRequest:
           XCTFail("Should not send `.permissionRequest`!")
 
@@ -151,6 +161,8 @@ class SparklyIntegrationTests: XCTestCase {
             XCTFail("Should not send other states!")
           }
 
+        case .updateInstalledAndRelaunched:
+          XCTFail("Should not send `.updateInstalledAndRelaunched`!")
         }
       }
       .store(in: &cancellables)

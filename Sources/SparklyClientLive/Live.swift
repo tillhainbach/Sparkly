@@ -18,9 +18,16 @@ extension UpdaterClient {
 
     // The UserDriver: forwards delegate methods to publishers
     class UserDriver: NSObject, SPUUserDriver {
+      enum Callback {
+        case cancel(with: () -> Void)
+        case acknowledge(with: () -> Void)
+        case reply(with: (SPUUserUpdateChoice) -> Void)
+      }
+
       let eventSubject: PassthroughSubject<Event, Never>
-      var cancelCallback: (() -> Void)?
-      var replyCallback: ((SPUUserUpdateChoice) -> Void)?
+      var currentCallback: Callback?
+//      var cancelCallback: (() -> Void)?
+//      var replyCallback: ((SPUUserUpdateChoice) -> Void)?
       var permissionRequest: ((SUUpdatePermissionResponse) -> Void)?
       var totalDownloadData = 0.0
       var totalDataReceived = 0.0
@@ -39,7 +46,7 @@ extension UpdaterClient {
       }
 
       func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
-        self.cancelCallback = cancellation
+        self.currentCallback = .cancel(with: cancellation)
         eventSubject.send(.updateCheck(.checking))
       }
 
@@ -52,7 +59,7 @@ extension UpdaterClient {
           return
         }
 
-        self.replyCallback = reply
+        self.currentCallback = .reply(with: reply)
         eventSubject.send(
           .updateCheck(.found(AppcastItem(rawValue: appcastItem), state: userState))
         )
@@ -67,17 +74,17 @@ extension UpdaterClient {
       }
 
       func showUpdateNotFoundWithError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        self.cancelCallback = acknowledgement
+        self.currentCallback = .acknowledge(with: acknowledgement)
         eventSubject.send(.failure(error as NSError))
       }
 
       func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        self.cancelCallback = acknowledgement
+        self.currentCallback = .acknowledge(with: acknowledgement)
         eventSubject.send(.failure(error as NSError))
       }
 
       func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        cancelCallback = cancellation
+        self.currentCallback = .cancel(with: cancellation)
         eventSubject.send(.updateCheck(.downloading(total: 0, completed: 0)))
       }
 
@@ -111,7 +118,7 @@ extension UpdaterClient {
       }
 
       func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
-        replyCallback = reply
+        self.currentCallback = .reply(with: reply)
         eventSubject.send(.updateCheck(.readyToRelaunch))
       }
 
@@ -123,25 +130,11 @@ extension UpdaterClient {
         _ relaunched: Bool,
         acknowledgement: @escaping () -> Void
       ) {
-        #if DEBUG
-        print(
-          """
-          `showUpdateInstalledAndRelaunched` is currently not implemented.
-          If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-          """
-        )
-        #endif
+        self.currentCallback = .acknowledge(with: acknowledgement)
       }
 
       func showUpdateInFocus() {
-        #if DEBUG
-        print(
-          """
-          `showUpdateInFocus` is currently not implemented.
-          If you feel like you need it, please file an issue on https://github.com/tillhainbach/Sparkly
-          """
-        )
-        #endif
+        eventSubject.send(.focusUpdate)
       }
 
       func dismissUpdateInstallation() {
@@ -174,7 +167,6 @@ extension UpdaterClient {
         case .startUpdater:
           do {
             try updater.start()
-//            eventSubject.send(.canCheckForUpdates(updater.canCheckForUpdates))
           } catch {
             eventSubject.send(.failure(error as NSError))
           }
@@ -186,12 +178,16 @@ extension UpdaterClient {
           updater.httpHeaders = newHTTPHeaders
 
         case .cancel:
-          userDriver.cancelCallback?()
-          userDriver.cancelCallback = nil
+          if case .cancel(let cancellation) = userDriver.currentCallback {
+            cancellation()
+            userDriver.currentCallback = nil
+          }
 
         case .reply(let choice):
-          userDriver.replyCallback?(choice.toSparkle())
-          userDriver.replyCallback = nil
+          if case .reply(let reply) = userDriver.currentCallback {
+            reply(choice.toSparkle())
+            userDriver.currentCallback = nil
+          }
 
         case .setPermission(let automaticUpdateChecks, let sendSystemProfile):
           userDriver.permissionRequest?(
