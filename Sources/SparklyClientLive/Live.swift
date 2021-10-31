@@ -13,7 +13,8 @@ extension UpdaterClient {
   /// Create a *live* version of an UpdaterClient which interacts with the *real* SparkleUpdater.
   public static func live(
     hostBundle: Bundle,
-    applicationBundle: Bundle
+    applicationBundle: Bundle,
+    delegate: SPUUpdaterDelegate? = nil
   ) -> Self {
 
     // The UserDriver: forwards delegate methods to publishers
@@ -150,7 +151,7 @@ extension UpdaterClient {
       hostBundle: hostBundle,
       applicationBundle: applicationBundle,
       userDriver: userDriver,
-      delegate: nil
+      delegate: delegate
     )
 
     var cancellables: Set<AnyCancellable> = []
