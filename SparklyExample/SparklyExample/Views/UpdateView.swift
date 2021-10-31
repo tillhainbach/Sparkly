@@ -81,6 +81,8 @@ struct UpdateView: View {
   }
 }
 
+#if DEBUG
+
 extension UpdateViewModel {
   static func preview(state: UpdateCheckState) -> Self {
     .init(updateState: state, cancelUpdate: noop, send: noop(_:))
@@ -97,3 +99,5 @@ struct UpdateView_Previews: PreviewProvider {
     UpdateView(viewModel: .preview(state: .readyToRelaunch))
   }
 }
+
+#endif

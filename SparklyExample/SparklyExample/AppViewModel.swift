@@ -133,6 +133,7 @@ extension AppViewModel {
     .eraseToAnyPublisher()
 }
 
+#if DEBUG
 extension AppViewModel {
   static let requestForPermission = AppViewModel(
     updaterClient: .requestForPermission,
@@ -146,3 +147,4 @@ extension AppViewModel {
     applicationDidFinishLaunching: applicationDidFinishLaunchingPublisher
   )
 }
+#endif
