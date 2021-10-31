@@ -66,7 +66,10 @@ extension UpdaterClient {
     case updateCheck(UpdateCheckState)
 
     /// This event is emitted after an update has been successfully installed and the application has been relaunched.
-    case updateInstalledAndRelaunched
+    ///
+    /// > This will only be invoked if the updater process is still alive, which is typically not the case if
+    /// > the updater's lifetime is tied to the application it is updating.
+    case updateInstalledAndRelaunched(Bool)
 
   }
 }

@@ -26,8 +26,6 @@ extension UpdaterClient {
 
       let eventSubject: PassthroughSubject<Event, Never>
       var currentCallback: Callback?
-//      var cancelCallback: (() -> Void)?
-//      var replyCallback: ((SPUUserUpdateChoice) -> Void)?
       var permissionRequest: ((SUUpdatePermissionResponse) -> Void)?
       var totalDownloadData = 0.0
       var totalDataReceived = 0.0
@@ -131,6 +129,7 @@ extension UpdaterClient {
         acknowledgement: @escaping () -> Void
       ) {
         self.currentCallback = .acknowledge(with: acknowledgement)
+        eventSubject.send(.updateInstalledAndRelaunched(relaunched))
       }
 
       func showUpdateInFocus() {
