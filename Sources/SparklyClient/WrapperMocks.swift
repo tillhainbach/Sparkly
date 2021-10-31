@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Till Hainbach on 30.10.21.
 //
@@ -19,7 +19,7 @@ extension AppcastItem {
     isInformationOnlyUpdate: false,
     title: "Update",
     dateString: "2021-10-30",
-    date: Date(timeIntervalSince1970: 1635552000),
+    date: Date(timeIntervalSince1970: 1_635_552_000),
     releaseNotesURL: nil,
     itemDescription: nil,
     minimumSystemVersion: nil,

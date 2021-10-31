@@ -58,7 +58,8 @@ extension UpdaterClient {
 
     return Self(
       send: actionSubject.send(_:),
-      publisher: eventSubject
+      publisher:
+        eventSubject
         .handleEvents(receiveCancel: { cancellables.removeAll() })
         .eraseToAnyPublisher()
     )

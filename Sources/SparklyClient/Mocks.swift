@@ -28,30 +28,30 @@ extension UpdaterClient {
   public static func requestForPermission(scheduler: AnySchedulerOf<DispatchQueue>) -> Self {
     let interface = Interface()
     interface.handleAction = { action in
-        switch action {
-        case .setHTTPHeaders(_):
-          break
-          
-        case .checkForUpdates:
-          break
+      switch action {
+      case .setHTTPHeaders(_):
+        break
 
-        case .startUpdater:
-          interface.send(.canCheckForUpdates(true))
-          scheduler.schedule(after: scheduler.now.advanced(by: .seconds(1))) {
-            interface.send(.permissionRequest)
-          }
+      case .checkForUpdates:
+        break
 
-        case .cancel:
-          break
-
-        case .reply:
-          break
-
-        case .setPermission:
-          break
+      case .startUpdater:
+        interface.send(.canCheckForUpdates(true))
+        scheduler.schedule(after: scheduler.now.advanced(by: .seconds(1))) {
+          interface.send(.permissionRequest)
         }
 
+      case .cancel:
+        break
+
+      case .reply:
+        break
+
+      case .setPermission:
+        break
       }
+
+    }
 
     return interface.client
   }
@@ -73,37 +73,38 @@ extension UpdaterClient {
     var currentWork: DispatchWorkItem?
 
     interface.handleAction = { action in
-        switch action {
-        case .setHTTPHeaders(let newHTTPHeaders):
-          print("Updating headers for \(newHTTPHeaders)")
+      switch action {
+      case .setHTTPHeaders(let newHTTPHeaders):
+        print("Updating headers for \(newHTTPHeaders)")
 
-        case .checkForUpdates:
-          interface.send(.canCheckForUpdates(false))
-          interface.send(.updateCheck(.checking))
-          currentWork = DispatchWorkItem {
-            let userInfo = [
-              NSLocalizedDescriptionKey: "An error occurred in retrieving update information. Please try again later."
-            ]
-            interface.send(.failure(.init(domain: "UpdaterClient", code: 2001, userInfo: userInfo)))
-          }
-          scheduler.schedule(after: scheduler.now.advanced(by: .seconds(3)), currentWork!.perform)
-
-        case .startUpdater:
-          interface.send(.canCheckForUpdates(true))
-
-        case .cancel:
-          interface.send(.dismissUpdateInstallation)
-          interface.send(.canCheckForUpdates(true))
-          currentWork?.cancel()
-
-        case .reply:
-          break
-
-        case .setPermission:
-          break
+      case .checkForUpdates:
+        interface.send(.canCheckForUpdates(false))
+        interface.send(.updateCheck(.checking))
+        currentWork = DispatchWorkItem {
+          let userInfo = [
+            NSLocalizedDescriptionKey:
+              "An error occurred in retrieving update information. Please try again later."
+          ]
+          interface.send(.failure(.init(domain: "UpdaterClient", code: 2001, userInfo: userInfo)))
         }
+        scheduler.schedule(after: scheduler.now.advanced(by: .seconds(3)), currentWork!.perform)
 
+      case .startUpdater:
+        interface.send(.canCheckForUpdates(true))
+
+      case .cancel:
+        interface.send(.dismissUpdateInstallation)
+        interface.send(.canCheckForUpdates(true))
+        currentWork?.cancel()
+
+      case .reply:
+        break
+
+      case .setPermission:
+        break
       }
+
+    }
 
     return interface.client
   }

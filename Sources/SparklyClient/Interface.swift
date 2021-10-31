@@ -109,14 +109,15 @@ extension UpdaterClient {
       self.cancellable = actionSubject.sink { [weak self] in self?.handleAction($0) }
     }
 
-    func send(_ event: Event) -> Void {
+    func send(_ event: Event) {
       eventSubject.send(event)
     }
 
     var client: UpdaterClient {
       return .init(
         send: actionSubject.send(_:),
-        publisher: eventSubject
+        publisher:
+          eventSubject
           .handleEvents(receiveCancel: { self.cancellable?.cancel() })
           .eraseToAnyPublisher()
       )
